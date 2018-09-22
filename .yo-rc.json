@@ -1,0 +1,18 @@
+{
+  "generator-ngx-rocket": {
+    "version": "2.4.0",
+    "props": {
+      "appName": "FrontendSvc",
+      "target": [
+        "web"
+      ],
+      "pwa": true,
+      "ui": "material",
+      "auth": true,
+      "projectName": "frontend-svc",
+      "packageManager": "npm",
+      "mobile": [],
+      "webview": []
+    }
+  }
+}
