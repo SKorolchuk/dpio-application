@@ -1,0 +1,21 @@
+{
+  "npmScope": "dpio-application",
+  "implicitDependencies": {
+    "angular.json": "*",
+    "package.json": "*",
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
+  },
+  "projects": {
+    "dpio-application": {
+      "tags": []
+    },
+    "dpio-application-e2e": {
+      "tags": []
+    },
+    "shared": {
+      "tags": []
+    }
+  }
+}
