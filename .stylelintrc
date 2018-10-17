@@ -22,6 +22,9 @@
     "selector-max-universal": 0,
     "unit-whitelist": ["px", "%", "em", "rem", "vw", "vh", "deg"],
     "max-empty-lines": 2,
-    "max-line-length": 120
+    "max-line-length": 120,
+    "no-missing-end-of-source-newline": null,
+    "indentation": 4,
+    "rule-empty-line-before": null
   }
 }
