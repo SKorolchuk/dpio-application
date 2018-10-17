@@ -1,14 +1,14 @@
 import { async, TestBed } from '@angular/core/testing';
-import { SharedModule } from './shared.module';
+import { CoreModule } from './core.module';
 
-describe('SharedModule', () => {
+describe('CoreModule', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [SharedModule]
+            imports: [CoreModule]
         }).compileComponents();
     }));
 
     it('should create', () => {
-        expect(SharedModule).toBeDefined();
+        expect(CoreModule).toBeDefined();
     });
 });
