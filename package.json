@@ -4,8 +4,9 @@
     "private": true,
     "scripts": {
         "ng": "ng",
+        "start:dev": "ng serve",
         "start": "ng serve --aot --proxy-config proxy.conf.js",
-        "build": "npm run env -s && ng build --prod",
+        "build": "ng build --prod",
         "test": "ng test",
         "test:ci": "npm run lint -s && ng test --single-run --code-coverage",
         "lint": "./node_modules/.bin/nx lint && ng lint --type-check && stylelint \"apps/**/*.scss\" && htmlhint \"apps\" --config .htmlhintrc",
@@ -18,7 +19,7 @@
         "affected:test": "./node_modules/.bin/nx affected:test",
         "affected:lint": "./node_modules/.bin/nx affected:lint",
         "affected:dep-graph": "./node_modules/.bin/nx affected:dep-graph",
-        "format": "./node_modules/.bin/nx format:write",
+        "format": "prettier --single-quote --print-width 120 --write \"{apps,libs}/**/*.ts\"",
         "format:write": "./node_modules/.bin/nx format:write",
         "format:check": "./node_modules/.bin/nx format:check",
         "update": "ng update @nrwl/schematics",
@@ -27,8 +28,12 @@
         "workspace-schematic": "./node_modules/.bin/nx workspace-schematic",
         "help": "./node_modules/.bin/nx help",
         "docs": "hads ./docs -o",
-        "env": "ngx-scripts env2json npm_package_version",
-        "generate": "ng generate"
+        "generate": "ng generate",
+        "build:all": "node scripts/build.js && node scripts/build.js --server=true && webpack --mode production && node ./dist/server.js",
+        "build:web": "node scripts/build.js",
+        "build:server": "node scripts/build.js --server=true",
+        "build:webpack": "webpack --mode production",
+        "start:server": "node ./dist/server.js"
     },
     "dependencies": {
         "@angular/animations": "^6.1.0",
@@ -42,11 +47,14 @@
         "@angular/material": "^6.4.7",
         "@angular/platform-browser": "^6.1.0",
         "@angular/platform-browser-dynamic": "^6.1.0",
+        "@angular/platform-server": "^7.0.1",
         "@angular/router": "^6.1.0",
         "@angular/service-worker": "^6.1.10",
         "@ngrx/effects": "6.1.0",
         "@ngrx/router-store": "6.1.0",
         "@ngrx/store": "6.1.0",
+        "@nguniversal/express-engine": "^7.0.2",
+        "@nguniversal/module-map-ngfactory-loader": "^7.0.2",
         "@ngx-translate/core": "^10.0.2",
         "@ngx-translate/http-loader": "^3.0.1",
         "@nrwl/nx": "6.4.0",
@@ -58,6 +66,7 @@
         "material-design-icons": "^3.0.1",
         "rxjs": "~6.2.0",
         "rxjs-compat": "6.2.1",
+        "ts-loader": "^5.2.2",
         "web-animations-js": "^2.3.1",
         "zone.js": "~0.8.26"
     },
@@ -69,7 +78,6 @@
         "@biesbjerg/ngx-translate-extract": "^2.3.4",
         "@ngrx/schematics": "^6.1.0",
         "@ngrx/store-devtools": "6.1.0",
-        "@ngx-rocket/scripts": "^3.0.1",
         "@nrwl/schematics": "6.4.0",
         "@types/jasmine": "~2.8.8",
         "@types/jasminewd2": "~2.0.3",
@@ -90,7 +98,7 @@
         "karma-jasmine-html-reporter": "^0.2.2",
         "karma-junit-reporter": "^1.2.0",
         "ngrx-store-freeze": "0.2.4",
-        "prettier": "1.13.7",
+        "prettier": "^1.13.7",
         "protractor": "~5.4.0",
         "puppeteer": "^1.9.0",
         "stylelint": "^9.6.0",
@@ -99,6 +107,8 @@
         "stylelint-scss": "^3.3.1",
         "ts-node": "~7.0.0",
         "tslint": "~5.11.0",
-        "typescript": "~2.9.2"
+        "typescript": "~2.9.2",
+        "webpack-cli": "^3.1.2",
+        "webpack-node-externals": "^1.7.2"
     }
 }

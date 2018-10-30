@@ -13,7 +13,7 @@ import { MaterialModule } from '@dpio-application/shared/src/lib/material.module
 @NgModule({
     imports: [
         CommonModule,
-        TranslateModule,
+        TranslateModule.forChild(),
         CoreModule,
         SharedModule,
         FlexLayoutModule,

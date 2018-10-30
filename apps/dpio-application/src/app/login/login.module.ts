@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        TranslateModule,
+        TranslateModule.forChild(),
         SharedModule,
         FlexLayoutModule,
         MaterialModule,

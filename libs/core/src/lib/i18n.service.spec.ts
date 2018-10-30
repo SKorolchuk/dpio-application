@@ -2,6 +2,8 @@ import { TestBed, inject } from '@angular/core/testing';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 import { extract, I18nService } from './i18n.service';
+// tslint:disable-next-line:import-blacklist
+import { Subject } from 'rxjs';
 
 const defaultLanguage = 'en-US';
 const supportedLanguages = ['eo', 'en-US', 'fr-FR'];

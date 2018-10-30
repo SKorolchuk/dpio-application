@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
         const onNavigationEnd = this.router.events.pipe(filter(event => event instanceof NavigationEnd));
 
         // Change page title on navigation or language change, based on route data
-        of(merge(this.translateService.onLangChange, onNavigationEnd))
+        of(merge(this.i18nService.onLangChange, onNavigationEnd))
             .pipe(
                 map(() => {
                     let route = this.activatedRoute;

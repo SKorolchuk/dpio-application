@@ -21,7 +21,7 @@ export function createHttpService(
 }
 
 @NgModule({
-    imports: [CommonModule, HttpModule, TranslateModule, FlexLayoutModule, MaterialModule, RouterModule],
+    imports: [CommonModule, HttpModule, TranslateModule.forChild(), FlexLayoutModule, MaterialModule, RouterModule],
     declarations: [ShellComponent],
     providers: [
         AuthenticationService,

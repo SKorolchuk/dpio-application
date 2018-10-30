@@ -1,0 +1,14 @@
+{
+    "locales": {
+        "en": true,
+        "fr": true
+    },
+    "client": {
+        "command": "ng run dpio-application:build:production",
+        "output": "browser"
+    },
+    "server": {
+        "command": "ng run dpio-application:server:production",
+        "output": "server"
+    }
+}

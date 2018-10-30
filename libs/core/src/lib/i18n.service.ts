@@ -26,11 +26,15 @@ export class I18nService {
 
     constructor(private translateService: TranslateService) {
         // Embed languages to avoid extra HTTP requests
-        translateService.setTranslation('en-US', enUS);
-        translateService.setTranslation('fr-FR', frFR);
+        translateService.setTranslation('en-US', enUS.default);
+        translateService.setTranslation('fr-FR', frFR.default);
     }
 
-    /**
+    get onLangChange() {
+        return this.translateService.onLangChange;
+    }
+
+    /*
      * Initializes i18n for the application.
      * Loads language from local storage if present, or sets default language.
      * @param  defaultLanguage The default language to use.

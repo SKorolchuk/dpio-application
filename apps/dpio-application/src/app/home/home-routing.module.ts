@@ -6,7 +6,7 @@ import { extract } from '@dpio-application/core/src/lib/i18n.service';
 import { Route } from '@dpio-application/core/src/lib/route.service';
 
 const routes: Routes = Route.withShell([
-    { path: '', redirectTo: '/home', pathMatch: 'full' },
+    { path: '', redirectTo: '/home', pathMatch: 'full', data: { title: extract('Home') } },
     { path: 'home', component: HomeComponent, data: { title: extract('Home') } }
 ]);
 

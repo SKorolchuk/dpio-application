@@ -9,6 +9,7 @@ import { LoginComponent } from './login.component';
 import { MaterialModule } from '@dpio-application/shared/src/lib/material.module';
 import { SharedModule } from '@dpio-application/shared/src';
 import { CoreModule } from '@dpio-application/core/src';
+import { By } from '@angular/platform-browser';
 
 describe('LoginComponent', () => {
     let component: LoginComponent;
@@ -39,4 +40,12 @@ describe('LoginComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    it('should render title in a h1 tag', async(() => {
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+            fixture.detectChanges();
+            expect(fixture.debugElement.query(By.css('h1')).nativeElement.innerText).toContain('APP_NAME');
+        });
+    }));
 });
