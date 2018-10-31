@@ -10,6 +10,9 @@ import { readFileSync } from 'fs';
 
 enableProdMode();
 
+global['localStorage'] = null;
+global['sessionStorage'] = null;
+
 const PORT = process.env.PORT || 4201;
 const DIST_FOLDER = join(process.cwd(), 'dist');
 

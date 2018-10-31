@@ -46,6 +46,9 @@ export class I18nService {
         this.language = null;
 
         this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+            if (!localStorage) {
+                return;
+            }
             localStorage.setItem(languageKey, event.lang);
         });
     }
@@ -57,7 +60,11 @@ export class I18nService {
      * @param language The IETF language code to set.
      */
     set language(language: string) {
-        language = language || localStorage.getItem(languageKey) || this.translateService.getBrowserCultureLang();
+        if (!localStorage) {
+            return;
+        }
+        language =
+            language || localStorage.getItem(languageKey) || this.translateService.getBrowserCultureLang();
         let isSupportedLanguage = includes(this.supportedLanguages, language);
 
         // If no exact match is found, search without the region

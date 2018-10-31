@@ -7,7 +7,7 @@ import { AuthenticationService } from '../authentication/authentication.service'
 import { I18nService } from '../i18n.service';
 
 @Component({
-    selector: 'app-shell',
+    selector: 'dpio-application-shell',
     templateUrl: './shell.component.html',
     styleUrls: ['./shell.component.scss']
 })

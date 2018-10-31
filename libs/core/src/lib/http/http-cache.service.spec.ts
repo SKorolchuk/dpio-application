@@ -15,8 +15,8 @@ describe('HttpCacheService', () => {
         });
 
         // Start fresh
-        window.sessionStorage.removeItem(cachePersistenceKey);
-        window.localStorage.removeItem(cachePersistenceKey);
+        sessionStorage.removeItem(cachePersistenceKey);
+        localStorage.removeItem(cachePersistenceKey);
     });
 
     beforeEach(inject([HttpCacheService], (_httpCacheService: HttpCacheService) => {

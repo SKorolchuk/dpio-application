@@ -1,6 +1,5 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
 import { NxModule } from '@nrwl/nx';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,6 +15,11 @@ import { CoreModule } from '@dpio-application/core/src';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { CommonModule } from '@angular/common';
+import { NgxUploaderModule } from 'ngx-uploader';
+import { CookieModule } from 'ngx-cookie';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -24,9 +28,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 
 @NgModule({
     imports: [
+        CommonModule,
         BrowserModule.withServerTransition({
             appId: 'dpio-application'
         }),
+        BrowserTransferStateModule,
         HttpClientModule,
         TranslateModule.forRoot({
             loader: {
@@ -36,6 +42,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
             }
         }),
         NxModule.forRoot(),
+        NgxUploaderModule,
+        CookieModule.forRoot(),
+        StoreModule.forRoot({}),
+        EffectsModule.forRoot([]),
         FormsModule,
         HttpModule,
         BrowserAnimationsModule,

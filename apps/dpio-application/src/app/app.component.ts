@@ -26,6 +26,10 @@ export class AppComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        if (!localStorage) {
+            return;
+        }
+
         // Setup logger
         if (environment.production) {
             Logger.enableProductionMode();

@@ -64,6 +64,8 @@
         "intl": "^1.2.5",
         "lodash": "^4.17.11",
         "material-design-icons": "^3.0.1",
+        "ngx-cookie": "^4.0.2",
+        "ngx-uploader": "^7.0.0",
         "rxjs": "~6.2.0",
         "rxjs-compat": "6.2.1",
         "ts-loader": "^5.2.2",
