@@ -103,6 +103,7 @@
         "prettier": "^1.13.7",
         "protractor": "~5.4.0",
         "puppeteer": "^1.9.0",
+        "reflect-metadata": "^0.1.12",
         "stylelint": "^9.6.0",
         "stylelint-config-recommended-scss": "^3.2.0",
         "stylelint-config-standard": "^18.2.0",
