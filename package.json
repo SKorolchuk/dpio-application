@@ -29,7 +29,7 @@
         "help": "./node_modules/.bin/nx help",
         "docs": "hads ./docs -o",
         "generate": "ng generate",
-        "build:all": "node scripts/build.js && node scripts/build.js --server=true && webpack --mode production && node ./dist/server.js",
+        "build:all": "node scripts/build.js && node scripts/build.js --server=true && webpack --mode production",
         "build:web": "node scripts/build.js",
         "build:server": "node scripts/build.js --server=true",
         "build:webpack": "webpack --mode production",
