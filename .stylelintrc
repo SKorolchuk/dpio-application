@@ -4,7 +4,7 @@
     "font-family-name-quotes": "always-where-recommended",
     "function-url-quotes": ["always", { "except": ["empty"] }],
     "selector-attribute-quotes": "always",
-    "string-quotes": "double",
+    "string-quotes": "single",
     "max-nesting-depth": 3,
     "selector-max-compound-selectors": 3,
     "selector-max-specificity": "0,3,2",

@@ -2,21 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
-
-import { environment } from '../../environments/environment';
 import { I18nService } from '@dpio-application/core/src/lib/i18n.service';
 import { AuthenticationService } from '@dpio-application/core/src/lib/authentication/authentication.service';
 import { Logger } from '@dpio-application/core/src/lib/logger.service';
+import { SettingsService } from '@dpio-application/core/src/lib/settings.service';
 
 const log = new Logger('Login');
 
 @Component({
-    selector: 'app-login',
+    selector: 'dpio-application-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-    version: string = environment.version;
+    version: string;
     error: string = null;
     loginForm: FormGroup;
     isLoading = false;
@@ -25,9 +24,12 @@ export class LoginComponent implements OnInit {
         private router: Router,
         private formBuilder: FormBuilder,
         private i18nService: I18nService,
-        private authenticationService: AuthenticationService
+        private authenticationService: AuthenticationService,
+        private settingsService: SettingsService
     ) {
         this.createForm();
+
+        this.version = settingsService.version;
     }
 
     ngOnInit() {}

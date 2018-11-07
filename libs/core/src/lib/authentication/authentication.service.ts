@@ -21,13 +21,22 @@ const credentialsKey = 'credentials';
  */
 @Injectable()
 export class AuthenticationService {
-    private _credentials: Credentials;
-
     constructor() {
         if (!localStorage || !sessionStorage) {
             return;
         }
         this._credentials = JSON.parse(sessionStorage.getItem(credentialsKey) || localStorage.getItem(credentialsKey));
+    }
+
+    /**
+     * Gets the user credentials.
+     */
+    get credentials(): Credentials {
+        return this._credentials;
+    }
+    private _credentials: Credentials;
+    register(email: any, password: any, firstName: any, lastName: any, location: any): any {
+        throw new Error('Method not implemented.');
     }
 
     /**
@@ -57,13 +66,6 @@ export class AuthenticationService {
      */
     isAuthenticated(): boolean {
         return !!this.credentials;
-    }
-
-    /**
-     * Gets the user credentials.
-     */
-    get credentials(): Credentials {
-        return this._credentials;
     }
 
     /**

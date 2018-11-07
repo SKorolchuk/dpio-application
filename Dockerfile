@@ -1,4 +1,8 @@
-FROM node:9-alpine AS app-env
+FROM node:9-alpine
+
+ENV PORT 44301
+EXPOSE 44301
+ENV NODE_ENV "production"
 
 WORKDIR /usr/src/app
 

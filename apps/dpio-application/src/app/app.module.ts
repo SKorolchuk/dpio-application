@@ -10,7 +10,6 @@ import { MaterialModule } from '@dpio-application/shared/src/lib/material.module
 import { SharedModule } from '@dpio-application/shared/src';
 import { HomeModule } from './home/home.module';
 import { AboutModule } from './about/about.module';
-import { LoginModule } from './login/login.module';
 import { CoreModule } from '@dpio-application/core/src';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -20,6 +19,7 @@ import { NgxUploaderModule } from 'ngx-uploader';
 import { CookieModule } from 'ngx-cookie';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { AuthModule } from '@dpio-application/auth/src';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -54,7 +54,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         SharedModule,
         HomeModule,
         AboutModule,
-        LoginModule,
+        AuthModule,
         AppRoutingModule
     ],
     declarations: [AppComponent],

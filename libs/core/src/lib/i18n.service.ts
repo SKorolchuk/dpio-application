@@ -3,8 +3,8 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { includes } from 'lodash';
 
 import { Logger } from './logger.service';
-import * as enUS from '../../translations/en-US.json';
-import * as frFR from '../../translations/fr-FR.json';
+const enUS = require('../../translations/en-US.json');
+const frFR = require('../../translations/fr-FR.json');
 
 const log = new Logger('I18nService');
 const languageKey = 'language';
@@ -63,8 +63,7 @@ export class I18nService {
         if (!localStorage) {
             return;
         }
-        language =
-            language || localStorage.getItem(languageKey) || this.translateService.getBrowserCultureLang();
+        language = language || localStorage.getItem(languageKey) || this.translateService.getBrowserCultureLang();
         let isSupportedLanguage = includes(this.supportedLanguages, language);
 
         // If no exact match is found, search without the region

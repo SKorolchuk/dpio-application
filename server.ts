@@ -8,12 +8,30 @@ import * as express from 'express';
 import { join } from 'path';
 import { readFileSync } from 'fs';
 
+let zipkinHost = 'localhost';
+let zipkinPort = 9411;
+
+if (process.env.ZIPKIN_SERVICE_HOST && process.env.ZIPKIN_SERVICE_PORT) {
+    console.log('Routing Zipkin traffic to the Zipkin Kubernetes service');
+    zipkinHost = process.env.ZIPKIN_SERVICE_HOST;
+    zipkinPort = parseInt(process.env.ZIPKIN_SERVICE_PORT, 10);
+} else {
+    console.log(`Detected we're running the Zipkin server locally`);
+}
+
+const appzip = require('appmetrics-zipkin')({
+    host: zipkinHost,
+    port: zipkinPort,
+    serviceName: 'dpio-application',
+    sampleRate: 1.0
+});
+
 enableProdMode();
 
 global['localStorage'] = null;
 global['sessionStorage'] = null;
 
-const PORT = process.env.PORT || 4201;
+const PORT = process.env.PORT || 44301;
 const DIST_FOLDER = join(process.cwd(), 'dist');
 
 const LOCALES = [

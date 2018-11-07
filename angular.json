@@ -1,211 +1,245 @@
 {
-    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-    "version": 1,
-    "newProjectRoot": "",
-    "projects": {
-        "dpio-application": {
-            "root": "apps\\dpio-application",
-            "sourceRoot": "apps/dpio-application/src",
-            "projectType": "application",
-            "prefix": "app",
-            "schematics": {
-                "@ngrx/schematics:component": {
-                    "styleext": "scss"
-                },
-                "@schematics/angular:component": {
-                    "styleext": "scss"
-                }
-            },
-            "architect": {
-                "build": {
-                    "builder": "@angular-devkit/build-angular:browser",
-                    "options": {
-                        "outputPath": "dist\\apps\\dpio-application",
-                        "index": "apps/dpio-application/src/index.html",
-                        "main": "apps/dpio-application/src/main.ts",
-                        "polyfills": "apps/dpio-application/src/polyfills.ts",
-                        "tsConfig": "apps\\dpio-application\\tsconfig.app.json",
-                        "assets": [
-                            "apps/dpio-application/src/favicon.ico",
-                            "apps/dpio-application/src/assets"
-                        ],
-                        "styles": [{
-                                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
-                            },
-                            "apps/dpio-application/src/styles.scss"
-                        ],
-                        "scripts": []
-                    },
-                    "configurations": {
-                        "production": {
-                            "fileReplacements": [{
-                                "replace": "apps/dpio-application/src/environments/environment.ts",
-                                "with": "apps/dpio-application/src/environments/environment.prod.ts"
-                            }],
-                            "optimization": true,
-                            "outputHashing": "all",
-                            "sourceMap": false,
-                            "extractCss": true,
-                            "namedChunks": false,
-                            "aot": true,
-                            "extractLicenses": true,
-                            "vendorChunk": false,
-                            "buildOptimizer": true
-                        }
-                    }
-                },
-                "serve": {
-                    "builder": "@angular-devkit/build-angular:dev-server",
-                    "options": {
-                        "browserTarget": "dpio-application:build"
-                    },
-                    "configurations": {
-                        "production": {
-                            "browserTarget": "dpio-application:build:production"
-                        }
-                    }
-                },
-                "server": {
-                    "builder": "@angular-devkit/build-angular:server",
-                    "options": {
-                        "outputPath": "dist/server",
-                        "main": "apps/dpio-application/src/main.server.ts",
-                        "tsConfig": "apps\\dpio-application\\tsconfig.server.json"
-                    },
-                    "configurations": {
-                        "production": {
-                            "fileReplacements": [{
-                                "replace": "apps/dpio-application/src/environments/environment.ts",
-                                "with": "apps/dpio-application/src/environments/environment.prod.ts"
-                            }]
-                        }
-                    }
-                },
-                "extract-i18n": {
-                    "builder": "@angular-devkit/build-angular:extract-i18n",
-                    "options": {
-                        "browserTarget": "dpio-application:build"
-                    }
-                },
-                "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
-                    "options": {
-                        "main": "apps/dpio-application/src/test.ts",
-                        "polyfills": "apps/dpio-application/src/polyfills.ts",
-                        "tsConfig": "apps\\dpio-application\\tsconfig.spec.json",
-                        "karmaConfig": "apps\\dpio-application\\karma.conf.js",
-                        "styles": [{
-                                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
-                            },
-                            "apps/dpio-application/src/styles.scss"
-                        ],
-                        "scripts": [],
-                        "assets": [
-                            "apps/dpio-application/src/favicon.ico",
-                            "apps/dpio-application/src/assets"
-                        ]
-                    }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": [
-                            "apps\\dpio-application\\tsconfig.app.json",
-                            "apps\\dpio-application\\tsconfig.spec.json"
-                        ],
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
-                    }
-                }
-            }
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "dpio-application": {
+      "root": "apps\\dpio-application",
+      "sourceRoot": "apps/dpio-application/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {
+        "@ngrx/schematics:component": {
+          "styleext": "scss"
         },
-        "dpio-application-e2e": {
-            "root": "apps\\dpio-application-e2e",
-            "projectType": "application",
-            "architect": {
-                "e2e": {
-                    "builder": "@angular-devkit/build-angular:protractor",
-                    "options": {
-                        "protractorConfig": "apps\\dpio-application-e2e\\protractor.conf.js",
-                        "devServerTarget": "dpio-application:serve"
-                    },
-                    "configurations": {
-                        "production": {
-                            "devServerTarget": "dpio-application:serve:production"
-                        }
-                    }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": "apps\\dpio-application-e2e\\tsconfig.e2e.json",
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
-                    }
-                }
-            }
-        },
-        "shared": {
-            "root": "libs/shared",
-            "sourceRoot": "libs/shared/src",
-            "projectType": "library",
-            "prefix": "dpio-application",
-            "architect": {
-                "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
-                    "options": {
-                        "main": "libs/shared/src/test.ts",
-                        "tsConfig": "libs/shared/tsconfig.spec.json",
-                        "karmaConfig": "libs/shared/karma.conf.js"
-                    }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": [
-                            "libs/shared/tsconfig.lib.json",
-                            "libs/shared/tsconfig.spec.json"
-                        ],
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
-                    }
-                }
-            }
-        },
-        "core": {
-            "root": "libs/core",
-            "sourceRoot": "libs/core/src",
-            "projectType": "library",
-            "prefix": "dpio-application",
-            "architect": {
-                "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
-                    "options": {
-                        "main": "libs/core/src/test.ts",
-                        "tsConfig": "libs/core/tsconfig.spec.json",
-                        "karmaConfig": "libs/core/karma.conf.js"
-                    }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": [
-                            "libs/core/tsconfig.lib.json",
-                            "libs/core/tsconfig.spec.json"
-                        ],
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
-                    }
-                }
-            }
+        "@schematics/angular:component": {
+          "styleext": "scss"
         }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist\\apps\\dpio-application",
+            "index": "apps/dpio-application/src/index.html",
+            "main": "apps/dpio-application/src/main.ts",
+            "polyfills": "apps/dpio-application/src/polyfills.ts",
+            "tsConfig": "apps\\dpio-application\\tsconfig.app.json",
+            "assets": [
+              "apps/dpio-application/src/favicon.ico",
+              "apps/dpio-application/src/assets"
+            ],
+            "styles": [
+              {
+                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
+              },
+              "apps/dpio-application/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/dpio-application/src/environments/environment.ts",
+                  "with": "apps/dpio-application/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "dpio-application:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "dpio-application:build:production"
+            }
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/server",
+            "main": "apps/dpio-application/src/main.server.ts",
+            "tsConfig": "apps\\dpio-application\\tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/dpio-application/src/environments/environment.ts",
+                  "with": "apps/dpio-application/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "dpio-application:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/dpio-application/src/test.ts",
+            "polyfills": "apps/dpio-application/src/polyfills.ts",
+            "tsConfig": "apps\\dpio-application\\tsconfig.spec.json",
+            "karmaConfig": "apps\\dpio-application\\karma.conf.js",
+            "styles": [
+              {
+                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
+              },
+              "apps/dpio-application/src/styles.scss"
+            ],
+            "scripts": [],
+            "assets": [
+              "apps/dpio-application/src/favicon.ico",
+              "apps/dpio-application/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps\\dpio-application\\tsconfig.app.json",
+              "apps\\dpio-application\\tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     },
-    "defaultProject": "dpio-application",
-    "cli": {
-        "defaultCollection": "@nrwl/schematics"
+    "dpio-application-e2e": {
+      "root": "apps\\dpio-application-e2e",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "apps\\dpio-application-e2e\\protractor.conf.js",
+            "devServerTarget": "dpio-application:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "dpio-application:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps\\dpio-application-e2e\\tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "shared": {
+      "root": "libs/shared",
+      "sourceRoot": "libs/shared/src",
+      "projectType": "library",
+      "prefix": "dpio-application",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/shared/src/test.ts",
+            "tsConfig": "libs/shared/tsconfig.spec.json",
+            "karmaConfig": "libs/shared/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/tsconfig.lib.json",
+              "libs/shared/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "core": {
+      "root": "libs/core",
+      "sourceRoot": "libs/core/src",
+      "projectType": "library",
+      "prefix": "dpio-application",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/core/src/test.ts",
+            "tsConfig": "libs/core/tsconfig.spec.json",
+            "karmaConfig": "libs/core/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/core/tsconfig.lib.json",
+              "libs/core/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "auth": {
+      "root": "libs/auth",
+      "sourceRoot": "libs/auth/src",
+      "projectType": "library",
+      "prefix": "dpio-application",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/auth/src/test.ts",
+            "tsConfig": "libs/auth/tsconfig.spec.json",
+            "karmaConfig": "libs/auth/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/auth/tsconfig.lib.json",
+              "libs/auth/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
+  },
+  "defaultProject": "dpio-application",
+  "cli": {
+    "defaultCollection": "@nrwl/schematics"
+  }
 }
