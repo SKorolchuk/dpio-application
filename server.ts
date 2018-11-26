@@ -8,24 +8,6 @@ import * as express from 'express';
 import { join } from 'path';
 import { readFileSync } from 'fs';
 
-let zipkinHost = 'localhost';
-let zipkinPort = 9411;
-
-if (process.env.ZIPKIN_SERVICE_HOST && process.env.ZIPKIN_SERVICE_PORT) {
-    console.log('Routing Zipkin traffic to the Zipkin Kubernetes service');
-    zipkinHost = process.env.ZIPKIN_SERVICE_HOST;
-    zipkinPort = parseInt(process.env.ZIPKIN_SERVICE_PORT, 10);
-} else {
-    console.log(`Detected we're running the Zipkin server locally`);
-}
-
-const appzip = require('appmetrics-zipkin')({
-    host: zipkinHost,
-    port: zipkinPort,
-    serviceName: 'dpio-application',
-    sampleRate: 1.0
-});
-
 enableProdMode();
 
 global['localStorage'] = null;
@@ -40,13 +22,6 @@ const LOCALES = [
         engine: ngExpressEngine({
             bootstrap: require('main.server.en').AppServerModuleNgFactory,
             providers: [provideModuleMap(require('main.server.en').LAZY_MODULE_MAP)]
-        })
-    },
-    {
-        id: 'fr',
-        engine: ngExpressEngine({
-            bootstrap: require('main.server.fr').AppServerModuleNgFactory,
-            providers: [provideModuleMap(require('main.server.fr').LAZY_MODULE_MAP)]
         })
     }
 ];
