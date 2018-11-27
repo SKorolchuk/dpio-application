@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 export interface Credentials {
     // Customize received credentials here
@@ -21,7 +22,7 @@ const credentialsKey = 'credentials';
  */
 @Injectable()
 export class AuthenticationService {
-    constructor() {
+    constructor(private http: HttpClient) {
         if (!localStorage || !sessionStorage) {
             return;
         }
@@ -65,6 +66,15 @@ export class AuthenticationService {
      * Checks is the user is authenticated.
      */
     isAuthenticated(): boolean {
+        this.http
+            .post<any>('/api/auth/login', {
+                userName: 'test',
+                password: '12345678'
+            })
+            .subscribe(x => {
+                console.log(x);
+            });
+
         return !!this.credentials;
     }
 
