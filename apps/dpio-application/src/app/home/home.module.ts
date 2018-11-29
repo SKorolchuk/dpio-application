@@ -11,16 +11,16 @@ import { SharedModule } from '@dpio-application/shared/src';
 import { MaterialModule } from '@dpio-application/shared/src/lib/material.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        TranslateModule.forChild(),
-        CoreModule,
-        SharedModule,
-        FlexLayoutModule,
-        MaterialModule,
-        HomeRoutingModule
-    ],
-    declarations: [HomeComponent],
-    providers: [QuoteService]
+  imports: [
+    CommonModule,
+    TranslateModule.forChild(),
+    CoreModule,
+    SharedModule,
+    FlexLayoutModule,
+    MaterialModule,
+    HomeRoutingModule
+  ],
+  declarations: [HomeComponent],
+  providers: [QuoteService]
 })
 export class HomeModule {}
