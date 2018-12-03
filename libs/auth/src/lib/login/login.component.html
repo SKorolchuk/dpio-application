@@ -2,26 +2,26 @@
     <div>
         <h1 fxLayoutAlign="center" translate>APP_NAME</h1>
         <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="2rem">
-            <h4 class="version">v{{version}}</h4>
-            <div class="language-selector">
-                <button mat-raised-button color="primary" [matMenuTriggerFor]="languageMenu">
-                    {{currentLanguage}}
-                </button>
-                <mat-menu #languageMenu="matMenu">
-                    <button mat-menu-item *ngFor="let language of languages" (click)="setLanguage(language)">
-                        {{language}}
-                    </button>
-                </mat-menu>
-            </div>
+            <mat-toolbar-row fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="2rem">
+                <h4 class="version">environment: {{version}}</h4>
+                <span class="spacer"></span>
+                <span class="language-selector">
+          <button mat-raised-button color="primary" [matMenuTriggerFor]="languageMenu">
+<mat-icon class="example-icon">language</mat-icon>
+            {{currentLanguage}}
+          </button>
+          <mat-menu #languageMenu="matMenu">
+            <button mat-menu-item *ngFor="let language of languages" (click)="setLanguage(language)">
+              {{language}}
+            </button>
+          </mat-menu>
+        </span>
+            </mat-toolbar-row>
         </div>
     </div>
     <div class="login-container" fxLayout="row" fxLayoutAlign="center">
         <mat-card fxFlex="90%" fxFlex.sm="66%" fxFlex.md="50%" fxFlex.gt-md="33%" class="login-box">
             <form (ngSubmit)="login()" [formGroup]="loginForm" novalidate>
-                <div class="login-error" [hidden]="!error || isLoading" translate>
-                    Username or password incorrect.
-                </div>
-                <br />
                 <div fxLayout="column">
                     <mat-form-field>
                         <input type="text" matInput formControlName="username" [placeholder]="'Username' | translate" />
@@ -35,14 +35,16 @@
                             <span translate>Password is required</span>
                         </mat-error>
                     </mat-form-field>
+                    <div class="login-error" [hidden]="!error || isLoading" translate>
+                        Username or password incorrect.
+                    </div>
                     <mat-slide-toggle color="primary" formControlName="remember" translate>Remember me
                     </mat-slide-toggle>
                     <br />
                     <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || isLoading">
-                        <dpio-application-loader class="inline-loader" [isLoading]="isLoading">
-                        </dpio-application-loader>
-                        <span translate>Login</span>
-                    </button>
+            <dpio-application-loader class="inline-loader" [isLoading]="isLoading"></dpio-application-loader>
+            <span translate>Login</span>
+          </button>
                 </div>
             </form>
         </mat-card>
