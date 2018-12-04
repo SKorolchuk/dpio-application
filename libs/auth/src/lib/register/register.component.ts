@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
-import { AuthenticationService } from '@dpio-application/core/src/lib/authentication/authentication.service';
+import { AuthenticationService } from '@dpio-application/auth/src/lib/shared/authentication.service';
 import { UserRegistration } from '../shared/user.registration.interface';
 import { I18nService } from '@dpio-application/core/src/lib/i18n.service';
 import { finalize } from 'rxjs/operators';

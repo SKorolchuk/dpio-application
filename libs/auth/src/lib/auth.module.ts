@@ -1,24 +1,42 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginModule } from './login/login.module';
-import { RegisterModule } from './register/register.module';
-import { ResetModule } from './reset/reset.module';
-import { ForgotModule } from './forgot/forgot.module';
 import { StoreModule } from '@ngrx/store';
-import * as fromAuthorize from './store/authorize.reducer';
+import * as fromAuthorize from './reducers/authorize.reducer';
 import { EffectsModule } from '@ngrx/effects';
-import { AuthorizeEffects } from './store/authorize.effects';
+import { AuthorizeEffects } from './effects/authorize.effects';
+import { LogOutPromptComponent } from './log-out-prompt/log-out-prompt.component';
+import { MaterialModule } from '@dpio-application/shared/src/lib/material.module';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { CallbackComponent } from './callback/callback.component';
+import { AuthRoutingModule } from './auth-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from '@dpio-application/shared/src';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   imports: [
     CommonModule,
-    LoginModule,
-    RegisterModule,
-    ResetModule,
-    ForgotModule,
+    MaterialModule,
+    FlexLayoutModule,
+    SharedModule,
+    TranslateModule.forChild(),
+    AuthRoutingModule,
+    ReactiveFormsModule,
     StoreModule.forFeature('authorize', fromAuthorize.reducer),
     EffectsModule.forFeature([AuthorizeEffects])
   ],
-  declarations: []
+  declarations: [
+    LogOutPromptComponent,
+    ForgotPasswordComponent,
+    LoginComponent,
+    RegisterComponent,
+    ResetPasswordComponent,
+    CallbackComponent
+  ],
+  entryComponents: [LogOutPromptComponent]
 })
 export class AuthModule {}

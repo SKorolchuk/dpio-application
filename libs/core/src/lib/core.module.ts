@@ -5,8 +5,8 @@ import { HttpModule, Http, XHRBackend, ConnectionBackend, RequestOptions } from 
 import { TranslateModule } from '@ngx-translate/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ShellComponent } from './shell/shell.component';
-import { AuthenticationService } from './authentication/authentication.service';
-import { AuthenticationGuard } from './authentication/authentication.guard';
+import { AuthenticationService } from '../../../auth/src/lib/shared/authentication.service';
+import { AuthenticationGuard } from '../../../auth/src/lib/shared/authentication.guard';
 import { HttpService } from './http/http.service';
 import { HttpCacheService } from './http/http-cache.service';
 import { I18nService } from './i18n.service';

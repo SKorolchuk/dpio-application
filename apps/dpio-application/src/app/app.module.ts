@@ -20,45 +20,52 @@ import { CookieModule } from 'ngx-cookie';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthModule } from '@dpio-application/auth/src';
+import { reducers } from '@dpio-application/auth/src/lib/reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
-    return new TranslateHttpLoader(httpClient);
+  return new TranslateHttpLoader(httpClient);
 }
 
 @NgModule({
-    imports: [
-        CommonModule,
-        BrowserModule.withServerTransition({
-            appId: 'dpio-application'
-        }),
-        BrowserTransferStateModule,
-        HttpClientModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            }
-        }),
-        NxModule.forRoot(),
-        NgxUploaderModule,
-        CookieModule.forRoot(),
-        StoreModule.forRoot({}),
-        EffectsModule.forRoot([]),
-        FormsModule,
-        HttpModule,
-        BrowserAnimationsModule,
-        MaterialModule,
-        CoreModule,
-        SharedModule,
-        HomeModule,
-        AboutModule,
-        AuthModule,
-        AppRoutingModule
-    ],
-    declarations: [AppComponent],
-    providers: [],
-    bootstrap: [AppComponent]
+  imports: [
+    CommonModule,
+    BrowserModule.withServerTransition({
+      appId: 'dpio-application'
+    }),
+    BrowserTransferStateModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    NxModule.forRoot(),
+    NgxUploaderModule,
+    CookieModule.forRoot(),
+    StoreModule.forRoot(reducers),
+    StoreDevtoolsModule.instrument({
+      name: 'Auth0 Book Library',
+      logOnly: environment.production
+    }),
+    EffectsModule.forRoot([]),
+    FormsModule,
+    HttpModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    CoreModule,
+    SharedModule,
+    HomeModule,
+    AboutModule,
+    AuthModule,
+    AppRoutingModule
+  ],
+  declarations: [AppComponent],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
