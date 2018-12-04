@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import * as jwt from 'jsonwebtoken';
 import { map } from 'rxjs/operators';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 export interface Credentials {
   // Customize received credentials here
@@ -17,14 +17,19 @@ export interface LoginContext {
 }
 
 const credentialsKey = 'credentials';
+const helper = new JwtHelperService();
 
-/**
- * Provides a base for authentication workflow.
- * The Credentials interface as well as login/logout methods should be replaced with proper implementation.
- */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthenticationService {
+  private _onAuthSuccessUrl = '/home';
+  private _onAuthFailureUrl = '/login';
+  private _logoutUrl = '/';
+  private _expiresAt: number;
   private _credentials: Credentials;
+  private _id: string;
+  private _encodedToken: any;
 
   constructor(private http: HttpClient) {
     if (!localStorage || !sessionStorage) {
@@ -39,6 +44,7 @@ export class AuthenticationService {
   get credentials(): Credentials {
     return this._credentials;
   }
+
   register(email: any, password: any, firstName: any, lastName: any, location: any): Observable<any> {
     return this.http.post<any>('/auth/api/accounts', {
       email: email,
@@ -49,32 +55,49 @@ export class AuthenticationService {
     });
   }
 
-  /**
-   * Authenticates the user.
-   */
+  get authSuccessUrl(): string {
+    return this._onAuthSuccessUrl;
+  }
+
+  get authFailureUrl(): string {
+    return this._onAuthFailureUrl;
+  }
+
+  get authenticated(): boolean {
+    return !!JSON.parse(localStorage.getItem(credentialsKey));
+  }
+
+  ping(): Observable<any> {
+    return this.http.get<any>('/auth/api/accounts', {
+      headers: {
+        Authorization: `Bearer ${this._credentials.token}`
+      }
+    });
+  }
+
   login(context: LoginContext): Observable<Credentials> {
     // Replace by proper authentication call
     return this.http
-      .post<any>('/auth/api/auth/login', {
+      .post<any>('/auth/api/accounts/login', {
         userName: context.username,
         password: context.password
       })
       .pipe(
-        map(d => {
-          console.log(d);
+        map(response => {
+          console.log(response);
           const data = {
             username: context.username,
-            token: d.auth_token
+            token: response.auth_token
           };
           this.setCredentials(data, context.remember);
-          return data;
+          this._expiresAt = response.expires_in;
+          this._id = response.id;
+          this._encodedToken = helper.decodeToken(response.auth_token);
+          return response;
         })
       );
   }
 
-  /**
-   * Logs out the user and clear credentials.
-   */
   logout(): Observable<boolean> {
     // Customize credentials invalidation here
     this.setCredentials();
