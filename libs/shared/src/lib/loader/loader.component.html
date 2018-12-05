@@ -1,4 +1,4 @@
-<div [hidden]="!isLoading">
-    <mat-progress-spinner mode="indeterminate" [strokeWidth]="2" [diameter]="32 * size"></mat-progress-spinner>
+<div class="loader" *ngIf="isLoading">
+    <mat-progress-spinner mode="isDeterminate ? 'determinate' : 'indeterminate'" color="primary" [strokeWidth]="2" [diameter]="32 * size"></mat-progress-spinner>
     <span class="message">{{message}}</span>
 </div>

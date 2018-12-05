@@ -1,0 +1,15 @@
+@import '../../../../../../apps/dpio-application/src/theme/theme-variables';
+:host {
+    display: flex;
+    flex: 1;
+    background-color: mat-color(map-get($app-theme, 'background'), 'background');
+    color: mat-color(map-get($app-theme, 'foreground'), 'text');
+}
+
+.inline-loader {
+    display: inline-block;
+}
+
+.version {
+    margin: 0;
+}

@@ -1,52 +1,41 @@
-<div fxFill fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1.5rem" class="mat-typography">
-    <div>
-        <h1 fxLayoutAlign="center" translate>APP_NAME</h1>
-        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="2rem">
-            <mat-toolbar-row fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="2rem">
-                <h4 class="version">environment: {{version}}</h4>
-                <span class="spacer"></span>
-                <span class="language-selector">
-          <button mat-raised-button color="primary" [matMenuTriggerFor]="languageMenu">
-            <mat-icon class="example-icon">language</mat-icon>
-            {{currentLanguage}}
-          </button>
-          <mat-menu #languageMenu="matMenu">
-            <button mat-menu-item *ngFor="let language of languages" (click)="setLanguage(language)">
-              {{language}}
-            </button>
-          </mat-menu>
-        </span>
-            </mat-toolbar-row>
-        </div>
-    </div>
-    <div class="login-container" fxLayout="row" fxLayoutAlign="center">
-        <mat-card fxFlex="90%" fxFlex.sm="66%" fxFlex.md="50%" fxFlex.gt-md="33%" class="login-box">
-            <form (ngSubmit)="login()" [formGroup]="loginForm" novalidate>
+<div class="login-container" fxLayout="column" fxLayoutAlign="center">
+    <mat-toolbar color="primary">
+        <mat-toolbar-row>
+            <mat-icon class="material-icons">account_circle</mat-icon>
+            <!-- account_circle -->
+            <span translate>Sign In</span>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-card fxLayoutAlign="center" fxFlex="100%" fxFlex.sm="66%" fxFlex.md="50%" fxFlex.gt-md="33%" class="login-box">
+        <dpio-application-loader class="inline-loader" [isLoading]="pending">
+        </dpio-application-loader>
+        <mat-card-content>
+            <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" novalidate>
                 <div fxLayout="column">
                     <mat-form-field>
                         <input type="text" matInput formControlName="username" [placeholder]="'Username' | translate" />
-                        <mat-error *ngIf="loginForm.controls['username'].valid || loginForm.controls['username'].untouched">
+                        <mat-error *ngIf="loginForm.controls['username'].invalid && !loginForm.controls['username'].untouched">
                             <span translate>Username is required</span>
                         </mat-error>
                     </mat-form-field>
                     <mat-form-field>
                         <input type="password" matInput formControlName="password" [placeholder]="'Password' | translate" required />
-                        <mat-error *ngIf="loginForm.controls['password'].valid || loginForm.controls['password']untouched">
+                        <mat-error *ngIf="loginForm.controls['password'].invalid && !loginForm.controls['password'].untouched">
                             <span translate>Password is required</span>
                         </mat-error>
                     </mat-form-field>
-                    <div class="login-error" [hidden]="!error || isLoading" translate>
-                        Username or password incorrect.
-                    </div>
+                    <mat-error class="login-error" [hidden]="pending || !errorMessage" translate>
+                        <b>{{ errorMessage && ('Username or password incorrect.' | translate) }}</b>
+                    </mat-error>
                     <mat-slide-toggle color="primary" formControlName="remember" translate>Remember me
                     </mat-slide-toggle>
                     <br />
-                    <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || isLoading">
-            <dpio-application-loader class="inline-loader" [isLoading]="isLoading"></dpio-application-loader>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || pending">
+            <dpio-application-loader class="inline-loader" [isLoading]="pending"></dpio-application-loader>
             <span translate>Login</span>
           </button>
                 </div>
             </form>
-        </mat-card>
-    </div>
+        </mat-card-content>
+    </mat-card>
 </div>

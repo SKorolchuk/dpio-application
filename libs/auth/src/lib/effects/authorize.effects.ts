@@ -7,20 +7,19 @@ import { MatDialog } from '@angular/material';
 import { tap, exhaustMap, map, catchError } from 'rxjs/operators';
 import { LogOutPromptComponent } from '../log-out-prompt/log-out-prompt.component';
 import { Logger } from '@dpio-application/core/src/lib/logger.service';
-import { AuthenticationService, LoginContext } from '../shared/authentication.service';
+import { AuthenticationService } from '../shared/authentication.service';
 
 const log = new Logger('AuthenticationGuard');
 
 @Injectable()
 export class AuthorizeEffects {
-  @Effect({ dispatch: false })
+  @Effect()
   login$ = this.actions$.pipe(
     ofType<fromAuth.Login>(fromAuth.AuthActionTypes.Login),
     exhaustMap(loginAction => {
       return this.authService.login(loginAction.payload).pipe(
         map((authResult: any) => {
           if (authResult && authResult.auth_token) {
-            window.location.hash = '';
             return new fromAuth.LoginSuccess();
           }
         }),
@@ -31,22 +30,16 @@ export class AuthorizeEffects {
 
   @Effect()
   loginComplete$ = this.actions$.pipe(
-    ofType<fromAuth.Login>(fromAuth.AuthActionTypes.LoginComplete),
+    ofType<fromAuth.LoginComplete>(fromAuth.AuthActionTypes.LoginComplete),
     exhaustMap(() => {
-      return this.authService
-        .login({
-          username: 'test',
-          password: '12345678'
-        })
-        .pipe(
-          map((authResult: any) => {
-            if (authResult && authResult.auth_token) {
-              window.location.hash = '';
-              return new fromAuth.LoginSuccess();
-            }
-          }),
-          catchError(error => of(new fromAuth.LoginFailure(error)))
-        );
+      return this.authService.relogin().pipe(
+        map((authResult: any) => {
+          if (authResult && authResult.auth_token) {
+            return new fromAuth.LoginSuccess();
+          }
+        }),
+        catchError(error => of(new fromAuth.LoginFailure(error)))
+      );
     })
   );
 
@@ -54,6 +47,7 @@ export class AuthorizeEffects {
   loginRedirect$ = this.actions$.pipe(
     ofType<fromAuth.LoginSuccess>(fromAuth.AuthActionTypes.LoginSuccess),
     tap(() => {
+      log.debug(`successfully logged in`);
       this.router.navigate([this.authService.authSuccessUrl]);
     })
   );

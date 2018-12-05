@@ -1,0 +1,34 @@
+.caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-top: 4px dashed;
+    border-top: 4px solid\9;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+
+$lang-selector-item-min-width: 170px;
+$title-font-size: 18px;
+button {
+    &:not(.mat-button) {
+        min-width: $lang-selector-item-min-width;
+    }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &>mat-icon {
+        margin-right: 0;
+    }
+    &>span.language-title {
+        min-width: $lang-selector-item-min-width - 50px;
+    }
+    font-size: $title-font-size !important;
+}
+
+.hidden,
+[hidden] {
+    display: none !important;
+}

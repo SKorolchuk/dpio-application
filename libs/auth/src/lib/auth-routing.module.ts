@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { LoginComponent } from './login/login.component';
 import { extract } from '@dpio-application/core/src/lib/i18n.service';
 import { CallbackComponent } from './callback/callback.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
 
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { path: 'login', component: LoginComponent, data: { title: extract('Login') } },
+      { path: 'login', component: LoginPageComponent, data: { title: extract('Login') } },
       { path: 'callback', component: CallbackComponent }
     ] as Routes)
   ],

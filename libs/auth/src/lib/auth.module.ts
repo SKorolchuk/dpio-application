@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
-import * as fromAuthorize from './reducers/authorize.reducer';
+import * as fromAuthorize from './reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthorizeEffects } from './effects/authorize.effects';
 import { LogOutPromptComponent } from './log-out-prompt/log-out-prompt.component';
@@ -16,9 +16,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '@dpio-application/shared/src';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { CoreModule } from '@dpio-application/core/src';
 
 @NgModule({
   imports: [
+    CoreModule,
     CommonModule,
     MaterialModule,
     FlexLayoutModule,
@@ -26,7 +29,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     TranslateModule.forChild(),
     AuthRoutingModule,
     ReactiveFormsModule,
-    StoreModule.forFeature('authorize', fromAuthorize.reducer),
+    StoreModule.forFeature('authorize', fromAuthorize.reducers),
     EffectsModule.forFeature([AuthorizeEffects])
   ],
   declarations: [
@@ -35,8 +38,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     LoginComponent,
     RegisterComponent,
     ResetPasswordComponent,
-    CallbackComponent
+    CallbackComponent,
+    LoginPageComponent
   ],
-  entryComponents: [LogOutPromptComponent]
+  entryComponents: [LogOutPromptComponent],
+  exports: [LoginPageComponent]
 })
 export class AuthModule {}

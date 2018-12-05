@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { LoginContext } from '../shared/authentication.service';
+import { ILogin } from '../shared/credentials.interface';
 
 export enum AuthActionTypes {
   Login = '[Login Page] Login',
@@ -15,7 +15,7 @@ export enum AuthActionTypes {
 export class Login implements Action {
   readonly type = AuthActionTypes.Login;
 
-  constructor(public payload: LoginContext) {}
+  constructor(public payload: ILogin) {}
 }
 
 export class LoginComplete implements Action {

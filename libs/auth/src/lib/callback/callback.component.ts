@@ -9,7 +9,7 @@ import { Store } from '@ngrx/store';
   styleUrls: ['./callback.component.scss']
 })
 export class CallbackComponent implements OnInit {
-  constructor(private store: Store<fromStore.State>) {}
+  constructor(private store: Store<fromStore.AuthModulePartState>) {}
 
   ngOnInit() {
     this.store.dispatch(new LoginComplete());
