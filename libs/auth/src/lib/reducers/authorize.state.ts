@@ -1,6 +1,28 @@
-import { ActionReducerMap } from '@ngrx/store';
+import { IAuthenticateErrorResponse, IUser } from '../models/auth.models';
 
-// tslint:disable-next-line:no-empty-interface
-export interface State {}
+export interface State {
+  status: UserState;
+  loginPage: LoginPageState;
+}
 
-export const reducers: ActionReducerMap<State> = {};
+export interface LoginPageState {
+  error: IAuthenticateErrorResponse | string | null;
+  pending: boolean;
+}
+
+export const initialLoginPageState: LoginPageState = {
+  error: null,
+  pending: false
+};
+
+export interface UserState {
+  loggedIn: boolean;
+  user: IUser | null;
+}
+
+export const initialUserState: UserState = {
+  loggedIn: false,
+  user: null
+};
+
+export type AuthPartState = State | LoginPageState | any;

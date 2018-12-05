@@ -5,6 +5,7 @@ import { mergeMap, map, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Logger } from '../../../../core/src/lib/logger.service';
 import { AuthenticationService } from './authentication.service';
+import * as fromSelectors from '../selectors/auth.selectors';
 import * as fromStore from '../reducers';
 
 const log = new Logger('AuthenticationGuard');
@@ -13,7 +14,7 @@ const log = new Logger('AuthenticationGuard');
 export class AuthenticationGuard implements CanActivate {
   constructor(
     private authenticationService: AuthenticationService,
-    private store: Store<fromStore.State>,
+    private store: Store<fromStore.AuthModulePartState>,
     private router: Router
   ) {}
 
@@ -39,7 +40,7 @@ export class AuthenticationGuard implements CanActivate {
   }
 
   checkStoreAuthentication() {
-    return this.store.select(fromStore.selectIsLoggedIn).pipe(take(1));
+    return this.store.select(fromSelectors.selectUserStateLoggedIn).pipe(take(1));
   }
 
   checkApiAuthentication() {

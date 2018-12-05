@@ -1,13 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { finalize } from 'rxjs/operators';
-import { I18nService } from '@dpio-application/core/src/lib/i18n.service';
-import { AuthenticationService } from '@dpio-application/auth/src/lib/shared/authentication.service';
-import { Logger } from '@dpio-application/core/src/lib/logger.service';
-import { SettingsService } from '@dpio-application/core/src/lib/settings.service';
-
-const log = new Logger('Login');
+import { ILogin } from '../shared/credentials.interface';
+import { IAuthenticateErrorResponse } from '../models/auth.models';
 
 @Component({
   selector: 'dpio-application-login',
@@ -15,64 +9,36 @@ const log = new Logger('Login');
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  version: string;
-  error: string = null;
+  private EMAIL_REGEX: RegExp = /^ *([A-Za-z]|\d|[_%+-])+(\.([A-Za-z]|\d|[_%+-])+)*@([A-Za-z]|\d|[-])+(\.([A-Za-z]|\d|[-])+)*(\.[A-Za-z]{2,4}) *$/;
+
   loginForm: FormGroup;
-  isLoading = false;
 
-  constructor(
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private i18nService: I18nService,
-    private authenticationService: AuthenticationService,
-    private settingsService: SettingsService
-  ) {
+  @Output() submitted = new EventEmitter<ILogin>();
+
+  @Input() public pending: boolean;
+
+  @Input() public errorMessage: IAuthenticateErrorResponse;
+
+  constructor(private formBuilder: FormBuilder) {
     this.createForm();
-
-    this.version = settingsService.version;
   }
 
   ngOnInit() {}
 
-  login() {
-    this.isLoading = true;
-    this.authenticationService
-      .login(this.loginForm.value)
-      .pipe(
-        finalize(() => {
-          this.loginForm.markAsPristine();
-          this.isLoading = false;
-        })
-      )
-      .subscribe(
-        credentials => {
-          log.debug(`${credentials.username} successfully logged in`);
-          this.router.navigate(['/'], { replaceUrl: true });
-        },
-        error => {
-          log.debug(`Login error: ${error}`);
-          this.error = error;
-        }
-      );
-  }
-
-  setLanguage(language: string) {
-    this.i18nService.language = language;
-  }
-
-  get currentLanguage(): string {
-    return this.i18nService.language;
-  }
-
-  get languages(): string[] {
-    return this.i18nService.supportedLanguages;
-  }
-
   private createForm() {
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
+      username: ['', Validators.compose([Validators.required, Validators.email, Validators.pattern(this.EMAIL_REGEX)])],
+      password: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
       remember: true
     });
+  }
+
+  onSubmit() {
+    this.submitted.emit({
+      email: this.loginForm.controls['username'].value,
+      password: this.loginForm.controls['password'].value,
+      remember: this.loginForm.controls['remember'].value
+    });
+    this.loginForm.markAsPristine();
   }
 }

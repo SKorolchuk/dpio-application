@@ -3,17 +3,13 @@ import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ILogin } from './credentials.interface';
 
 export interface Credentials {
   // Customize received credentials here
   username: string;
   token: string;
-}
-
-export interface LoginContext {
-  username: string;
   password: string;
-  remember?: boolean;
 }
 
 const credentialsKey = 'credentials';
@@ -75,19 +71,44 @@ export class AuthenticationService {
     });
   }
 
-  login(context: LoginContext): Observable<Credentials> {
+  relogin(): Observable<Credentials> {
     // Replace by proper authentication call
     return this.http
       .post<any>('/auth/api/accounts/login', {
-        userName: context.username,
+        userName: this.credentials.username,
+        password: this.credentials.password
+      })
+      .pipe(
+        map(response => {
+          console.log(response);
+          const data = {
+            ...this.credentials,
+            username: this.credentials.username,
+            token: response.auth_token
+          };
+          this.setCredentials(data, true);
+          this._expiresAt = response.expires_in;
+          this._id = response.id;
+          this._encodedToken = helper.decodeToken(response.auth_token);
+          return response;
+        })
+      );
+  }
+
+  login(context: ILogin): Observable<Credentials> {
+    // Replace by proper authentication call
+    return this.http
+      .post<any>('/auth/api/accounts/login', {
+        userName: context.email,
         password: context.password
       })
       .pipe(
         map(response => {
           console.log(response);
           const data = {
-            username: context.username,
-            token: response.auth_token
+            username: context.email,
+            token: response.auth_token,
+            password: context.password
           };
           this.setCredentials(data, context.remember);
           this._expiresAt = response.expires_in;
