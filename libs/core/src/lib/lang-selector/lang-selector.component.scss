@@ -10,8 +10,8 @@
     border-left: 4px solid transparent;
 }
 
-$lang-selector-item-min-width: 170px;
-$title-font-size: 18px;
+$lang-selector-item-min-width: 100px;
+$title-font-size: 14px;
 button {
     &:not(.mat-button) {
         min-width: $lang-selector-item-min-width;
