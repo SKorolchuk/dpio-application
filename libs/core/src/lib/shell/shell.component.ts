@@ -40,7 +40,7 @@ export class ShellComponent implements OnInit {
   }
 
   get isMobile(): boolean {
-    return this.media.isActive('xs') || this.media.isActive('sm');
+    return true;
   }
 
   get title(): string {
