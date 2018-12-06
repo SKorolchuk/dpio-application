@@ -1,4 +1,4 @@
-# DpioApplication
+# Deeproxio Angular Front-end Application
 
 This project was generated with [Angular CLI+Nrml+NgRx+Angular Material 2+ngx-rocket](https://github.com/angular/angular-cli) version 6.2.5.
 

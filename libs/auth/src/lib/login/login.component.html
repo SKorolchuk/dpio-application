@@ -1,6 +1,6 @@
-<div class="login-container" fxLayout="column" fxLayoutAlign="center">
+<div class="login-container mat-elevation-z10" fxLayout="column" fxLayoutAlign="center">
     <mat-toolbar color="primary">
-        <mat-toolbar-row>
+        <mat-toolbar-row class="stripped">
             <mat-icon class="material-icons">account_circle</mat-icon>
             <!-- account_circle -->
             <span translate>Sign In</span>
@@ -31,7 +31,6 @@
                     </mat-slide-toggle>
                     <br />
                     <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || pending">
-            <dpio-application-loader class="inline-loader" [isLoading]="pending"></dpio-application-loader>
             <span translate>Login</span>
           </button>
                 </div>

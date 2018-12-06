@@ -1,3 +1,5 @@
+@import "../../../../../apps/dpio-application/src/theme/theme-variables.scss";
+$stripe-color: mat-color($app-primary, 700, 700);
 :host {
     display: flex;
     flex: 1;
@@ -25,4 +27,9 @@
     &:hover {
         background: rgba(0, 0, 0, 0.05);
     }
+}
+
+mat-sidenav mat-toolbar-row {
+    background-color: $stripe-color;
+    color: mat-color(map-get($app-theme, 'foreground'), 'text');
 }

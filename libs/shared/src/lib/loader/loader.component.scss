@@ -1,6 +1,6 @@
 @import '../../../../../apps/dpio-application/src/theme/theme-variables';
 $current-background: map-get($app-theme, 'background');
-$loader-background-color: mix(mat-color($current-background, hover), mat-color($mat-grey, 50, 50), 25%);
+$loader-background-color: mix(mat-color($current-background, hover), mat-color($mat-grey, 50, 50), 75%);
 .loader {
     position: absolute;
     display: flex;

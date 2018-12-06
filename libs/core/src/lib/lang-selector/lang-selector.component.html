@@ -1,5 +1,5 @@
-<button type="button" color="primary" mat-raised-button class="mat-button" [matMenuTriggerFor]="menu">{{ current }}
-  <span class="caret"></span>
+<button type="button" color="primary" mat-raised-button class="mat-raised-button" [matMenuTriggerFor]="menu">
+  {{ current }}<span class="caret"></span>
 </button>
 <mat-menu #menu="matMenu" [overlapTrigger]="false" yPosition="above" xPosition="before">
     <button type="button" class="mat-menu-item lang-selector-item" mat-menu-item *ngFor="let language of languages" (click)="onLanguageSelected(language)">

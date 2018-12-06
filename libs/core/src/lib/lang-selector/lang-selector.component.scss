@@ -17,7 +17,7 @@ button {
         min-width: $lang-selector-item-min-width;
     }
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     &>mat-icon {
         margin-right: 0;
