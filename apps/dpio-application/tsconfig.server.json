@@ -1,15 +1,15 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-        "outDir": "../../dist/out-tsc/apps/dpio-application",
-        "module": "commonjs",
-        "types": []
-    },
-    "exclude": [
-        "test.ts",
-        "**/*.spec.ts"
-    ],
-    "angularCompilerOptions": {
-        "entryModule": "src/app/app.server.module#AppServerModule"
-    }
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc/apps/dpio-application",
+    "module": "commonjs",
+    "types": ["node"]
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ],
+  "angularCompilerOptions": {
+    "entryModule": "src/app/app.server.module#AppServerModule"
+  }
 }

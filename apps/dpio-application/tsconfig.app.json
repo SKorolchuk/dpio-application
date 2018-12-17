@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc/apps/dpio-application",
-    "types": []
+    "types": ["node"]
   },
   "exclude": [
     "test.ts",

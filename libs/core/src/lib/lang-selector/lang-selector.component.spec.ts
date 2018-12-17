@@ -22,7 +22,7 @@ describe('LangSelectorComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LangSelectorComponent);
     fixture.componentRef.instance.current = 'en-US';
-    fixture.componentRef.instance.languages = ['en-US'];
+    fixture.componentRef.instance.languages = ['en-US', 'de-DE'];
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
     fixture.detectChanges();

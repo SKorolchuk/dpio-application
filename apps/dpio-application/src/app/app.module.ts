@@ -31,6 +31,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 
 @NgModule({
   imports: [
+    SharedModule,
     CommonModule,
     BrowserModule.withServerTransition({
       appId: 'dpio-application'
@@ -58,7 +59,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     BrowserAnimationsModule,
     MaterialModule,
     CoreModule,
-    SharedModule,
     HomeModule,
     AboutModule,
     AuthModule,

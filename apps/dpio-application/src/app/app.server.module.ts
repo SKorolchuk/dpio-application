@@ -8,23 +8,23 @@ import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-    imports: [
-        AppModule,
-        NoopAnimationsModule,
-        ServerModule,
-        ServerTransferStateModule,
-        ModuleMapLoaderModule,
-        FlexLayoutServerModule
-    ],
-    providers: [
-        {
-            provide: CookieService,
-            useClass: CookieBackendService
-        }
-        // Add universal-only providers here
-    ],
-    bootstrap: [AppComponent]
+  imports: [
+    AppModule,
+    NoopAnimationsModule,
+    ServerModule,
+    ServerTransferStateModule,
+    ModuleMapLoaderModule,
+    FlexLayoutServerModule
+  ],
+  providers: [
+    {
+      provide: CookieService,
+      useClass: CookieBackendService
+    }
+    // Add universal-only providers here
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppServerModule {
-    constructor() {}
+  constructor() {}
 }

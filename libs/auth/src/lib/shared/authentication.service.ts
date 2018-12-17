@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ILogin } from './credentials.interface';
+import { ConfigurationService } from '@dpio-application/shared/src/lib/services/configuration.service';
 
 export interface Credentials {
   // Customize received credentials here
@@ -27,8 +28,8 @@ export class AuthenticationService {
   private _id: string;
   private _encodedToken: any;
 
-  constructor(private http: HttpClient) {
-    if (!localStorage || !sessionStorage) {
+  constructor(private http: HttpClient, private configuration: ConfigurationService) {
+    if (!localStorage || !sessionStorage || this.configuration.isPlatformServer) {
       return;
     }
     this._credentials = JSON.parse(sessionStorage.getItem(credentialsKey) || localStorage.getItem(credentialsKey));
@@ -60,7 +61,7 @@ export class AuthenticationService {
   }
 
   get authenticated(): boolean {
-    return !!JSON.parse(localStorage.getItem(credentialsKey));
+    return !this.configuration.isPlatformServer && !!JSON.parse(localStorage.getItem(credentialsKey));
   }
 
   ping(): Observable<any> {

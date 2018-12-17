@@ -5,156 +5,142 @@ import { AuthenticationService } from './authentication.service';
 const credentialsKey = 'credentials';
 
 describe('AuthenticationService', () => {
-    let authenticationService: AuthenticationService;
+  let authenticationService: AuthenticationService;
 
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            providers: [AuthenticationService]
-        });
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [AuthenticationService]
     });
+  });
 
-    beforeEach(inject([AuthenticationService], (_authenticationService: AuthenticationService) => {
-        authenticationService = _authenticationService;
+  beforeEach(inject([AuthenticationService], (_authenticationService: AuthenticationService) => {
+    authenticationService = _authenticationService;
+  }));
+
+  afterEach(() => {
+    // Cleanup
+    localStorage.removeItem(credentialsKey);
+    sessionStorage.removeItem(credentialsKey);
+  });
+
+  describe('login', () => {
+    it('should return credentials', fakeAsync(() => {
+      // Act
+      const request = authenticationService.login({
+        email: 'toto',
+        password: '123',
+        remember: true
+      });
+      tick();
+
+      // Assert
+      request.subscribe(credentials => {
+        expect(credentials).toBeDefined();
+        expect(credentials.token).toBeDefined();
+      });
     }));
 
-    afterEach(() => {
-        // Cleanup
-        localStorage.removeItem(credentialsKey);
-        sessionStorage.removeItem(credentialsKey);
-    });
+    it('should authenticate user', fakeAsync(() => {
+      expect(authenticationService.isAuthenticated()).toBe(false);
 
-    describe('login', () => {
-        it(
-            'should return credentials',
-            fakeAsync(() => {
-                // Act
-                const request = authenticationService.login({
-                    username: 'toto',
-                    password: '123'
-                });
-                tick();
+      // Act
+      const request = authenticationService.login({
+        email: 'toto',
+        password: '123',
+        remember: true
+      });
+      tick();
 
-                // Assert
-                request.subscribe(credentials => {
-                    expect(credentials).toBeDefined();
-                    expect(credentials.token).toBeDefined();
-                });
-            })
-        );
+      // Assert
+      request.subscribe(() => {
+        expect(authenticationService.isAuthenticated()).toBe(true);
+        expect(authenticationService.credentials).toBeDefined();
+        expect(authenticationService.credentials).not.toBeNull();
+        expect(authenticationService.credentials.token).toBeDefined();
+        expect(authenticationService.credentials.token).not.toBeNull();
+      });
+    }));
 
-        it(
-            'should authenticate user',
-            fakeAsync(() => {
-                expect(authenticationService.isAuthenticated()).toBe(false);
+    it('should persist credentials for the session', fakeAsync(() => {
+      // Act
+      const request = authenticationService.login({
+        email: 'toto',
+        password: '123',
+        remember: true
+      });
+      tick();
 
-                // Act
-                const request = authenticationService.login({
-                    username: 'toto',
-                    password: '123'
-                });
-                tick();
+      // Assert
+      request.subscribe(() => {
+        expect(sessionStorage.getItem(credentialsKey)).not.toBeNull();
+      });
+    }));
 
-                // Assert
-                request.subscribe(() => {
-                    expect(authenticationService.isAuthenticated()).toBe(true);
-                    expect(authenticationService.credentials).toBeDefined();
-                    expect(authenticationService.credentials).not.toBeNull();
-                    expect(authenticationService.credentials.token).toBeDefined();
-                    expect(authenticationService.credentials.token).not.toBeNull();
-                });
-            })
-        );
+    it('should persist credentials across sessions', fakeAsync(() => {
+      // Act
+      const request = authenticationService.login({
+        email: 'toto',
+        password: '123',
+        remember: true
+      });
+      tick();
 
-        it(
-            'should persist credentials for the session',
-            fakeAsync(() => {
-                // Act
-                const request = authenticationService.login({
-                    username: 'toto',
-                    password: '123'
-                });
-                tick();
+      // Assert
+      request.subscribe(() => {
+        expect(localStorage.getItem(credentialsKey)).not.toBeNull();
+      });
+    }));
+  });
 
-                // Assert
-                request.subscribe(() => {
-                    expect(sessionStorage.getItem(credentialsKey)).not.toBeNull();
-                });
-            })
-        );
+  describe('logout', () => {
+    it('should clear user authentication', fakeAsync(() => {
+      // Arrange
+      const loginRequest = authenticationService.login({
+        email: 'toto',
+        password: '123',
+        remember: true
+      });
+      tick();
 
-        it(
-            'should persist credentials across sessions',
-            fakeAsync(() => {
-                // Act
-                const request = authenticationService.login({
-                    username: 'toto',
-                    password: '123',
-                    remember: true
-                });
-                tick();
+      // Assert
+      loginRequest.subscribe(() => {
+        expect(authenticationService.isAuthenticated()).toBe(true);
 
-                // Assert
-                request.subscribe(() => {
-                    expect(localStorage.getItem(credentialsKey)).not.toBeNull();
-                });
-            })
-        );
-    });
+        const request = authenticationService.logout();
+        tick();
 
-    describe('logout', () => {
-        it(
-            'should clear user authentication',
-            fakeAsync(() => {
-                // Arrange
-                const loginRequest = authenticationService.login({
-                    username: 'toto',
-                    password: '123'
-                });
-                tick();
+        request.subscribe(() => {
+          expect(authenticationService.isAuthenticated()).toBe(false);
+          expect(authenticationService.credentials).toBeNull();
+          expect(sessionStorage.getItem(credentialsKey)).toBeNull();
+          expect(localStorage.getItem(credentialsKey)).toBeNull();
+        });
+      });
+    }));
 
-                // Assert
-                loginRequest.subscribe(() => {
-                    expect(authenticationService.isAuthenticated()).toBe(true);
+    it('should clear persisted user authentication', fakeAsync(() => {
+      // Arrange
+      const loginRequest = authenticationService.login({
+        email: 'toto',
+        password: '123',
+        remember: true
+      });
+      tick();
 
-                    const request = authenticationService.logout();
-                    tick();
+      // Assert
+      loginRequest.subscribe(() => {
+        expect(authenticationService.isAuthenticated()).toBe(true);
 
-                    request.subscribe(() => {
-                        expect(authenticationService.isAuthenticated()).toBe(false);
-                        expect(authenticationService.credentials).toBeNull();
-                        expect(sessionStorage.getItem(credentialsKey)).toBeNull();
-                        expect(localStorage.getItem(credentialsKey)).toBeNull();
-                    });
-                });
-            })
-        );
+        const request = authenticationService.logout();
+        tick();
 
-        it(
-            'should clear persisted user authentication',
-            fakeAsync(() => {
-                // Arrange
-                const loginRequest = authenticationService.login({
-                    username: 'toto',
-                    password: '123',
-                    remember: true
-                });
-                tick();
-
-                // Assert
-                loginRequest.subscribe(() => {
-                    expect(authenticationService.isAuthenticated()).toBe(true);
-
-                    const request = authenticationService.logout();
-                    tick();
-
-                    request.subscribe(() => {
-                        expect(authenticationService.isAuthenticated()).toBe(false);
-                        expect(authenticationService.credentials).toBeNull();
-                        expect(sessionStorage.getItem(credentialsKey)).toBeNull();
-                        expect(localStorage.getItem(credentialsKey)).toBeNull();
-                    });
-                });
-            })
-        );
-    });
+        request.subscribe(() => {
+          expect(authenticationService.isAuthenticated()).toBe(false);
+          expect(authenticationService.credentials).toBeNull();
+          expect(sessionStorage.getItem(credentialsKey)).toBeNull();
+          expect(localStorage.getItem(credentialsKey)).toBeNull();
+        });
+      });
+    }));
+  });
 });

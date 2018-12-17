@@ -1,6 +1,7 @@
 {
     "locales": {
-        "en": true
+        "en": true,
+        "de": true
     },
     "client": {
         "command": "ng run dpio-application:build:production",

@@ -12,13 +12,15 @@ import { HttpCacheService } from './http/http-cache.service';
 import { I18nService } from './i18n.service';
 import { MaterialModule } from '@dpio-application/shared/src/lib/material.module';
 import { LangSelectorComponent } from './lang-selector/lang-selector.component';
+import { ConfigurationService } from '@dpio-application/shared/src/lib/services/configuration.service';
 
 export function createHttpService(
   backend: ConnectionBackend,
   defaultOptions: RequestOptions,
+  configuration: ConfigurationService,
   httpCacheService: HttpCacheService
 ) {
-  return new HttpService(backend, defaultOptions, httpCacheService);
+  return new HttpService(backend, defaultOptions, configuration, httpCacheService);
 }
 
 @NgModule({
@@ -32,7 +34,7 @@ export function createHttpService(
     HttpCacheService,
     {
       provide: Http,
-      deps: [XHRBackend, RequestOptions, HttpCacheService],
+      deps: [XHRBackend, RequestOptions, ConfigurationService, HttpCacheService],
       useFactory: createHttpService
     }
   ]
