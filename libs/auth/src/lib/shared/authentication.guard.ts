@@ -7,6 +7,7 @@ import { Logger } from '../../../../core/src/lib/logger.service';
 import { AuthenticationService } from './authentication.service';
 import * as fromSelectors from '../selectors/auth.selectors';
 import * as fromStore from '../reducers';
+import { ConfigurationService } from '@dpio-application/shared/src/lib/services/configuration.service';
 
 const log = new Logger('AuthenticationGuard');
 
@@ -15,28 +16,31 @@ export class AuthenticationGuard implements CanActivate {
   constructor(
     private authenticationService: AuthenticationService,
     private store: Store<fromStore.AuthModulePartState>,
-    private router: Router
+    private router: Router,
+    private configuration: ConfigurationService
   ) {}
 
   canActivate() {
-    return this.checkStoreAuthentication().pipe(
-      mergeMap(storeAuth => {
-        if (storeAuth) {
-          return of(true);
-        }
+    return this.configuration.isPlatformServer
+      || this.checkStoreAuthentication()
+              .pipe(
+                mergeMap(storeAuth => {
+                  if (storeAuth) {
+                    return of(true);
+                  }
 
-        return this.checkApiAuthentication();
-      }),
-      map(storeOrApiAuth => {
-        if (!storeOrApiAuth) {
-          log.debug('Not authenticated, redirecting...');
-          this.router.navigate(['/login']);
-          return false;
-        }
+                  return this.checkApiAuthentication();
+                }),
+                map(storeOrApiAuth => {
+                  if (!storeOrApiAuth) {
+                    log.debug('Not authenticated, redirecting...');
+                    this.router.navigate(['/login']);
+                    return false;
+                  }
 
-        return true;
-      })
-    );
+                  return true;
+                })
+              );
   }
 
   checkStoreAuthentication() {

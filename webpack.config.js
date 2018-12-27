@@ -10,7 +10,8 @@ const config = {
         server: './server.ts'
     },
     resolve: {
-        extensions: ['.ts', '.js'],
+        modules: [".", "node_modules"],
+        extensions: [".js", ".webpack.js", ".web.js", ".d.ts", ".ts"],
         alias: {}
     },
     target: 'node',

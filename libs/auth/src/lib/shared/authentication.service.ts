@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ILogin } from './credentials.interface';
 import { ConfigurationService } from '@dpio-application/shared/src/lib/services/configuration.service';
+import { Api } from 'apps/dpio-application/src/environments/api.model';
 
 export interface Credentials {
   // Customize received credentials here
@@ -43,7 +44,7 @@ export class AuthenticationService {
   }
 
   register(email: any, password: any, firstName: any, lastName: any, location: any): Observable<any> {
-    return this.http.post<any>('/auth/api/accounts', {
+    return this.http.post<any>(Api.Register(this.configuration.authEndpoint), {
       email: email,
       password: password,
       firstName: firstName,
@@ -65,7 +66,7 @@ export class AuthenticationService {
   }
 
   ping(): Observable<any> {
-    return this.http.get<any>('/auth/api/accounts', {
+    return this.http.get<any>(Api.Ping(this.configuration.authEndpoint), {
       headers: {
         Authorization: `Bearer ${this._credentials.token}`
       }
@@ -75,7 +76,7 @@ export class AuthenticationService {
   relogin(): Observable<Credentials> {
     // Replace by proper authentication call
     return this.http
-      .post<any>('/auth/api/accounts/login', {
+      .post<any>(Api.Login(this.configuration.authEndpoint), {
         userName: this.credentials.username,
         password: this.credentials.password
       })
@@ -99,7 +100,7 @@ export class AuthenticationService {
   login(context: ILogin): Observable<Credentials> {
     // Replace by proper authentication call
     return this.http
-      .post<any>('/auth/api/accounts/login', {
+      .post<any>(Api.Login(this.configuration.authEndpoint), {
         userName: context.email,
         password: context.password
       })

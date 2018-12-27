@@ -9,4 +9,4 @@ karma.conf.js
 protractor.conf.js
 README.md
 tslint.json
-npm-debug.log
+npm-debug
