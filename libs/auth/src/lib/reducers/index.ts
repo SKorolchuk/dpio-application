@@ -9,7 +9,8 @@ export interface AuthModulePartState {
 
 export const reducers: ActionReducerMap<fromAuth.AuthPartState> = {
   status: fromReducers.UserStateReducer,
-  loginPage: fromReducers.LoginPageReducer
+  loginPage: fromReducers.LoginPageReducer,
+  registerPage: fromReducers.RegisterPageReducer
 };
 
 export const metaReducers: MetaReducer<fromAuth.State>[] = !environment.production ? [] : [];

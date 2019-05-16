@@ -1,6 +1,24 @@
 import { AuthActions, AuthActionTypes } from '../actions/authorize.actions';
-import { initialLoginPageState, initialUserState, UserState, LoginPageState } from './authorize.state';
+import {
+  initialLoginPageState,
+  initialUserState,
+  UserState,
+  LoginPageState,
+  RegisterPageState,
+  initialRegisterPageState
+} from './authorize.state';
 import { IUser } from '../models/auth.models';
+
+export function RegisterPageReducer(
+  state: RegisterPageState = initialRegisterPageState,
+  action: RegisterActions
+): RegisterPageState {
+  switch (action.type) {
+    default: {
+      return state;
+    }
+  }
+}
 
 export function LoginPageReducer(state: LoginPageState = initialLoginPageState, action: AuthActions): LoginPageState {
   switch (action.type) {

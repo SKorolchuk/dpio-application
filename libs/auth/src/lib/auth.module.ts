@@ -18,6 +18,7 @@ import { SharedModule } from '@dpio-application/shared/src';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { CoreModule } from '@dpio-application/core/src';
+import { RegisterPageComponent } from './pages/register-page/register-page.component';
 
 @NgModule({
   imports: [
@@ -39,9 +40,10 @@ import { CoreModule } from '@dpio-application/core/src';
     RegisterComponent,
     ResetPasswordComponent,
     CallbackComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    RegisterPageComponent
   ],
   entryComponents: [LogOutPromptComponent],
-  exports: [LoginPageComponent]
+  exports: [LoginPageComponent, RegisterPageComponent]
 })
 export class AuthModule {}

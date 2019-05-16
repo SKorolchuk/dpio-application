@@ -1,24 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Logger } from '@dpio-application/core/src/lib/logger.service';
-import { Router } from '@angular/router';
-import * as fromStore from '../../reducers';
-import { I18nService } from '@dpio-application/core/src/lib/i18n.service';
-import { AuthenticationService } from '@dpio-application/auth/src/lib/shared/authentication.service';
-import { SettingsService } from '@dpio-application/core/src/lib/settings.service';
 import { Store, select } from '@ngrx/store';
-import { selectLoginPagePending, selectLoginPageError } from '../../selectors/auth.selectors';
-import { ILogin } from '../../shared/credentials.interface';
-
-import * as fromActions from '../../actions/authorize.actions';
-
-const log = new Logger('Login');
+import { Router } from '@angular/router';
+import { I18nService } from '@dpio-application/core/src/lib/i18n.service';
+import { SettingsService } from '@dpio-application/core/src/lib/settings.service';
+import { AuthenticationService } from '../../shared/authentication.service';
 
 @Component({
-  selector: 'dpio-application-login-page',
-  templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.scss']
+  selector: 'dpio-application-register-page',
+  templateUrl: './register-page.component.html',
+  styleUrls: ['./register-page.component.scss']
 })
-export class LoginPageComponent implements OnInit {
+export class RegisterPageComponent implements OnInit {
   pending$ = this.store.pipe(select(selectLoginPagePending));
   error$ = this.store.pipe(select(selectLoginPageError));
   version: string;
@@ -49,5 +41,23 @@ export class LoginPageComponent implements OnInit {
 
   public get languages(): string[] {
     return this.i18nService.supportedLanguages;
+  }
+  registerUser({ value, valid }: { value: UserRegistration; valid: boolean }) {
+    this.submitted = true;
+    this.isRequesting = true;
+    this.errors = '';
+    if (valid) {
+      this.authenticationService
+        .register(value.email, value.password, value.firstName, value.lastName, value.location)
+        .pipe(finalize(() => (this.isRequesting = false)))
+        .subscribe(
+          result => {
+            if (result) {
+              this.router.navigate(['/login'], { queryParams: { brandNew: true, email: value.email } });
+            }
+          },
+          errors => (this.errors = errors)
+        );
+    }
   }
 }

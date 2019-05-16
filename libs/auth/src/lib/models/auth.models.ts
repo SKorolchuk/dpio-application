@@ -17,4 +17,16 @@ export interface IAuthenticateErrorResponse {
   UserName: Array<string>;
 }
 
+export interface IRegisterErrorResponse {
+  statusCode: number;
+  message: string;
+}
+
+export interface IRegisterSuccessResponse {
+  statusCode: number;
+  message: string;
+}
+
+export type IRegisterResponse = IRegisterErrorResponse | IRegisterSuccessResponse;
+
 export type IAuthenticateResponse = IAuthenticateErrorResponse | IAuthenticateSuccessResponse;
