@@ -1,7 +1,3 @@
-<form #f="ngForm" novalidate (ngSubmit)="registerUser(f)">
-
-
-        </form>
 <div class="register-container mat-elevation-z10" fxLayout="column" fxLayoutAlign="center">
     <mat-toolbar color="primary">
         <mat-toolbar-row class="stripped">
@@ -10,74 +6,59 @@
             <span translate>Register</span>
         </mat-toolbar-row>
     </mat-toolbar>
-    <mat-card fxLayoutAlign="center" fxFlex="100%" fxFlex.sm="66%" fxFlex.md="50%" fxFlex.gt-md="33%" class="login-box">
+    <mat-card fxLayoutAlign="center" fxFlex="100%" fxFlex.sm="50%" fxFlex.md="50%" fxFlex.gt-md="50%" class="register-box">
         <dpio-application-loader class="inline-loader" [isLoading]="pending">
         </dpio-application-loader>
         <mat-card-content>
             <form (ngSubmit)="onSubmit()" [formGroup]="registerForm" novalidate>
-            <mat-form-field>
-              <input type="text" matInput name="firstName" formControlName="firstName" [placeholder]="'First name' | translate" />
-              <mat-error *ngIf="registerForm.controls['firstName'].invalid && !registerForm.controls['firstName'].untouched">
-                <span translate>First name is required</span>
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <input type="text" matInput name="lastName" formControlName="lastName" [placeholder]="'Last name' | translate" />
-              <mat-error *ngIf="registerForm.controls['lastName'].invalid && !registerForm.controls['lastName'].untouched">
-                <span translate>Last name is required</span>
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <input type="text" matInput name="email" formControlName="email" [placeholder]="'Email' | translate" />
-              <mat-error *ngIf="registerForm.controls['email'].invalid && !registerForm.controls['email'].untouched">
-                <span translate>Email is required</span>
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <input type="text" matInput name="password" formControlName="password" [placeholder]="'Password' | translate" />
-              <mat-error *ngIf="registerForm.controls['password'].invalid && !registerForm.controls['password'].untouched">
-                <span translate>Password is required</span>
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <input type="text" matInput name="email" formControlName="email" [placeholder]="'Confirm Password' | translate" />
-              <mat-error *ngIf="loginForm.controls['email'].invalid && !loginForm.controls['email'].untouched">
-                <span translate>Confirm Password is required</span>
-              </mat-error>
-            </mat-form-field>
-            <div class="form-group">
-                <label for="location">Location</label>
-                <input type="text" class="form-control" id="location" placeholder="Location" required name="location" ngModel>
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary" [disabled]="f.invalid || isRequesting">Sign Up</button>
-                <app-spinner [isRunning]="isRequesting"></app-spinner>
-            </div>
-
-            <div *ngIf="errors" class="alert alert-danger" role="alert">
-                <strong>Oops!</strong> {{errors}}
-            </div>
+                <div fxLayout="column">
                     <mat-form-field>
-                        <input type="text" matInput formControlName="username" [placeholder]="'Username' | translate" />
-                        <mat-error *ngIf="loginForm.controls['username'].invalid && !loginForm.controls['username'].untouched">
-                            <span translate>Username is required</span>
+                        <input type="text" matInput name="email" formControlName="email" [placeholder]="'Email' | translate" />
+                        <mat-error *ngIf="registerForm.controls['email'].invalid &&
+            !registerForm.controls['email'].untouched">
+                            <span translate>Email is required</span>
                         </mat-error>
                     </mat-form-field>
                     <mat-form-field>
-                        <input type="password" matInput formControlName="password" [placeholder]="'Password' | translate" required />
-                        <mat-error *ngIf="loginForm.controls['password'].invalid && !loginForm.controls['password'].untouched">
+                        <input type="password" matInput name="password" formControlName="password" [placeholder]="'Password' | translate" />
+                        <mat-error *ngIf="registerForm.controls['password'].invalid &&
+            !registerForm.controls['password'].untouched">
                             <span translate>Password is required</span>
                         </mat-error>
                     </mat-form-field>
-                    <mat-error class="login-error" [hidden]="pending || !errorMessage" translate>
-                        <b>{{ errorMessage && ('Username or password incorrect.' | translate) }}</b>
+                    <mat-form-field>
+                        <input type="password" matInput name="confirmPassword" formControlName="confirmPassword" [placeholder]="'Confirm Password' | translate" />
+                        <mat-error *ngIf="registerForm.controls['confirmPassword'].invalid &&
+            !registerForm.controls['confirmPassword'].untouched">
+                            <span translate>Confirm Password is required</span>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input type="text" matInput name="firstName" formControlName="firstName" [placeholder]="'First name' | translate" />
+                        <mat-error *ngIf="registerForm.controls['firstName'].invalid && !registerForm.controls['firstName'].untouched">
+                            <span translate>First name is required</span>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input type="text" matInput name="lastName" formControlName="lastName" [placeholder]="'Last name' | translate" />
+                        <mat-error *ngIf="registerForm.controls['lastName'].invalid &&
+            !registerForm.controls['lastName'].untouched">
+                            <span translate>Last name is required</span>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input type="text" matInput name="location" formControlName="location" [placeholder]="'Location' | translate" />
+                        <mat-error *ngIf="registerForm.controls['location'].invalid &&
+            !registerForm.controls['location'].untouched">
+                            <span translate>Location is required</span>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-error class="register-error" [hidden]="pending || !errorMessage || (!registerForm.pristine && registerForm.invalid)" translate>
+                        <b>{{ (errorMessage || (!registerForm.pristine && registerForm.invalid) || '') && ('Register form has invalid data.' | translate)}}</b>
                     </mat-error>
-                    <mat-slide-toggle color="primary" formControlName="remember" translate>Remember me
-                    </mat-slide-toggle>
                     <br />
-                    <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || pending">
-            <span translate>Login</span>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid || pending">
+            <span translate>Register</span>
           </button>
                 </div>
             </form>

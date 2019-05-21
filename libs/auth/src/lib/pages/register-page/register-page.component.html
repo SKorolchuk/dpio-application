@@ -9,9 +9,10 @@
         <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2rem">
             <mat-toolbar-row fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="2rem">
                 <button color="secondary" mat-raised-button class="version">environment: {{version}}</button>
-                <span class="spacer"></span>
+                <button color="accent" fxFlex="8rem" mat-raised-button translate (click)="goToLogin()">Login</button>
                 <span class="language-selector">
-          <dpio-application-lang-selector [languages]="languages" [current]="currentLanguage" (selected)="setLanguage($event)">
+          <dpio-application-lang-selector [languages]="languages" [current]="currentLanguage"
+            (selected)="setLanguage($event)">
           </dpio-application-lang-selector>
         </span>
             </mat-toolbar-row>

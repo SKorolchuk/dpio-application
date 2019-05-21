@@ -6,17 +6,17 @@ import { SettingsService } from '@dpio-application/core/src/lib/settings.service
 import { AuthenticationService } from '../../shared/authentication.service';
 import * as fromActions from '../../actions/authorize.actions';
 import * as fromStore from '../../reducers';
-import { selectRegisterPageError, selectRegisterPagePending } from '../../selectors/auth.selectors';
+import { selectResetPasswordPagePending, selectResetPasswordPageError } from '../../selectors/auth.selectors';
 import { UserRegistration } from '../../shared/user.management.interface';
 
 @Component({
-  selector: 'dpio-application-register-page',
-  templateUrl: './register-page.component.html',
-  styleUrls: ['./register-page.component.scss']
+  selector: 'dpio-application-reset-password-page',
+  templateUrl: './reset-password-page.component.html',
+  styleUrls: ['./reset-password-page.component.scss']
 })
-export class RegisterPageComponent implements OnInit {
-  pending$ = this.store.pipe(select(selectRegisterPagePending));
-  error$ = this.store.pipe(select(selectRegisterPageError));
+export class ResetPasswordPageComponent implements OnInit {
+  pending$ = this.store.pipe(select(selectResetPasswordPagePending));
+  error$ = this.store.pipe(select(selectResetPasswordPageError));
   version: string;
 
   constructor(
@@ -36,7 +36,7 @@ export class RegisterPageComponent implements OnInit {
   }
 
   public onSubmit($event: UserRegistration) {
-    this.store.dispatch(new fromActions.Register($event));
+    this.store.dispatch(new fromActions.ResetPassword($event));
   }
 
   public setLanguage(language: string) {

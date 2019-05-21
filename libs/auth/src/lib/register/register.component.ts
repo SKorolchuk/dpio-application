@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserRegistration } from '../shared/user.registration.interface';
+import { UserRegistration } from '../shared/user.management.interface';
 import { IRegisterErrorResponse } from '../models/auth.models';
 @Component({
   selector: 'dpio-application-register',
@@ -50,8 +50,9 @@ export class RegisterComponent implements OnInit {
   }
 
   checkPasswords(group: FormGroup) {
+    if (!group || !group.controls || !group.controls.password || !group.controls.confirmPass) return null;
     const pass = group.controls.password.value;
-    const confirmPass = group.controls.confirmPass.value;
+    const confirmPass = group.controls.confirmPassword.value;
 
     return pass === confirmPass ? null : { notSame: true };
   }

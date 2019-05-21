@@ -8,7 +8,7 @@ import { AboutComponent } from './about.component';
 import { MaterialModule } from '@dpio-application/shared/src/lib/material.module';
 
 @NgModule({
-    imports: [CommonModule, TranslateModule.forChild(), FlexLayoutModule, MaterialModule, AboutRoutingModule],
-    declarations: [AboutComponent]
+  imports: [CommonModule, TranslateModule.forChild(), FlexLayoutModule, MaterialModule, AboutRoutingModule],
+  declarations: [AboutComponent]
 })
 export class AboutModule {}
