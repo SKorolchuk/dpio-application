@@ -7,7 +7,7 @@ import { AuthenticationService } from '../../shared/authentication.service';
 import * as fromActions from '../../actions/authorize.actions';
 import * as fromStore from '../../reducers';
 import { selectRegisterPageError, selectRegisterPagePending } from '../../selectors/auth.selectors';
-import { UserRegistration } from '../../shared/user.registration.interface';
+import { UserRegistration } from '../../shared/user.management.interface';
 
 @Component({
   selector: 'dpio-application-register-page',

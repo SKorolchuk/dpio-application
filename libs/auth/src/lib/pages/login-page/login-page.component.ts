@@ -44,7 +44,11 @@ export class LoginPageComponent implements OnInit {
   }
 
   public goToSignUp(): void {
-    this.router.navigate(['/register'], { replaceUrl: true });
+    this.router.navigate(['/auth/register'], { replaceUrl: true });
+  }
+
+  public goToReset(): void {
+    this.router.navigate(['/auth/reset'], { replaceUrl: true });
   }
 
   public get currentLanguage(): string {

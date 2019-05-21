@@ -10,7 +10,7 @@
         <dpio-application-loader class="inline-loader" [isLoading]="pending">
         </dpio-application-loader>
         <mat-card-content>
-            <form (ngSubmit)="onSubmit($event)" [formGroup]="registerForm" novalidate>
+            <form (ngSubmit)="onSubmit()" [formGroup]="registerForm" novalidate>
                 <div fxLayout="column">
                     <mat-form-field>
                         <input type="text" matInput name="email" formControlName="email" [placeholder]="'Email' | translate" />

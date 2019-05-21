@@ -7,10 +7,11 @@
             <h1 fxLayoutAlign="center" translate>APP_NAME</h1>
         </div>
         <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="0.5rem">
-            <mat-toolbar-row fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="2rem">
+            <mat-toolbar-row fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
                 <button color="secondary" mat-raised-button class="version">environment: {{version}}</button>
-                <button color="accent" fxFlex="8rem" mat-raised-button translate (click)="goToSignUp()">Sign
+                <button color="accent" fxFlex="5rem" mat-raised-button translate (click)="goToSignUp()">Sign
           Up</button>
+                <button color="accent" fxFlex="5rem" mat-raised-button translate (click)="goToReset()">Reset</button>
                 <span class="language-selector">
           <dpio-application-lang-selector [languages]="languages" [current]="currentLanguage"
             (selected)="setLanguage($event)">

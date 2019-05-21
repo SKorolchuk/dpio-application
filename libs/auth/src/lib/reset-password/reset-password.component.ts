@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UserPasswordReset } from '../shared/user.management.interface';
+import { IResetPasswordErrorResponse } from '../models/auth.models';
 
 @Component({
   selector: 'dpio-application-reset-password',
@@ -11,11 +13,11 @@ export class ResetPasswordComponent implements OnInit {
 
   resetForm: FormGroup;
 
-  @Output() submitted = new EventEmitter<UserReset>();
+  @Output() submitted = new EventEmitter<UserPasswordReset>();
 
   @Input() public pending: boolean;
 
-  @Input() public errorMessage: IResetErrorResponse;
+  @Input() public errorMessage: IResetPasswordErrorResponse;
 
   constructor(private formBuilder: FormBuilder) {
     this.createForm();
@@ -37,7 +39,8 @@ export class ResetPasswordComponent implements OnInit {
   onSubmit() {
     this.submitted.emit({
       email: this.resetForm.controls['email'].value,
-      password: this.resetForm.controls['password'].value
+      password: this.resetForm.controls['password'].value,
+      confirmPassword: this.resetForm.controls['confirmPassword'].value
     });
     this.resetForm.markAsPristine();
   }

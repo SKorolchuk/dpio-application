@@ -43,11 +43,11 @@ export class LoginPage {
   passwordInput = element(by.css('input[name=^"password"]'));
   loginButton = element(by.css('button[(click)^="login"]'));
   registerButton = element(by.css('button[(click)^="register"]'));
-  
+
   navigateTo() {
     return browser.get('/');
   }
-  
+
   getGreetingText() {
     return element(by.css('.greeting')).getText();
   }
@@ -67,13 +67,13 @@ describe('Login', () => {
     page = new LoginPage();
     page.navigateTo();
   });
-  
+
   it('should navigate to the register page when the register button is clicked', () => {
     page.registerButton.click();
-   
-    expect(browser.getCurrentUrl()).toContain('/register');
+
+    expect(browser.getCurrentUrl()).toContain('/auth/register');
   });
-  
+
   it('should allow a user to log in', () => {
     page.emailInput.sendKeys('test@mail.com');
     page.passwordInput.sendKeys('abc123');
@@ -86,5 +86,5 @@ describe('Login', () => {
 
 ## Credits
 
-Parts of this guide were freely inspired by this 
+Parts of this guide were freely inspired by this
 [presentation](https://docs.google.com/presentation/d/1B6manhG0zEXkC-H-tPo2vwU06JhL8w9-XCF9oehXzAQ).

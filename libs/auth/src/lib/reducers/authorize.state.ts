@@ -1,9 +1,15 @@
-import { IAuthenticateErrorResponse, IUser } from '../models/auth.models';
+import {
+  IAuthenticateErrorResponse,
+  IUser,
+  IRegisterErrorResponse,
+  IResetPasswordErrorResponse
+} from '../models/auth.models';
 
 export interface State {
   status: UserState;
   loginPage: LoginPageState;
   registerPage: RegisterPageState;
+  resetPasswordPage: ResetPasswordPageState;
 }
 
 export interface LoginPageState {
@@ -12,11 +18,21 @@ export interface LoginPageState {
 }
 
 export interface RegisterPageState {
-  error: IAuthenticateErrorResponse | string | null;
+  error: IRegisterErrorResponse | string | null;
   pending: boolean;
 }
 
-export const initialRegisterPageState: LoginPageState = {
+export interface ResetPasswordPageState {
+  error: IResetPasswordErrorResponse | string | null;
+  pending: boolean;
+}
+
+export const initialResetPasswordPageState: ResetPasswordPageState = {
+  error: null,
+  pending: false
+};
+
+export const initialRegisterPageState: RegisterPageState = {
   error: null,
   pending: false
 };
@@ -36,4 +52,4 @@ export const initialUserState: UserState = {
   user: null
 };
 
-export type AuthPartState = State | LoginPageState | RegisterPageState | any;
+export type AuthPartState = State | LoginPageState | RegisterPageState | ResetPasswordPageState | any;

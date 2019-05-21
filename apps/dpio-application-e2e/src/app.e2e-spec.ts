@@ -10,7 +10,7 @@ describe('app', () => {
 
   it('should display login page and login into app', () => {
     page.navigateTo();
-    expect(browser.getCurrentUrl()).toContain('/login');
+    expect(browser.getCurrentUrl()).toContain('/auth/login');
     page.login();
   });
 

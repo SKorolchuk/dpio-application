@@ -22,6 +22,11 @@ export interface IRegisterErrorResponse {
   message: string;
 }
 
+export interface IResetPasswordErrorResponse {
+  statusCode: number;
+  message: string;
+}
+
 export interface IRegisterSuccessResponse {
   statusCode: number;
   message: string;

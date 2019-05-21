@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserRegistration } from '../shared/user.registration.interface';
+import { UserRegistration } from '../shared/user.management.interface';
 import { IRegisterErrorResponse } from '../models/auth.models';
 @Component({
   selector: 'dpio-application-register',

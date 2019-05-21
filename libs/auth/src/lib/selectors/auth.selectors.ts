@@ -27,6 +27,20 @@ export const selectRegisterPageState = createSelector(
   (state: fromAuth.State) => state.registerPage
 );
 
+export const selectResetPasswordPageState = createSelector(
+  selectAuthState,
+  (state: fromAuth.State) => state.resetPasswordPage
+);
+
+export const selectResetPasswordPageError = createSelector(
+  selectResetPasswordPageState,
+  (state: fromAuth.RegisterPageState) => state.error
+);
+export const selectResetPasswordPagePending = createSelector(
+  selectResetPasswordPageState,
+  (state: fromAuth.RegisterPageState) => state.pending
+);
+
 export const selectRegisterPageError = createSelector(
   selectRegisterPageState,
   (state: fromAuth.RegisterPageState) => state.error

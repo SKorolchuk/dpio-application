@@ -1,11 +1,13 @@
-import { AuthActions, AuthActionTypes, RegisterActions, RegisterActionTypes } from '../actions/authorize.actions';
+import { AuthActions, AuthActionTypes, RegisterActions, ResetPasswordActions } from '../actions/authorize.actions';
 import {
   initialLoginPageState,
   initialUserState,
   UserState,
   LoginPageState,
   RegisterPageState,
-  initialRegisterPageState
+  initialRegisterPageState,
+  ResetPasswordPageState,
+  initialResetPasswordPageState
 } from './authorize.state';
 import { IUser } from '../models/auth.models';
 
@@ -13,6 +15,17 @@ export function RegisterPageReducer(
   state: RegisterPageState = initialRegisterPageState,
   action: RegisterActions
 ): RegisterPageState {
+  switch (action.type) {
+    default: {
+      return state;
+    }
+  }
+}
+
+export function ResetPasswordPageReducer(
+  state: ResetPasswordPageState = initialResetPasswordPageState,
+  action: ResetPasswordActions
+): ResetPasswordPageState {
   switch (action.type) {
     default: {
       return state;
