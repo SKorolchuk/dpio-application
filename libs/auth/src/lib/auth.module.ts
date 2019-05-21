@@ -19,6 +19,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { CoreModule } from '@dpio-application/core/src';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
+import { ResetPasswordPageComponent } from './reset-password-page/reset-password-page.component';
 
 @NgModule({
   imports: [
@@ -41,9 +42,10 @@ import { RegisterPageComponent } from './pages/register-page/register-page.compo
     ResetPasswordComponent,
     CallbackComponent,
     LoginPageComponent,
-    RegisterPageComponent
+    RegisterPageComponent,
+    ResetPasswordPageComponent
   ],
   entryComponents: [LogOutPromptComponent],
-  exports: [LoginPageComponent, RegisterPageComponent]
+  exports: [LoginPageComponent, RegisterPageComponent, ResetPasswordPageComponent]
 })
 export class AuthModule {}
