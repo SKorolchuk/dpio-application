@@ -43,6 +43,10 @@ export class LoginPageComponent implements OnInit {
     this.i18nService.language = language;
   }
 
+  public goToSignUp(): void {
+    this.router.navigate(['/register'], { replaceUrl: true });
+  }
+
   public get currentLanguage(): string {
     return this.i18nService.language;
   }

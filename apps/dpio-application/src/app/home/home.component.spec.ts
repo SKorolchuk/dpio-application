@@ -10,35 +10,35 @@ import { MaterialModule } from '@dpio-application/shared/src/lib/material.module
 import { SharedModule } from '@dpio-application/shared/src';
 
 describe('HomeComponent', () => {
-    let component: HomeComponent;
-    let fixture: ComponentFixture<HomeComponent>;
+  let component: HomeComponent;
+  let fixture: ComponentFixture<HomeComponent>;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [BrowserAnimationsModule, FlexLayoutModule, MaterialModule, SharedModule],
-            declarations: [HomeComponent],
-            providers: [
-                QuoteService,
-                MockBackend,
-                BaseRequestOptions,
-                {
-                    provide: Http,
-                    useFactory: (backend: MockBackend, defaultOptions: BaseRequestOptions) => {
-                        return new Http(backend, defaultOptions);
-                    },
-                    deps: [MockBackend, BaseRequestOptions]
-                }
-            ]
-        }).compileComponents();
-    }));
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [BrowserAnimationsModule, FlexLayoutModule, MaterialModule, SharedModule],
+      declarations: [HomeComponent],
+      providers: [
+        QuoteService,
+        MockBackend,
+        BaseRequestOptions,
+        {
+          provide: Http,
+          useFactory: (backend: MockBackend, defaultOptions: BaseRequestOptions) => {
+            return new Http(backend, defaultOptions);
+          },
+          deps: [MockBackend, BaseRequestOptions]
+        }
+      ]
+    }).compileComponents();
+  }));
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(HomeComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(HomeComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
-    });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });

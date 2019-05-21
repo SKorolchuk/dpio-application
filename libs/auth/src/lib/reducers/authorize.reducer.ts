@@ -1,4 +1,4 @@
-import { AuthActions, AuthActionTypes } from '../actions/authorize.actions';
+import { AuthActions, AuthActionTypes, RegisterActions, RegisterActionTypes } from '../actions/authorize.actions';
 import {
   initialLoginPageState,
   initialUserState,

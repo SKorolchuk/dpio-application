@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { environment } from 'apps/dpio-application/src/environments/environment';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class SettingsService {
-    constructor() {}
+  constructor() {}
 
-    get version(): string {
-        return environment.version;
-    }
+  get version(): string {
+    return environment.version;
+  }
 }

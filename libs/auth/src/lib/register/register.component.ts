@@ -50,8 +50,9 @@ export class RegisterComponent implements OnInit {
   }
 
   checkPasswords(group: FormGroup) {
+    if (!group || !group.controls || !group.controls.password || !group.controls.confirmPass) return null;
     const pass = group.controls.password.value;
-    const confirmPass = group.controls.confirmPass.value;
+    const confirmPass = group.controls.confirmPassword.value;
 
     return pass === confirmPass ? null : { notSame: true };
   }

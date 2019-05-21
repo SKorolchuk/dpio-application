@@ -12,40 +12,40 @@ import { CoreModule } from '@dpio-application/core/src';
 import { By } from '@angular/platform-browser';
 
 describe('LoginComponent', () => {
-    let component: LoginComponent;
-    let fixture: ComponentFixture<LoginComponent>;
+  let component: LoginComponent;
+  let fixture: ComponentFixture<LoginComponent>;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                BrowserAnimationsModule,
-                FlexLayoutModule,
-                MaterialModule,
-                SharedModule,
-                RouterTestingModule,
-                TranslateModule.forRoot(),
-                ReactiveFormsModule,
-                CoreModule
-            ],
-            declarations: [LoginComponent]
-        }).compileComponents();
-    }));
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        BrowserAnimationsModule,
+        FlexLayoutModule,
+        MaterialModule,
+        SharedModule,
+        RouterTestingModule,
+        TranslateModule.forRoot(),
+        ReactiveFormsModule,
+        CoreModule
+      ],
+      declarations: [LoginComponent]
+    }).compileComponents();
+  }));
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(LoginComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
+  beforeEach(() => {
+    fixture = TestBed.createComponent(LoginComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should render title in a h1 tag', async(() => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(fixture.debugElement.query(By.css('h1')).nativeElement.innerText).toContain('APP_NAME');
     });
-
-    it('should create', () => {
-        expect(component).toBeTruthy();
-    });
-
-    it('should render title in a h1 tag', async(() => {
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-            fixture.detectChanges();
-            expect(fixture.debugElement.query(By.css('h1')).nativeElement.innerText).toContain('APP_NAME');
-        });
-    }));
+  }));
 });

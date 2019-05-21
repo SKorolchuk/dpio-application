@@ -12,6 +12,34 @@ export enum AuthActionTypes {
   LogoutConfirmed = '[Auth] Logout Confirmed'
 }
 
+export enum RegisterActionTypes {
+  Register = '[Register Page] Register',
+  RegisterComplete = '[Register Page] Register Complete',
+  RegisterSuccess = '[Auth API] Register Success',
+  RegisterFailure = '[Auth API] Register Failure'
+}
+
+export class Register implements Action {
+  readonly type = RegisterActionTypes.Register;
+
+  constructor(public payload: any) {}
+}
+export class RegisterComplete implements Action {
+  readonly type = RegisterActionTypes.RegisterComplete;
+
+  constructor(public payload: any) {}
+}
+export class RegisterSuccess implements Action {
+  readonly type = RegisterActionTypes.RegisterSuccess;
+
+  constructor(public payload: any) {}
+}
+export class RegisterFailure implements Action {
+  readonly type = RegisterActionTypes.RegisterFailure;
+
+  constructor(public payload: any) {}
+}
+
 export class Login implements Action {
   readonly type = AuthActionTypes.Login;
 
@@ -57,3 +85,5 @@ export type AuthActions =
   | Logout
   | LogoutCancelled
   | LogoutConfirmed;
+
+export type RegisterActions = Register | RegisterComplete | RegisterSuccess | RegisterFailure;
