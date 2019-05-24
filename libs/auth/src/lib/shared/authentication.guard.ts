@@ -37,7 +37,7 @@ export class AuthenticationGuard implements CanActivate {
       map(storeOrApiAuth => {
         if (!storeOrApiAuth) {
           log.debug('Not authenticated, redirecting...');
-          this.router.navigate(['/auth/login']);
+          this.router.navigate(['/user/login']);
           return false;
         }
 

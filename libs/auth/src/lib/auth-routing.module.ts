@@ -9,10 +9,10 @@ import { ResetPasswordPageComponent } from './pages/reset-password-page/reset-pa
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { path: 'auth/login', component: LoginPageComponent, data: { title: extract('Login') } },
-      { path: 'auth/register', component: RegisterPageComponent, data: { title: extract('Register') } },
-      { path: 'auth/reset', component: ResetPasswordPageComponent, data: { title: extract('Reset Password') } },
-      { path: 'auth/callback', component: CallbackComponent }
+      { path: 'user/login', component: LoginPageComponent, data: { title: extract('Login') } },
+      { path: 'user/register', component: RegisterPageComponent, data: { title: extract('Register') } },
+      { path: 'user/reset', component: ResetPasswordPageComponent, data: { title: extract('Reset Password') } },
+      { path: 'user/callback', component: CallbackComponent }
     ])
   ],
   exports: [RouterModule]

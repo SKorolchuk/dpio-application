@@ -20,6 +20,7 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { CoreModule } from '@dpio-application/core/src';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { ResetPasswordPageComponent } from './pages/reset-password-page/reset-password-page.component';
+import { UserManagementEffects } from './effects/user-management.effects';
 
 @NgModule({
   imports: [
@@ -32,7 +33,7 @@ import { ResetPasswordPageComponent } from './pages/reset-password-page/reset-pa
     AuthRoutingModule,
     ReactiveFormsModule,
     StoreModule.forFeature('authorize', fromAuthorize.reducers),
-    EffectsModule.forFeature([AuthorizeEffects])
+    EffectsModule.forFeature([AuthorizeEffects, UserManagementEffects])
   ],
   declarations: [
     LogOutPromptComponent,

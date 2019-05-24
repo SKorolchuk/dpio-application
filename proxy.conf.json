@@ -1,6 +1,6 @@
 {
     "/auth/api/*": {
-        "target": "http://localhost:4300",
+        "target": "http://localhost:5001",
         "secure": false,
         "logLevel": "debug",
         "pathRewrite": {

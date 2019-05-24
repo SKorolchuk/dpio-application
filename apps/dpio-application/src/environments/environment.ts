@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   version: 'development',
   appEndpoint: 'http://localhost:4200',
-  authEndpoint: 'http://localhost:4200/auth',
+  authEndpoint: 'http://localhost:5001',
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US', 'de-DE']
 };

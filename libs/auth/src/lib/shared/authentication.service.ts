@@ -22,7 +22,7 @@ const helper = new JwtHelperService();
 })
 export class AuthenticationService {
   private _onAuthSuccessUrl = '/home';
-  private _onAuthFailureUrl = '/auth/login';
+  private _onAuthFailureUrl = '/user/login';
   private _logoutUrl = '/';
   private _expiresAt: number;
   private _credentials: Credentials;

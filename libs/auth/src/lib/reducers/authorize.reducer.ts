@@ -1,4 +1,11 @@
-import { AuthActions, AuthActionTypes, RegisterActions, ResetPasswordActions } from '../actions/authorize.actions';
+import {
+  AuthActions,
+  AuthActionTypes,
+  RegisterActions,
+  ResetPasswordActions,
+  ResetPasswordActionTypes,
+  RegisterActionTypes
+} from '../actions/authorize.actions';
 import {
   initialLoginPageState,
   initialUserState,
@@ -16,6 +23,27 @@ export function RegisterPageReducer(
   action: RegisterActions
 ): RegisterPageState {
   switch (action.type) {
+    case RegisterActionTypes.Register: {
+      return {
+        ...state,
+        error: null,
+        pending: true
+      };
+    }
+    case RegisterActionTypes.RegisterSuccess: {
+      return {
+        ...state,
+        error: null,
+        pending: false
+      };
+    }
+    case RegisterActionTypes.RegisterFailure: {
+      return {
+        ...state,
+        error: action.payload,
+        pending: false
+      };
+    }
     default: {
       return state;
     }
@@ -27,6 +55,27 @@ export function ResetPasswordPageReducer(
   action: ResetPasswordActions
 ): ResetPasswordPageState {
   switch (action.type) {
+    case ResetPasswordActionTypes.ResetPassword: {
+      return {
+        ...state,
+        error: null,
+        pending: true
+      };
+    }
+    case ResetPasswordActionTypes.ResetPasswordSuccess: {
+      return {
+        ...state,
+        error: null,
+        pending: false
+      };
+    }
+    case ResetPasswordActionTypes.ResetPasswordFailure: {
+      return {
+        ...state,
+        error: action.payload,
+        pending: false
+      };
+    }
     default: {
       return state;
     }

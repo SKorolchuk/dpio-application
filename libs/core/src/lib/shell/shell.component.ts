@@ -27,7 +27,7 @@ export class ShellComponent implements OnInit {
   }
 
   logout() {
-    this.authenticationService.logout().subscribe(() => this.router.navigate(['/auth/login'], { replaceUrl: true }));
+    this.authenticationService.logout().subscribe(() => this.router.navigate(['/user/login'], { replaceUrl: true }));
   }
 
   get username(): string {

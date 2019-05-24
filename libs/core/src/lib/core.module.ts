@@ -13,6 +13,7 @@ import { I18nService } from './i18n.service';
 import { MaterialModule } from '@dpio-application/shared/src/lib/material.module';
 import { LangSelectorComponent } from './lang-selector/lang-selector.component';
 import { ConfigurationService } from '@dpio-application/shared/src/lib/services/configuration.service';
+import { UserManagementService } from '@dpio-application/auth/src/lib/shared/user-management.service';
 
 export function createHttpService(
   backend: ConnectionBackend,
@@ -29,6 +30,7 @@ export function createHttpService(
   exports: [ShellComponent, LangSelectorComponent],
   providers: [
     AuthenticationService,
+    UserManagementService,
     AuthenticationGuard,
     I18nService,
     HttpCacheService,

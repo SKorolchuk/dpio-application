@@ -71,7 +71,7 @@ describe('Login', () => {
   it('should navigate to the register page when the register button is clicked', () => {
     page.registerButton.click();
 
-    expect(browser.getCurrentUrl()).toContain('/auth/register');
+    expect(browser.getCurrentUrl()).toContain('/user/register');
   });
 
   it('should allow a user to log in', () => {
