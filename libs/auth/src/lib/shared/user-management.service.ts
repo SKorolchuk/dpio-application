@@ -27,7 +27,7 @@ export class UserManagementService {
   }
 
   resetPassword(model: UserPasswordReset): Observable<any> {
-    return this.http.post<any>(Api.Register(this.configuration.authEndpoint), model).pipe(
+    return this.http.post<any>(Api.ResetPassword(this.configuration.authEndpoint), model).pipe(
       map(response => {
         console.log(response);
         return response;

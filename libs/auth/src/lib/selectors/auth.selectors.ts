@@ -34,11 +34,11 @@ export const selectResetPasswordPageState = createSelector(
 
 export const selectResetPasswordPageError = createSelector(
   selectResetPasswordPageState,
-  (state: fromAuth.RegisterPageState) => state.error
+  (state: fromAuth.ResetPasswordPageState) => state.error
 );
 export const selectResetPasswordPagePending = createSelector(
   selectResetPasswordPageState,
-  (state: fromAuth.RegisterPageState) => state.pending
+  (state: fromAuth.ResetPasswordPageState) => state.pending
 );
 
 export const selectRegisterPageError = createSelector(
