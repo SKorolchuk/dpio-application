@@ -75,7 +75,7 @@
         "rxjs-compat": "^6.5.2",
         "tslib": "^1.9.0",
         "web-animations-js": "^2.3.1",
-        "yargs": "^12.0.2",
+        "yargs": "^13.2.4",
         "@nrwl/nx": "7.1.1",
         "document-register-element": "^1.7.2",
         "@ngrx/store-devtools": "^7.0.0-beta.0",
