@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import 'zone.js/dist/zone-node';
 import { NgModule } from '@angular/core';
 import { ServerModule, ServerTransferStateModule } from '@angular/platform-server';

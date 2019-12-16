@@ -1,6 +1,8 @@
-FROM node:10-alpine as build
+FROM node:12-alpine as build
 
 COPY package.json package-lock.json ./
+
+RUN apk add g++ make python
 
 RUN npm ci && mkdir /app && mv ./node_modules ./app
 
@@ -10,7 +12,7 @@ COPY . .
 
 RUN npm run build:all
 
-FROM node:10-alpine as environment
+FROM node:12-alpine as environment
 
 COPY package.json package-lock.json ./
 

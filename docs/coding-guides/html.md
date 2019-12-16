@@ -26,15 +26,10 @@
   * The only tags that allows self-closing are the one that does not require a closing tag in first place:
     these are the void elements that do not not accept content `<br>`, `<hr>`, `<img>`, `<input>`, `<meta>`, `<link>`
     (and others).
-    
+
 ## Templates
 
 In accordance with the [Angular style guide](https://angular.io/styleguide), HTML templates should be extracted in
 separate files, when more than 3 lines.
 
 Only use inline templates sparingly in very simple components with less than 3 lines of HTML.
-
-## Enforcement
-
-Coding rules enforcement and basic sanity checks are done in this project by [HTMLHint](http://htmlhint.com).
- 
