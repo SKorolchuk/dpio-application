@@ -1,6 +1,6 @@
 # Deeproxio Angular Front-end Application
 
-This project was generated with [Angular CLI+Nrml+NgRx+Angular Material 2+ngx-rocket](https://github.com/angular/angular-cli) version 6.2.5.
+This project was generated with [Angular CLI+NgRx+NG Material 2](https://github.com/angular/angular-cli) version 6.2.5.
 
 ## Go to project folder and install dependencies:
 
@@ -10,7 +10,7 @@ npm install
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `npm run start:dev` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
