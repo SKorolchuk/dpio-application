@@ -6,46 +6,10 @@
  * To optimize your production builds, you should only import the components used in your app.
  */
 
-import { NgModule } from '@angular/core';
-import { CdkTableModule } from '@angular/cdk/table';
-import { OverlayModule } from '@angular/cdk/overlay';
+import { NgModule } from "@angular/core";
+import { CdkTableModule } from "@angular/cdk/table";
+import { OverlayModule } from "@angular/cdk/overlay";
 import {
-  MatAutocompleteModule,
-  MatButtonModule,
-  MatButtonToggleModule,
-  MatCardModule,
-  MatCheckboxModule,
-  MatChipsModule,
-  MatDatepickerModule,
-  MatDialogModule,
-  MatExpansionModule,
-  MatGridListModule,
-  MatIconModule,
-  MatInputModule,
-  MatListModule,
-  MatMenuModule,
-  MatNativeDateModule,
-  MatProgressBarModule,
-  MatProgressSpinnerModule,
-  MatRadioModule,
-  MatRippleModule,
-  MatSelectModule,
-  MatSidenavModule,
-  MatSliderModule,
-  MatSlideToggleModule,
-  MatSnackBarModule,
-  MatTabsModule,
-  MatToolbarModule,
-  MatTooltipModule
-} from '@angular/material';
-
-@NgModule({
-  exports: [
-    // CDK
-    CdkTableModule,
-    OverlayModule,
-
-    // Material
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
@@ -60,19 +24,55 @@ import {
     MatInputModule,
     MatListModule,
     MatMenuModule,
+    MatNativeDateModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatRadioModule,
     MatRippleModule,
     MatSelectModule,
     MatSidenavModule,
-    MatSlideToggleModule,
     MatSliderModule,
+    MatSlideToggleModule,
     MatSnackBarModule,
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatNativeDateModule
-  ]
+} from "@angular/material";
+
+@NgModule({
+    exports: [
+        // CDK
+        CdkTableModule,
+        OverlayModule,
+
+        // Material
+        MatAutocompleteModule,
+        MatButtonModule,
+        MatButtonToggleModule,
+        MatCardModule,
+        MatCheckboxModule,
+        MatChipsModule,
+        MatDatepickerModule,
+        MatDialogModule,
+        MatExpansionModule,
+        MatGridListModule,
+        MatIconModule,
+        MatInputModule,
+        MatListModule,
+        MatMenuModule,
+        MatProgressBarModule,
+        MatProgressSpinnerModule,
+        MatRadioModule,
+        MatRippleModule,
+        MatSelectModule,
+        MatSidenavModule,
+        MatSlideToggleModule,
+        MatSliderModule,
+        MatSnackBarModule,
+        MatTabsModule,
+        MatToolbarModule,
+        MatTooltipModule,
+        MatNativeDateModule,
+    ],
 })
 export class MaterialModule {}

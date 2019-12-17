@@ -1,25 +1,27 @@
-FROM node:12-alpine as build
+FROM node:12 as build
 
-COPY package.json package-lock.json ./
+WORKDIR /pkgs
 
-RUN apk add g++ make python
+COPY package.json package-lock.json /pkgs/
 
-RUN npm ci && mkdir /app && mv ./node_modules ./app
+RUN cd /pkgs && npm install
 
 WORKDIR /app
 
 COPY . .
 
-RUN npm run build:all
+RUN mv /pkgs/node_modules /app
 
-FROM node:12-alpine as environment
+RUN cd /app && npm run build
 
-COPY package.json package-lock.json ./
+FROM nginx:alpine
 
-RUN npm install --only=production && mkdir /app && mv ./node_modules ./app
+RUN rm -rf /usr/share/nginx/html/*
 
-COPY --from=build /app/dist /app/dist
+COPY nginx.conf /etc/nginx/nginx.conf
 
-WORKDIR /app
+COPY --from=build /app/dist/apps/dpio-application /usr/share/nginx/html
 
-ENTRYPOINT node ./dist/server.js
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

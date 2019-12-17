@@ -30,21 +30,26 @@
                             "apps/dpio-application/src/assets",
                             "apps/dpio-application/src/manifest.json"
                         ],
-                        "styles": [{
+                        "styles": [
+                            {
                                 "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
                             },
                             "apps/dpio-application/src/styles.scss"
                         ],
-                        "scripts": [{
-                            "input": "node_modules/document-register-element/build/document-register-element.js"
-                        }]
+                        "scripts": [
+                            {
+                                "input": "node_modules/document-register-element/build/document-register-element.js"
+                            }
+                        ]
                     },
                     "configurations": {
                         "production": {
-                            "fileReplacements": [{
-                                "replace": "apps/dpio-application/src/environments/environment.ts",
-                                "with": "apps/dpio-application/src/environments/environment.prod.ts"
-                            }],
+                            "fileReplacements": [
+                                {
+                                    "replace": "apps/dpio-application/src/environments/environment.ts",
+                                    "with": "apps/dpio-application/src/environments/environment.prod.ts"
+                                }
+                            ],
                             "optimization": true,
                             "outputHashing": "all",
                             "sourceMap": false,
@@ -68,22 +73,6 @@
                         }
                     }
                 },
-                "server": {
-                    "builder": "@angular-devkit/build-angular:server",
-                    "options": {
-                        "outputPath": "dist/server",
-                        "main": "apps/dpio-application/src/main.server.ts",
-                        "tsConfig": "apps\\dpio-application\\tsconfig.server.json"
-                    },
-                    "configurations": {
-                        "production": {
-                            "fileReplacements": [{
-                                "replace": "apps/dpio-application/src/environments/environment.ts",
-                                "with": "apps/dpio-application/src/environments/environment.prod.ts"
-                            }]
-                        }
-                    }
-                },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
@@ -97,7 +86,8 @@
                         "polyfills": "apps/dpio-application/src/polyfills.ts",
                         "tsConfig": "apps\\dpio-application\\tsconfig.spec.json",
                         "karmaConfig": "apps\\dpio-application\\karma.conf.js",
-                        "styles": [{
+                        "styles": [
+                            {
                                 "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
                             },
                             "apps/dpio-application/src/styles.scss"
@@ -116,9 +106,7 @@
                             "apps\\dpio-application\\tsconfig.app.json",
                             "apps\\dpio-application\\tsconfig.spec.json"
                         ],
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
+                        "exclude": ["**/node_modules/**"]
                     }
                 }
             }
@@ -143,9 +131,7 @@
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
                         "tsConfig": "apps\\dpio-application-e2e\\tsconfig.e2e.json",
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
+                        "exclude": ["**/node_modules/**"]
                     }
                 }
             }
@@ -171,9 +157,7 @@
                             "libs/shared/tsconfig.lib.json",
                             "libs/shared/tsconfig.spec.json"
                         ],
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
+                        "exclude": ["**/node_modules/**"]
                     }
                 }
             }
@@ -199,9 +183,7 @@
                             "libs/core/tsconfig.lib.json",
                             "libs/core/tsconfig.spec.json"
                         ],
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
+                        "exclude": ["**/node_modules/**"]
                     }
                 }
             }
@@ -227,9 +209,7 @@
                             "libs/auth/tsconfig.lib.json",
                             "libs/auth/tsconfig.spec.json"
                         ],
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
+                        "exclude": ["**/node_modules/**"]
                     }
                 }
             }
@@ -237,6 +217,6 @@
     },
     "defaultProject": "dpio-application",
     "cli": {
-        "defaultCollection": "@nrwl/schematics"
+        "defaultCollection": "@ngrx/schematics"
     }
 }

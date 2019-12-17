@@ -1,12 +1,8 @@
 {
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../../dist/out-tsc/apps/dpio-application",
-    "types": ["node"]
-  },
-  "exclude": [
-    "test.ts",
-    "**/*.spec.ts",
-    "**/*.mock.ts"
-  ]
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "outDir": "../../dist/out-tsc/apps/dpio-application",
+        "types": ["node"]
+    },
+    "exclude": ["test.ts", "**/*.spec.ts", "**/*.mock.ts"]
 }

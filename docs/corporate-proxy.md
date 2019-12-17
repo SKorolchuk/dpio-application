@@ -9,12 +9,13 @@ corporate proxy.
 
 In Windows environments, add the `HTTP_PROXY` and `HTTPS_PROXY` system environment variable, with these values:
 
-- HTTP_PROXY: `http://<username>:<password>@<proxy_server>:<proxy_port>`
-- HTTPS_PROXY: `%HTTP_PROXY%`
+-   HTTP_PROXY: `http://<username>:<password>@<proxy_server>:<proxy_port>`
+-   HTTPS_PROXY: `%HTTP_PROXY%`
 
 ### Unix
 
 Add these lines to your `~/.bash_profile` or `~/.profile`:
+
 ```sh
 export HTTP_PROXY="http://<username>:<password>@<proxy_server>:<proxy_port>"
 export HTTPS_PROXY="$HTTP_PROXY"
@@ -33,7 +34,7 @@ variable, in the same way as `HTTP_PROXY`:
 
 ### Windows
 
-- NO_PROXY: `127.0.0.1, localhost, <your_local_server_ip_or_hostname>`
+-   NO_PROXY: `127.0.0.1, localhost, <your_local_server_ip_or_hostname>`
 
 ### Unix
 
@@ -44,6 +45,7 @@ export NO_PROXY="127.0.0.1, localhost, <your_local_server_ip_or_hostname>"
 ### Npm
 
 Run this command in your project directory:
+
 ```sh
 npm set strict-ssl false
 ```

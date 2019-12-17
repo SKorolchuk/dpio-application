@@ -3,12 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  version: 'development',
-  appEndpoint: 'http://localhost:4200',
-  authEndpoint: 'http://localhost:5001',
-  defaultLanguage: 'en-US',
-  supportedLanguages: ['en-US', 'de-DE']
+    production: false,
+    version: "development",
+    appEndpoint: "http://localhost:4200",
+    authEndpoint: "http://localhost:5001",
+    defaultLanguage: "en-US",
+    supportedLanguages: ["en-US", "de-DE"],
 };
 
 /*

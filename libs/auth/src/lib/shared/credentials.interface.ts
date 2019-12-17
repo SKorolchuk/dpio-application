@@ -1,10 +1,10 @@
 export interface Credentials {
-  email: string;
-  password: string;
+    email: string;
+    password: string;
 }
 
 export interface ILogin {
-  email: string;
-  password: string;
-  remember: boolean;
+    email: string;
+    password: string;
+    remember: boolean;
 }

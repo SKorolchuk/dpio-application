@@ -1,14 +1,14 @@
-import { LoginPageReducer } from './authorize.reducer';
-import { initialLoginPageState } from './authorize.state';
+import { LoginPageReducer } from "./authorize.reducer";
+import { initialLoginPageState } from "./authorize.state";
 
-describe('Authorize Reducer', () => {
-  describe('an unknown action', () => {
-    it('should return the previous state', () => {
-      const action = {} as any;
+describe("Authorize Reducer", () => {
+    describe("an unknown action", () => {
+        it("should return the previous state", () => {
+            const action = {} as any;
 
-      const result = LoginPageReducer(initialLoginPageState, action);
+            const result = LoginPageReducer(initialLoginPageState, action);
 
-      expect(result).toBe(initialLoginPageState);
+            expect(result).toBe(initialLoginPageState);
+        });
     });
-  });
 });

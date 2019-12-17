@@ -12,23 +12,23 @@ These tests use [Protractor](https://github.com/angular/protractor), which is a 
 
 ## Good practices
 
-- Avoid whenever possible inter-dependencies between your E2E tests
-- Run E2E tests on your continuous integration server against different browsers
-- If you use an Agile methodology, cover each user story acceptance factors with an E2E test
+-   Avoid whenever possible inter-dependencies between your E2E tests
+-   Run E2E tests on your continuous integration server against different browsers
+-   If you use an Agile methodology, cover each user story acceptance factors with an E2E test
 
 ## Page objects
 
-E2E tests should follow the *[Page Object](https://github.com/SeleniumHQ/selenium/wiki/PageObjects)* pattern.
+E2E tests should follow the _[Page Object](https://github.com/SeleniumHQ/selenium/wiki/PageObjects)_ pattern.
 
 #### What is a page object?
 
 A page object:
 
-- Models the objects on a page under test:
-  * *Properties* wrap page elements
-  * *Methods* wrap code that interacts with the page elements
-- Simplifies the test scripts
-- Reduces the amount of duplicated code
+-   Models the objects on a page under test:
+    -   _Properties_ wrap page elements
+    -   _Methods_ wrap code that interacts with the page elements
+-   Simplifies the test scripts
+-   Reduces the amount of duplicated code
 
 If the UI changes, the fix only needs to be applied in one place.
 
@@ -36,21 +36,21 @@ If the UI changes, the fix only needs to be applied in one place.
 
 ```typescript
 // login.po.ts
-import { browser, element, by } from 'protractor';
+import { browser, element, by } from "protractor";
 
 export class LoginPage {
-  emailInput = element(by.css('input[name=^"email"]'));
-  passwordInput = element(by.css('input[name=^"password"]'));
-  loginButton = element(by.css('button[(click)^="login"]'));
-  registerButton = element(by.css('button[(click)^="register"]'));
+    emailInput = element(by.css('input[name=^"email"]'));
+    passwordInput = element(by.css('input[name=^"password"]'));
+    loginButton = element(by.css('button[(click)^="login"]'));
+    registerButton = element(by.css('button[(click)^="register"]'));
 
-  navigateTo() {
-    return browser.get('/');
-  }
+    navigateTo() {
+        return browser.get("/");
+    }
 
-  getGreetingText() {
-    return element(by.css('.greeting')).getText();
-  }
+    getGreetingText() {
+        return element(by.css(".greeting")).getText();
+    }
 }
 ```
 
@@ -58,29 +58,29 @@ export class LoginPage {
 
 ```typescript
 // login.e2e-spec.ts
-import { LoginPage } from './login.po';
+import { LoginPage } from "./login.po";
 
-describe('Login', () => {
-  let page: LoginPage ;
+describe("Login", () => {
+    let page: LoginPage;
 
-  beforeEach(() => {
-    page = new LoginPage();
-    page.navigateTo();
-  });
+    beforeEach(() => {
+        page = new LoginPage();
+        page.navigateTo();
+    });
 
-  it('should navigate to the register page when the register button is clicked', () => {
-    page.registerButton.click();
+    it("should navigate to the register page when the register button is clicked", () => {
+        page.registerButton.click();
 
-    expect(browser.getCurrentUrl()).toContain('/user/register');
-  });
+        expect(browser.getCurrentUrl()).toContain("/user/register");
+    });
 
-  it('should allow a user to log in', () => {
-    page.emailInput.sendKeys('test@mail.com');
-    page.passwordInput.sendKeys('abc123');
-    page.loginButton.click();
+    it("should allow a user to log in", () => {
+        page.emailInput.sendKeys("test@mail.com");
+        page.passwordInput.sendKeys("abc123");
+        page.loginButton.click();
 
-    expect(page.getGreetingText()).toContain('Welcome, Test User');
-  });
+        expect(page.getGreetingText()).toContain("Welcome, Test User");
+    });
 });
 ```
 

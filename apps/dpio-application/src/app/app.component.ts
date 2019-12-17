@@ -1,65 +1,72 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { Title } from '@angular/platform-browser';
-import { TranslateService } from '@ngx-translate/core';
-import { filter, map, mergeMap, merge } from 'rxjs/operators';
+import { Component, OnInit } from "@angular/core";
+import { Router, NavigationEnd, ActivatedRoute } from "@angular/router";
+import { Title } from "@angular/platform-browser";
+import { TranslateService } from "@ngx-translate/core";
+import { filter, map, mergeMap, merge } from "rxjs/operators";
 
-import { environment } from '../environments/environment';
-import { Logger } from '../../../../libs/core/src/lib/logger.service';
-import { I18nService } from '../../../../libs/core/src/lib/i18n.service';
-import { of } from 'rxjs';
+import { environment } from "../environments/environment";
+import { Logger } from "../../../../libs/core/src/lib/logger.service";
+import { I18nService } from "../../../../libs/core/src/lib/i18n.service";
+import { of } from "rxjs";
 
-const log = new Logger('App');
+const log = new Logger("App");
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: "app-root",
+    templateUrl: "./app.component.html",
+    styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit {
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private titleService: Title,
-    private translateService: TranslateService,
-    private i18nService: I18nService
-  ) {}
+    constructor(
+        private router: Router,
+        private activatedRoute: ActivatedRoute,
+        private titleService: Title,
+        private translateService: TranslateService,
+        private i18nService: I18nService
+    ) {}
 
-  ngOnInit() {
-    if (!localStorage) {
-      return;
-    }
-
-    // Setup logger
-    if (environment.production) {
-      Logger.enableProductionMode();
-    }
-
-    log.debug('init');
-
-    // Setup translations
-    this.i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
-
-    const onNavigationEnd = this.router.events.pipe(filter(event => event instanceof NavigationEnd));
-
-    // Change page title on navigation or language change, based on route data
-    of(merge(this.i18nService.onLangChange, onNavigationEnd))
-      .pipe(
-        map(() => {
-          let route = this.activatedRoute;
-          while (route.firstChild) {
-            route = route.firstChild;
-          }
-          return route;
-        }),
-        filter(route => route.outlet === 'primary'),
-        mergeMap(route => route.data)
-      )
-      .subscribe(event => {
-        const title = event['title'];
-        if (title) {
-          this.titleService.setTitle(this.translateService.instant(title));
+    ngOnInit() {
+        if (!localStorage) {
+            return;
         }
-      });
-  }
+
+        // Setup logger
+        if (environment.production) {
+            Logger.enableProductionMode();
+        }
+
+        log.debug("init");
+
+        // Setup translations
+        this.i18nService.init(
+            environment.defaultLanguage,
+            environment.supportedLanguages
+        );
+
+        const onNavigationEnd = this.router.events.pipe(
+            filter(event => event instanceof NavigationEnd)
+        );
+
+        // Change page title on navigation or language change, based on route data
+        of(merge(this.i18nService.onLangChange, onNavigationEnd))
+            .pipe(
+                map(() => {
+                    let route = this.activatedRoute;
+                    while (route.firstChild) {
+                        route = route.firstChild;
+                    }
+                    return route;
+                }),
+                filter(route => route.outlet === "primary"),
+                mergeMap(route => route.data)
+            )
+            .subscribe(event => {
+                const title = event["title"];
+                if (title) {
+                    this.titleService.setTitle(
+                        this.translateService.instant(title)
+                    );
+                }
+            });
+    }
 }
