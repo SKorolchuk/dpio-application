@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { Component, OnInit } from "@angular/core";
+import { MatDialogRef } from "@angular/material";
 
 @Component({
-  selector: 'dpio-application-log-out-prompt',
-  templateUrl: './log-out-prompt.component.html',
-  styleUrls: ['./log-out-prompt.component.scss']
+    selector: "dpio-application-log-out-prompt",
+    templateUrl: "./log-out-prompt.component.html",
+    styleUrls: ["./log-out-prompt.component.scss"],
 })
 export class LogOutPromptComponent implements OnInit {
-  constructor(private ref: MatDialogRef<LogOutPromptComponent>) {}
+    constructor(private ref: MatDialogRef<LogOutPromptComponent>) {}
 
-  ngOnInit(): void {}
+    ngOnInit(): void {}
 
-  cancel() {
-    this.ref.close(false);
-  }
+    cancel() {
+        this.ref.close(false);
+    }
 
-  confirm() {
-    this.ref.close(true);
-  }
+    confirm() {
+        this.ref.close(true);
+    }
 }

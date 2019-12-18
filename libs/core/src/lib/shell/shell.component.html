@@ -1,32 +1,53 @@
 <div fxFlex>
     <mat-sidenav-container fxFill>
-        <mat-sidenav #sidenav [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile" [disableClose]="!isMobile" ngClass.gt-sm="has-border">
+        <mat-sidenav
+            #sidenav
+            [mode]="isMobile ? 'over' : 'side'"
+            [opened]="!isMobile"
+            [disableClose]="!isMobile"
+            ngClass.gt-sm="has-border"
+        >
             <mat-toolbar color="primary">
                 <mat-toolbar-row>
                     <span translate>APP_NAME</span>
                     <div fxFlex></div>
                     <div>
-                        <button mat-icon-button [matMenuTriggerFor]="userMenu" translate>
-              <mat-icon>person</mat-icon>
-            </button>
+                        <button
+                            mat-icon-button
+                            [matMenuTriggerFor]="userMenu"
+                            translate
+                        >
+                            <mat-icon>person</mat-icon>
+                        </button>
                         <mat-menu #userMenu="matMenu">
                             <mat-list>
                                 <mat-list-item>
-                                    <span translate>Logged in as</span>&nbsp;<b>{{username}}</b>
+                                    <span translate>Logged in as</span>&nbsp;<b
+                                        >{{ username }}</b
+                                    >
                                 </mat-list-item>
                                 <mat-divider></mat-divider>
                             </mat-list>
-                            <button mat-menu-item (click)="logout()" translate>Logout</button>
+                            <button mat-menu-item (click)="logout()" translate>
+                                Logout
+                            </button>
                         </mat-menu>
                     </div>
                     <div>
-                        <button mat-icon-button [matMenuTriggerFor]="languageMenu">
-              <mat-icon>language</mat-icon>
-            </button>
+                        <button
+                            mat-icon-button
+                            [matMenuTriggerFor]="languageMenu"
+                        >
+                            <mat-icon>language</mat-icon>
+                        </button>
                         <mat-menu #languageMenu="matMenu">
-                            <button mat-menu-item *ngFor="let language of languages" (click)="setLanguage(language)">
-                {{language}}
-              </button>
+                            <button
+                                mat-menu-item
+                                *ngFor="let language of languages"
+                                (click)="setLanguage(language)"
+                            >
+                                {{ language }}
+                            </button>
                         </mat-menu>
                     </div>
                 </mat-toolbar-row>
@@ -34,11 +55,19 @@
             <nav>
                 <mat-list>
                     <mat-divider></mat-divider>
-                    <a mat-list-item routerLink="/home" routerLinkActive="active">
+                    <a
+                        mat-list-item
+                        routerLink="/home"
+                        routerLinkActive="active"
+                    >
                         <span translate>Home</span>
                     </a>
                     <mat-divider></mat-divider>
-                    <a mat-list-item routerLink="/about" routerLinkActive="active">
+                    <a
+                        mat-list-item
+                        routerLink="/about"
+                        routerLinkActive="active"
+                    >
                         <span translate>About</span>
                     </a>
                     <mat-divider></mat-divider>
@@ -48,10 +77,14 @@
         <mat-sidenav-content>
             <mat-toolbar color="primary" class="mat-elevation-z6">
                 <mat-toolbar-row class="stripped">
-                    <button class="menu-button" mat-icon-button (click)="sidenav.toggle()">
-            <mat-icon>menu</mat-icon>
-          </button>
-                    <span>{{title}}</span>
+                    <button
+                        class="menu-button"
+                        mat-icon-button
+                        (click)="sidenav.toggle()"
+                    >
+                        <mat-icon>menu</mat-icon>
+                    </button>
+                    <span>{{ title }}</span>
                 </mat-toolbar-row>
             </mat-toolbar>
             <router-outlet></router-outlet>

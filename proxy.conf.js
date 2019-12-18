@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const HttpsProxyAgent = require('https-proxy-agent');
+const HttpsProxyAgent = require("https-proxy-agent");
 
 /*
  * API proxy configuration.
@@ -8,14 +8,16 @@ const HttpsProxyAgent = require('https-proxy-agent');
  * This is especially useful during app development to avoid CORS issues while running a local server.
  * For more details and options, see https://github.com/angular/angular-cli#proxy-to-backend
  */
-const proxyConfig = [{
-    context: '/api',
-    pathRewrite: {
-        '^/api': ''
+const proxyConfig = [
+    {
+        context: "/api",
+        pathRewrite: {
+            "^/api": "",
+        },
+        target: "https://localhost:5001",
+        secure: false,
     },
-    target: 'https://localhost:5001',
-    secure: false
-}];
+];
 
 /*
  * Configures a corporate proxy agent for the API proxy if needed.
