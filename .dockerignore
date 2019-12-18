@@ -1,12 +1,4 @@
-node_modules
-dist
-.vscode
-e2e
-.git
-.gitignore
-.editorconfig
-karma.conf.js
-protractor.conf.js
-README.md
-tslint.json
-npm-debug
+# ignore all except dist build folder
+*
+!dist
+!nginx.conf

@@ -1,20 +1,10 @@
-FROM node:12 as build
-
-WORKDIR /app
-
-COPY . .
-
-RUN npm install && npm run build
-
-RUN ls -l && ls -l /app/dist/apps/dpio-application
-
-FROM nginx:latest
+FROM nginx:alpine
 
 RUN rm -rf /usr/share/nginx/html/*
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
-COPY --from=build /app/dist/apps/dpio-application/ /usr/share/nginx/html/
+COPY ./dist/apps/dpio-application/ /usr/share/nginx/html/
 
 EXPOSE 80
 
