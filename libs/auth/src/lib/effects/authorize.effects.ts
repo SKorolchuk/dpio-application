@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Actions, Effect, ofType } from "@ngrx/effects";
-import { of, empty } from "rxjs";
+import { of, EMPTY } from "rxjs";
 import * as fromAuth from "../actions/authorize.actions";
 import { MatDialog } from "@angular/material";
 import { tap, exhaustMap, map, catchError } from "rxjs/operators";
@@ -84,7 +84,7 @@ export class AuthorizeEffects {
                     })
                 );
             } else {
-                return empty();
+                return EMPTY;
             }
         })
     );

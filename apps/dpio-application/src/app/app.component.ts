@@ -2,12 +2,12 @@ import { Component, OnInit } from "@angular/core";
 import { Router, NavigationEnd, ActivatedRoute } from "@angular/router";
 import { Title } from "@angular/platform-browser";
 import { TranslateService } from "@ngx-translate/core";
-import { filter, map, mergeMap, merge } from "rxjs/operators";
+import { filter, map, mergeMap } from "rxjs/operators";
 
 import { environment } from "../environments/environment";
 import { Logger } from "../../../../libs/core/src/lib/logger.service";
 import { I18nService } from "../../../../libs/core/src/lib/i18n.service";
-import { of } from "rxjs";
+import { of, merge } from "rxjs";
 
 const log = new Logger("App");
 

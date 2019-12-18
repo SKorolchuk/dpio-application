@@ -1,26 +1,20 @@
 FROM node:12 as build
 
-WORKDIR /pkgs
-
-COPY package.json package-lock.json /pkgs/
-
-RUN cd /pkgs && npm install
-
 WORKDIR /app
 
 COPY . .
 
-RUN mv /pkgs/node_modules /app
+RUN npm install && npm run build
 
-RUN cd /app && npm run build
+RUN ls -l && ls -l /app/dist/apps/dpio-application
 
-FROM nginx:alpine
+FROM nginx:latest
 
 RUN rm -rf /usr/share/nginx/html/*
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
-COPY --from=build /app/dist/apps/dpio-application /usr/share/nginx/html
+COPY --from=build /app/dist/apps/dpio-application/ /usr/share/nginx/html/
 
 EXPOSE 80
 
