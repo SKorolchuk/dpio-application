@@ -38,8 +38,8 @@ module.exports = () => {
         port: 9876,
         colors: true,
         logLevel: constants.LOG_INFO,
-        autoWatch: true,
+        autoWatch: false,
         browsers: ["ChromeHeadless"],
-        singleRun: false,
+        singleRun: true,
     };
 };
