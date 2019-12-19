@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "dpio-application.fullname" . }}-test-connection"
+  labels:
+{{ include "dpio-application.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['{{ include "dpio-application.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
