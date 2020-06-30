@@ -29,49 +29,24 @@ export class RegisterComponent implements OnInit {
             {
                 email: [
                     "",
-                    Validators.compose([
-                        Validators.required,
-                        Validators.email,
-                        Validators.pattern(this.EMAIL_REGEX),
-                    ]),
+                    Validators.compose([Validators.required, Validators.email, Validators.pattern(this.EMAIL_REGEX)]),
                 ],
-                password: [
-                    "",
-                    Validators.compose([
-                        Validators.required,
-                        Validators.minLength(8),
-                    ]),
-                ],
-                confirmPassword: [
-                    "",
-                    Validators.compose([Validators.required]),
-                ],
+                password: ["", Validators.compose([Validators.required, Validators.minLength(8)])],
+                confirmPassword: ["", Validators.compose([Validators.required])],
                 firstName: [
                     "",
-                    Validators.compose([
-                        Validators.required,
-                        Validators.minLength(3),
-                        Validators.maxLength(15),
-                    ]),
+                    Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(15)]),
                 ],
                 lastName: [
                     "",
-                    Validators.compose([
-                        Validators.required,
-                        Validators.minLength(3),
-                        Validators.maxLength(15),
-                    ]),
+                    Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(15)]),
                 ],
                 location: [
                     "",
-                    Validators.compose([
-                        Validators.required,
-                        Validators.minLength(3),
-                        Validators.maxLength(15),
-                    ]),
+                    Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(15)]),
                 ],
             },
-            { validator: this.checkPasswords }
+            { validator: this.checkPasswords },
         );
     }
 
@@ -87,13 +62,7 @@ export class RegisterComponent implements OnInit {
     }
 
     checkPasswords(group: FormGroup) {
-        if (
-            !group ||
-            !group.controls ||
-            !group.controls.password ||
-            !group.controls.confirmPass
-        )
-            return null;
+        if (!group || !group.controls || !group.controls.password || !group.controls.confirmPass) return null;
         const pass = group.controls.password.value;
         const confirmPass = group.controls.confirmPassword.value;
 

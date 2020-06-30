@@ -14,12 +14,7 @@ describe("ShellComponent", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [
-                RouterTestingModule,
-                TranslateModule.forRoot(),
-                BrowserAnimationsModule,
-                CoreModule,
-            ],
+            imports: [RouterTestingModule, TranslateModule.forRoot(), BrowserAnimationsModule, CoreModule],
             providers: [
                 {
                     provide: AuthenticationService,

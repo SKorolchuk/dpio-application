@@ -1,7 +1,6 @@
 import { Title } from "@angular/platform-browser";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { MediaObserver } from "@angular/flex-layout";
 
 import { AuthenticationService } from "../../../../auth/src/lib/shared/authentication.service";
 import { I18nService } from "../i18n.service";
@@ -15,9 +14,8 @@ export class ShellComponent implements OnInit {
     constructor(
         private router: Router,
         private titleService: Title,
-        private media: MediaObserver,
         private authenticationService: AuthenticationService,
-        private i18nService: I18nService
+        private i18nService: I18nService,
     ) {}
 
     ngOnInit() {}
@@ -29,9 +27,7 @@ export class ShellComponent implements OnInit {
     logout() {
         this.authenticationService
             .logout()
-            .subscribe(() =>
-                this.router.navigate(["/user/login"], { replaceUrl: true })
-            );
+            .subscribe(() => this.router.navigate(["/user/login"], { replaceUrl: true }));
     }
 
     get username(): string {

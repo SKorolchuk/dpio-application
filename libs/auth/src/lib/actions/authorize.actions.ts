@@ -114,14 +114,6 @@ export type AuthActions =
     | LogoutCancelled
     | LogoutConfirmed;
 
-export type RegisterActions =
-    | Register
-    | RegisterComplete
-    | RegisterSuccess
-    | RegisterFailure;
+export type RegisterActions = Register | RegisterComplete | RegisterSuccess | RegisterFailure;
 
-export type ResetPasswordActions =
-    | ResetPassword
-    | ResetPasswordComplete
-    | ResetPasswordSuccess
-    | ResetPasswordFailure;
+export type ResetPasswordActions = ResetPassword | ResetPasswordComplete | ResetPasswordSuccess | ResetPasswordFailure;

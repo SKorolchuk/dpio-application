@@ -20,7 +20,7 @@ import { IUser } from "../models/auth.models";
 
 export function RegisterPageReducer(
     state: RegisterPageState = initialRegisterPageState,
-    action: RegisterActions
+    action: RegisterActions,
 ): RegisterPageState {
     switch (action.type) {
         case RegisterActionTypes.Register: {
@@ -52,7 +52,7 @@ export function RegisterPageReducer(
 
 export function ResetPasswordPageReducer(
     state: ResetPasswordPageState = initialResetPasswordPageState,
-    action: ResetPasswordActions
+    action: ResetPasswordActions,
 ): ResetPasswordPageState {
     switch (action.type) {
         case ResetPasswordActionTypes.ResetPassword: {
@@ -82,10 +82,7 @@ export function ResetPasswordPageReducer(
     }
 }
 
-export function LoginPageReducer(
-    state: LoginPageState = initialLoginPageState,
-    action: AuthActions
-): LoginPageState {
+export function LoginPageReducer(state: LoginPageState = initialLoginPageState, action: AuthActions): LoginPageState {
     switch (action.type) {
         case AuthActionTypes.LoginComplete: {
             return {
@@ -150,10 +147,7 @@ export function LoginPageReducer(
     }
 }
 
-export function UserStateReducer(
-    state: UserState = initialUserState,
-    action: AuthActions
-): UserState {
+export function UserStateReducer(state: UserState = initialUserState, action: AuthActions): UserState {
     switch (action.type) {
         case AuthActionTypes.LoginComplete: {
             return {

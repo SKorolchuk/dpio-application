@@ -13,12 +13,9 @@ describe("AuthenticationService", () => {
         });
     });
 
-    beforeEach(inject(
-        [AuthenticationService],
-        (_authenticationService: AuthenticationService) => {
-            authenticationService = _authenticationService;
-        }
-    ));
+    beforeEach(inject([AuthenticationService], (_authenticationService: AuthenticationService) => {
+        authenticationService = _authenticationService;
+    }));
 
     afterEach(() => {
         // Cleanup
@@ -37,7 +34,7 @@ describe("AuthenticationService", () => {
             tick();
 
             // Assert
-            request.subscribe(credentials => {
+            request.subscribe((credentials) => {
                 expect(credentials).toBeDefined();
                 expect(credentials.token).toBeDefined();
             });

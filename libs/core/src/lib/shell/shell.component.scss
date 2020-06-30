@@ -3,6 +3,30 @@ $stripe-color: mat-color($app-primary, 700, 700);
 :host {
     display: flex;
     flex: 1;
+    margin: 0;
+    width: 100%;
+    min-width: 100%;
+    height: 100%;
+    min-height: 100%;
+}
+
+.shell-container {
+    display: flex;
+    flex-direction: column;
+
+    margin: 0;
+    width: 100%;
+    min-width: 100%;
+    height: 100%;
+    min-height: 100%;
+
+    mat-sidenav-container {
+        margin: 0;
+        width: 100%;
+        min-width: 100%;
+        height: 100%;
+        min-height: 100%;
+    }
 }
 
 .mat-sidenav {
@@ -31,5 +55,5 @@ $stripe-color: mat-color($app-primary, 700, 700);
 
 mat-sidenav mat-toolbar-row {
     background-color: $stripe-color;
-    color: mat-color(map-get($app-theme, 'foreground'), 'text');
+    color: mat-color(map-get($app-theme, "foreground"), "text");
 }

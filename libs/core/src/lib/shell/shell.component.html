@@ -1,5 +1,5 @@
-<div fxFlex>
-    <mat-sidenav-container fxFill>
+<div class="shell-container">
+    <mat-sidenav-container>
         <mat-sidenav
             #sidenav
             [mode]="isMobile ? 'over' : 'side'"
@@ -8,23 +8,17 @@
             ngClass.gt-sm="has-border"
         >
             <mat-toolbar color="primary">
-                <mat-toolbar-row>
+                <mat-toolbar-row class="stripped">
                     <span translate>APP_NAME</span>
-                    <div fxFlex></div>
+                    <div></div>
                     <div>
-                        <button
-                            mat-icon-button
-                            [matMenuTriggerFor]="userMenu"
-                            translate
-                        >
+                        <button mat-icon-button [matMenuTriggerFor]="userMenu" translate>
                             <mat-icon>person</mat-icon>
                         </button>
                         <mat-menu #userMenu="matMenu">
                             <mat-list>
                                 <mat-list-item>
-                                    <span translate>Logged in as</span>&nbsp;<b
-                                        >{{ username }}</b
-                                    >
+                                    <span translate>Logged in as</span>&nbsp;<b>{{ username }}</b>
                                 </mat-list-item>
                                 <mat-divider></mat-divider>
                             </mat-list>
@@ -34,18 +28,11 @@
                         </mat-menu>
                     </div>
                     <div>
-                        <button
-                            mat-icon-button
-                            [matMenuTriggerFor]="languageMenu"
-                        >
+                        <button mat-icon-button [matMenuTriggerFor]="languageMenu">
                             <mat-icon>language</mat-icon>
                         </button>
                         <mat-menu #languageMenu="matMenu">
-                            <button
-                                mat-menu-item
-                                *ngFor="let language of languages"
-                                (click)="setLanguage(language)"
-                            >
+                            <button mat-menu-item *ngFor="let language of languages" (click)="setLanguage(language)">
                                 {{ language }}
                             </button>
                         </mat-menu>
@@ -55,19 +42,11 @@
             <nav>
                 <mat-list>
                     <mat-divider></mat-divider>
-                    <a
-                        mat-list-item
-                        routerLink="/home"
-                        routerLinkActive="active"
-                    >
+                    <a mat-list-item routerLink="/home" routerLinkActive="active">
                         <span translate>Home</span>
                     </a>
                     <mat-divider></mat-divider>
-                    <a
-                        mat-list-item
-                        routerLink="/about"
-                        routerLinkActive="active"
-                    >
+                    <a mat-list-item routerLink="/about" routerLinkActive="active">
                         <span translate>About</span>
                     </a>
                     <mat-divider></mat-divider>
@@ -77,11 +56,7 @@
         <mat-sidenav-content>
             <mat-toolbar color="primary" class="mat-elevation-z6">
                 <mat-toolbar-row class="stripped">
-                    <button
-                        class="menu-button"
-                        mat-icon-button
-                        (click)="sidenav.toggle()"
-                    >
+                    <button class="menu-button" mat-icon-button (click)="sidenav.toggle()">
                         <mat-icon>menu</mat-icon>
                     </button>
                     <span>{{ title }}</span>

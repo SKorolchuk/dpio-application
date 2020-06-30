@@ -10,13 +10,10 @@ describe("AuthorizeEffects", () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [
-                UserManagementEffects,
-                provideMockActions(() => actions$),
-            ],
+            providers: [UserManagementEffects, provideMockActions(() => actions$)],
         });
 
-        effects = TestBed.get(UserManagementEffects);
+        effects = TestBed.inject(UserManagementEffects);
     });
 
     it("should be created", () => {

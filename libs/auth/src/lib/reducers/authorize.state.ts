@@ -52,9 +52,4 @@ export const initialUserState: UserState = {
     user: null,
 };
 
-export type AuthPartState =
-    | State
-    | LoginPageState
-    | RegisterPageState
-    | ResetPasswordPageState
-    | any;
+export type AuthPartState = State | LoginPageState | RegisterPageState | ResetPasswordPageState | any;

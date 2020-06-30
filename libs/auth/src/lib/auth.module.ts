@@ -15,7 +15,6 @@ import { AuthRoutingModule } from "./auth-routing.module";
 import { ReactiveFormsModule } from "@angular/forms";
 import { TranslateModule } from "@ngx-translate/core";
 import { SharedModule } from "@dpio-application/shared/src";
-import { FlexLayoutModule } from "@angular/flex-layout";
 import { LoginPageComponent } from "./pages/login-page/login-page.component";
 import { CoreModule } from "@dpio-application/core/src";
 import { RegisterPageComponent } from "./pages/register-page/register-page.component";
@@ -27,7 +26,6 @@ import { UserManagementEffects } from "./effects/user-management.effects";
         CoreModule,
         CommonModule,
         MaterialModule,
-        FlexLayoutModule,
         SharedModule,
         TranslateModule.forChild(),
         AuthRoutingModule,
@@ -46,11 +44,6 @@ import { UserManagementEffects } from "./effects/user-management.effects";
         RegisterPageComponent,
         ResetPasswordPageComponent,
     ],
-    entryComponents: [LogOutPromptComponent],
-    exports: [
-        LoginPageComponent,
-        RegisterPageComponent,
-        ResetPasswordPageComponent,
-    ],
+    exports: [LoginPageComponent, RegisterPageComponent, ResetPasswordPageComponent],
 })
 export class AuthModule {}

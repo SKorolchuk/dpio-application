@@ -10,12 +10,9 @@ describe("UserManagementService", () => {
         });
     });
 
-    beforeEach(inject(
-        [UserManagementService],
-        (_service: UserManagementService) => {
-            service = _service;
-        }
-    ));
+    beforeEach(inject([UserManagementService], (_service: UserManagementService) => {
+        service = _service;
+    }));
 
     afterEach(() => {});
 });

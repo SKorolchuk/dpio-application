@@ -1,18 +1,7 @@
-<button
-    type="button"
-    color="primary"
-    mat-raised-button
-    class="mat-raised-button"
-    [matMenuTriggerFor]="menu"
->
+<button type="button" color="primary" mat-raised-button class="mat-raised-button" [matMenuTriggerFor]="menu">
     {{ current }}<span class="caret"></span>
 </button>
-<mat-menu
-    #menu="matMenu"
-    [overlapTrigger]="false"
-    yPosition="above"
-    xPosition="before"
->
+<mat-menu #menu="matMenu" [overlapTrigger]="false" yPosition="above" xPosition="before">
     <button
         type="button"
         class="mat-menu-item lang-selector-item"
@@ -21,9 +10,7 @@
         (click)="onLanguageSelected(language)"
     >
         <span class="language-title">{{ language }}</span>
-        <mat-icon class="material-icons" [hidden]="!isSelected(language)"
-            >done</mat-icon
-        >
+        <mat-icon class="material-icons" [hidden]="!isSelected(language)">done</mat-icon>
         <!-- done -->
     </button>
 </mat-menu>

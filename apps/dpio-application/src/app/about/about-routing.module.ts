@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-
 import { AboutComponent } from "./about.component";
 import { Route } from "@dpio-application/core/src/lib/route.service";
 import { extract } from "@dpio-application/core/src/lib/i18n.service";

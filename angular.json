@@ -24,7 +24,7 @@
                         "index": "apps/dpio-application/src/index.html",
                         "main": "apps/dpio-application/src/main.ts",
                         "polyfills": "apps/dpio-application/src/polyfills.ts",
-                        "tsConfig": "apps\\dpio-application\\tsconfig.app.json",
+                        "tsConfig": "apps/dpio-application/tsconfig.app.json",
                         "assets": [
                             "apps/dpio-application/src/favicon.ico",
                             "apps/dpio-application/src/assets",
@@ -36,11 +36,7 @@
                             },
                             "apps/dpio-application/src/styles.scss"
                         ],
-                        "scripts": [
-                            {
-                                "input": "node_modules/document-register-element/build/document-register-element.js"
-                            }
-                        ]
+                        "allowedCommonJsDependencies": ["lodash", "jwt-decode", "hammerjs"]
                     },
                     "configurations": {
                         "production": {
@@ -93,10 +89,7 @@
                             "apps/dpio-application/src/styles.scss"
                         ],
                         "scripts": [],
-                        "assets": [
-                            "apps/dpio-application/src/favicon.ico",
-                            "apps/dpio-application/src/assets"
-                        ]
+                        "assets": ["apps/dpio-application/src/favicon.ico", "apps/dpio-application/src/assets"]
                     }
                 },
                 "lint": {
@@ -153,10 +146,7 @@
                 "lint": {
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
-                        "tsConfig": [
-                            "libs/shared/tsconfig.lib.json",
-                            "libs/shared/tsconfig.spec.json"
-                        ],
+                        "tsConfig": ["libs/shared/tsconfig.lib.json", "libs/shared/tsconfig.spec.json"],
                         "exclude": ["**/node_modules/**"]
                     }
                 }
@@ -179,10 +169,7 @@
                 "lint": {
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
-                        "tsConfig": [
-                            "libs/core/tsconfig.lib.json",
-                            "libs/core/tsconfig.spec.json"
-                        ],
+                        "tsConfig": ["libs/core/tsconfig.lib.json", "libs/core/tsconfig.spec.json"],
                         "exclude": ["**/node_modules/**"]
                     }
                 }
@@ -205,10 +192,7 @@
                 "lint": {
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
-                        "tsConfig": [
-                            "libs/auth/tsconfig.lib.json",
-                            "libs/auth/tsconfig.spec.json"
-                        ],
+                        "tsConfig": ["libs/auth/tsconfig.lib.json", "libs/auth/tsconfig.spec.json"],
                         "exclude": ["**/node_modules/**"]
                     }
                 }
