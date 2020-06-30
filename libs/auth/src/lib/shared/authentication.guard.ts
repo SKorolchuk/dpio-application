@@ -18,19 +18,19 @@ export class AuthenticationGuard implements CanActivate {
         private authenticationService: AuthenticationService,
         private store: Store<fromStore.AuthModulePartState>,
         private router: Router,
-        private configuration: ConfigurationService
+        private configuration: ConfigurationService,
     ) {}
 
     canActivate() {
         return this.checkStoreAuthentication().pipe(
-            mergeMap(storeAuth => {
+            mergeMap((storeAuth) => {
                 if (storeAuth) {
                     return of(true);
                 }
 
                 return this.checkApiAuthentication();
             }),
-            map(storeOrApiAuth => {
+            map((storeOrApiAuth) => {
                 if (!storeOrApiAuth) {
                     log.debug("Not authenticated, redirecting...");
                     this.router.navigate(["/user/login"]);
@@ -38,14 +38,12 @@ export class AuthenticationGuard implements CanActivate {
                 }
 
                 return true;
-            })
+            }),
         );
     }
 
     checkStoreAuthentication() {
-        return this.store
-            .select(fromSelectors.selectUserStateLoggedIn)
-            .pipe(take(1));
+        return this.store.select(fromSelectors.selectUserStateLoggedIn).pipe(take(1));
     }
 
     checkApiAuthentication() {

@@ -10,9 +10,7 @@ export class LangSelectorComponent implements OnInit {
 
     @Input() public current: string = null;
 
-    @Output() public selected: EventEmitter<string> = new EventEmitter<
-        string
-    >();
+    @Output() public selected: EventEmitter<string> = new EventEmitter<string>();
 
     ngOnInit(): void {}
 

@@ -1,40 +1,20 @@
-<div
-    class="login-container mat-elevation-z10"
-    fxLayout="column"
-    fxLayoutAlign="center"
->
+<div class="login-container mat-elevation-z10">
     <mat-toolbar color="primary">
-        <mat-toolbar-row class="stripped">
+        <mat-toolbar-row class="header stripped">
             <mat-icon class="material-icons">account_circle</mat-icon>
             <!-- account_circle -->
             <span translate>Sign In</span>
         </mat-toolbar-row>
     </mat-toolbar>
-    <mat-card
-        fxLayoutAlign="center"
-        fxFlex="100%"
-        fxFlex.sm="70%"
-        fxFlex.md="70%"
-        fxFlex.gt-md="70%"
-        class="login-box"
-    >
-        <dpio-application-loader class="inline-loader" [isLoading]="pending">
-        </dpio-application-loader>
+    <mat-card class="login-box">
+        <dpio-application-loader class="inline-loader" [isLoading]="pending"> </dpio-application-loader>
         <mat-card-content>
             <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" novalidate>
-                <div fxLayout="column">
+                <div>
                     <mat-form-field>
-                        <input
-                            type="text"
-                            matInput
-                            formControlName="username"
-                            [placeholder]="'Username' | translate"
-                        />
+                        <input type="text" matInput formControlName="username" [placeholder]="'Username' | translate" />
                         <mat-error
-                            *ngIf="
-                                loginForm.controls['username'].invalid &&
-                                !loginForm.controls['username'].untouched
-                            "
+                            *ngIf="loginForm.controls['username'].invalid && !loginForm.controls['username'].untouched"
                         >
                             <span translate>Username is required</span>
                         </mat-error>
@@ -48,37 +28,19 @@
                             required
                         />
                         <mat-error
-                            *ngIf="
-                                loginForm.controls['password'].invalid &&
-                                !loginForm.controls['password'].untouched
-                            "
+                            *ngIf="loginForm.controls['password'].invalid && !loginForm.controls['password'].untouched"
                         >
                             <span translate>Password is required</span>
                         </mat-error>
                     </mat-form-field>
-                    <mat-error
-                        class="login-error"
-                        [hidden]="pending || !errorMessage"
-                        translate
-                    >
-                        <b>{{
-                            errorMessage &&
-                                ("Username or password incorrect." | translate)
-                        }}</b>
+                    <mat-error class="login-error" [hidden]="pending || !errorMessage" translate>
+                        <b>{{ errorMessage && ("Username or password incorrect." | translate) }}</b>
                     </mat-error>
-                    <mat-slide-toggle
-                        color="primary"
-                        formControlName="remember"
-                        translate
+                    <mat-slide-toggle color="primary" formControlName="remember" translate
                         >Remember me
                     </mat-slide-toggle>
                     <br />
-                    <button
-                        mat-raised-button
-                        color="primary"
-                        type="submit"
-                        [disabled]="loginForm.invalid || pending"
-                    >
+                    <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || pending">
                         <span translate>Login</span>
                     </button>
                 </div>

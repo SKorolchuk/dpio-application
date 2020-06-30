@@ -2,10 +2,10 @@ import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
-import { JwtHelperService } from "@auth0/angular-jwt";
 import { ILogin } from "./credentials.interface";
 import { ConfigurationService } from "@dpio-application/shared/src/lib/services/configuration.service";
 import { Api } from "apps/dpio-application/src/environments/api.model";
+import * as jwtDecode from "jwt-decode";
 
 export interface Credentials {
     // Customize received credentials here
@@ -15,7 +15,6 @@ export interface Credentials {
 }
 
 const credentialsKey = "credentials";
-const helper = new JwtHelperService();
 
 @Injectable({
     providedIn: "root",
@@ -29,14 +28,8 @@ export class AuthenticationService {
     private _id: string;
     private _encodedToken: any;
 
-    constructor(
-        private http: HttpClient,
-        private configuration: ConfigurationService
-    ) {
-        this._credentials = JSON.parse(
-            sessionStorage.getItem(credentialsKey) ||
-                localStorage.getItem(credentialsKey)
-        );
+    constructor(private http: HttpClient, private configuration: ConfigurationService) {
+        this._credentials = JSON.parse(sessionStorage.getItem(credentialsKey) || localStorage.getItem(credentialsKey));
     }
 
     /**
@@ -46,23 +39,14 @@ export class AuthenticationService {
         return this._credentials;
     }
 
-    register(
-        email: any,
-        password: any,
-        firstName: any,
-        lastName: any,
-        location: any
-    ): Observable<any> {
-        return this.http.post<any>(
-            Api.Register(this.configuration.authEndpoint),
-            {
-                email: email,
-                password: password,
-                firstName: firstName,
-                lastName: lastName,
-                location: location,
-            }
-        );
+    register(email: any, password: any, firstName: any, lastName: any, location: any): Observable<any> {
+        return this.http.post<any>(Api.Register(this.configuration.authEndpoint), {
+            email,
+            password,
+            firstName,
+            lastName,
+            location,
+        });
     }
 
     get authSuccessUrl(): string {
@@ -93,7 +77,7 @@ export class AuthenticationService {
                 password: this.credentials.password,
             })
             .pipe(
-                map(response => {
+                map((response) => {
                     console.log(response);
                     const data = {
                         ...this.credentials,
@@ -103,11 +87,9 @@ export class AuthenticationService {
                     this.setCredentials(data, true);
                     this._expiresAt = response.expires_in;
                     this._id = response.id;
-                    this._encodedToken = helper.decodeToken(
-                        response.auth_token
-                    );
+                    this._encodedToken = jwtDecode(response.auth_token);
                     return response;
-                })
+                }),
             );
     }
 
@@ -119,7 +101,7 @@ export class AuthenticationService {
                 password: context.password,
             })
             .pipe(
-                map(response => {
+                map((response) => {
                     console.log(response);
                     const data = {
                         username: context.email,
@@ -129,11 +111,9 @@ export class AuthenticationService {
                     this.setCredentials(data, context.remember);
                     this._expiresAt = response.expires_in;
                     this._id = response.id;
-                    this._encodedToken = helper.decodeToken(
-                        response.auth_token
-                    );
+                    this._encodedToken = jwtDecode(response.auth_token);
                     return response;
-                })
+                }),
             );
     }
 

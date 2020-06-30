@@ -18,7 +18,6 @@ module.exports = () => {
         ],
         client: {
             clearContext: false, // leave Jasmine Spec Runner output visible in browser
-            captureConsole: false,
         },
         junitReporter: {
             outputDir: "reports/junit/",
@@ -40,6 +39,8 @@ module.exports = () => {
         logLevel: constants.LOG_INFO,
         autoWatch: false,
         browsers: ["ChromeHeadless"],
+        browserDisconnectTolerance: 2,
+        browserNoActivityTimeout: 50000,
         singleRun: true,
     };
 };

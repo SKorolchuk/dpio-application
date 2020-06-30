@@ -13,8 +13,8 @@ export interface IAuthenticateErrorResponse {
     statusCode: number;
     message: string;
     login_failure: string;
-    Password: Array<string>;
-    UserName: Array<string>;
+    Password: string[];
+    UserName: string[];
 }
 
 export interface IRegisterErrorResponse {
@@ -32,10 +32,6 @@ export interface IRegisterSuccessResponse {
     message: string;
 }
 
-export type IRegisterResponse =
-    | IRegisterErrorResponse
-    | IRegisterSuccessResponse;
+export type IRegisterResponse = IRegisterErrorResponse | IRegisterSuccessResponse;
 
-export type IAuthenticateResponse =
-    | IAuthenticateErrorResponse
-    | IAuthenticateSuccessResponse;
+export type IAuthenticateResponse = IAuthenticateErrorResponse | IAuthenticateSuccessResponse;

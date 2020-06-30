@@ -4,5 +4,5 @@
         "outDir": "../../dist/out-tsc/apps/dpio-application",
         "types": ["node"]
     },
-    "exclude": ["test.ts", "**/*.spec.ts", "**/*.mock.ts"]
+    "exclude": ["**/test.ts", "**/*.prod.ts", "**/*.spec.ts", "**/*.mock.ts"]
 }

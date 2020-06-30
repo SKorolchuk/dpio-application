@@ -1,9 +1,46 @@
-@import '../../../../../apps/dpio-application/src/theme/theme-variables';
+@import "../../../../../apps/dpio-application/src/theme/theme-variables";
+
+:host {
+    width: 540px;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .header {
+        display: flex;
+        flex-direction: row;
+
+        & > * {
+            margin-right: 1rem;
+            display: flex;
+        }
+    }
+}
+
+.login-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+
+    & > form > div {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
 .login-container,
 .mat-form-field {
     min-width: 25vw;
     min-height: 5vh;
     width: 100%;
+}
+
+.login-container,
+.mat-form-field {
     .mat-slide-toggle {
         margin-top: 15px;
         margin-bottom: 15px;

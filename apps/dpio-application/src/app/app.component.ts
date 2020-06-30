@@ -3,7 +3,6 @@ import { Router, NavigationEnd, ActivatedRoute } from "@angular/router";
 import { Title } from "@angular/platform-browser";
 import { TranslateService } from "@ngx-translate/core";
 import { filter, map, mergeMap } from "rxjs/operators";
-
 import { environment } from "../environments/environment";
 import { Logger } from "../../../../libs/core/src/lib/logger.service";
 import { I18nService } from "../../../../libs/core/src/lib/i18n.service";
@@ -22,7 +21,7 @@ export class AppComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private titleService: Title,
         private translateService: TranslateService,
-        private i18nService: I18nService
+        private i18nService: I18nService,
     ) {}
 
     ngOnInit() {
@@ -38,14 +37,9 @@ export class AppComponent implements OnInit {
         log.debug("init");
 
         // Setup translations
-        this.i18nService.init(
-            environment.defaultLanguage,
-            environment.supportedLanguages
-        );
+        this.i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
 
-        const onNavigationEnd = this.router.events.pipe(
-            filter(event => event instanceof NavigationEnd)
-        );
+        const onNavigationEnd = this.router.events.pipe(filter((event) => event instanceof NavigationEnd));
 
         // Change page title on navigation or language change, based on route data
         of(merge(this.i18nService.onLangChange, onNavigationEnd))
@@ -57,15 +51,13 @@ export class AppComponent implements OnInit {
                     }
                     return route;
                 }),
-                filter(route => route.outlet === "primary"),
-                mergeMap(route => route.data)
+                filter((route) => route.outlet === "primary"),
+                mergeMap((route) => route.data),
             )
-            .subscribe(event => {
+            .subscribe((event) => {
                 const title = event["title"];
                 if (title) {
-                    this.titleService.setTitle(
-                        this.translateService.instant(title)
-                    );
+                    this.titleService.setTitle(this.translateService.instant(title));
                 }
             });
     }

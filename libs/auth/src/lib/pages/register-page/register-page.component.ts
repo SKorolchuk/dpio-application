@@ -6,10 +6,7 @@ import { SettingsService } from "@dpio-application/core/src/lib/settings.service
 import { AuthenticationService } from "../../shared/authentication.service";
 import * as fromActions from "../../actions/authorize.actions";
 import * as fromStore from "../../reducers";
-import {
-    selectRegisterPageError,
-    selectRegisterPagePending,
-} from "../../selectors/auth.selectors";
+import { selectRegisterPageError, selectRegisterPagePending } from "../../selectors/auth.selectors";
 import { UserRegistration } from "../../shared/user.management.interface";
 
 @Component({
@@ -27,7 +24,7 @@ export class RegisterPageComponent implements OnInit {
         private router: Router,
         private i18nService: I18nService,
         private authenticationService: AuthenticationService,
-        settingsService: SettingsService
+        settingsService: SettingsService,
     ) {
         this.version = settingsService.version;
     }

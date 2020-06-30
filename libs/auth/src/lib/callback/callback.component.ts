@@ -10,10 +10,7 @@ import { ConfigurationService } from "@dpio-application/shared/src/lib/services/
     styleUrls: ["./callback.component.scss"],
 })
 export class CallbackComponent implements OnInit {
-    constructor(
-        private store: Store<fromStore.AuthModulePartState>,
-        private configuration: ConfigurationService
-    ) {}
+    constructor(private store: Store<fromStore.AuthModulePartState>, private configuration: ConfigurationService) {}
 
     ngOnInit() {
         this.store.dispatch(new LoginComplete());

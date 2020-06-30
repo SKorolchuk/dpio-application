@@ -13,7 +13,6 @@ import { AppRoutingModule } from "./app-routing.module";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { CommonModule } from "@angular/common";
-import { NgxUploaderModule } from "ngx-uploader";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
 import { AuthModule } from "@dpio-application/auth/src";
@@ -39,7 +38,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
                 deps: [HttpClient],
             },
         }),
-        NgxUploaderModule,
         StoreModule.forRoot(reducers),
         StoreDevtoolsModule.instrument({
             name: "Auth0 Book Library",

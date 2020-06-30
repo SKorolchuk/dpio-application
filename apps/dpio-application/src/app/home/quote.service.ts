@@ -18,8 +18,8 @@ export class QuoteService {
 
     getRandomQuote(context: RandomQuoteContext): Observable<string> {
         return this.http.get<{ value: string }>(routes.quote(context)).pipe(
-            map(body => body.value),
-            catchError(() => of("Error, could not load joke :-("))
+            map((body) => body.value),
+            catchError(() => of("Error, could not load joke :-(")),
         );
     }
 }

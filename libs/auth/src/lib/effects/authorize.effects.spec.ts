@@ -14,7 +14,7 @@ describe("AuthorizeEffects", () => {
             providers: [AuthorizeEffects, provideMockActions(() => actions$)],
         });
 
-        effects = TestBed.get(AuthorizeEffects);
+        effects = TestBed.inject(AuthorizeEffects);
     });
 
     it("should be created", () => {

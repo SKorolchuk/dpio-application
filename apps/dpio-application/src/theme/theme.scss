@@ -23,7 +23,11 @@ body {
 
 $stripes-contrast: mat-color($app-primary, 700, 700);
 $stripes-high-contrast: mat-color($app-primary, 900, 900);
+
 mat-toolbar-row.stripped {
-    background: repeating-linear-gradient(-50deg, $stripes-contrast, $stripes-contrast 5px, $stripes-high-contrast 5px, $stripes-high-contrast 15px);
-    color: mat-color($app-primary, 100, 100);
+    color: mat-color($app-grey-pallete, 100, 100);
+
+    background: $stripes-contrast; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, $stripes-contrast, $stripes-high-contrast);
+    background: linear-gradient(to right, $stripes-contrast, $stripes-high-contrast);
 }

@@ -34,7 +34,7 @@ Here is an example on how to perform this on an [Express](http://expressjs.com) 
 
 ```js
 // Put this in your `server.js` file, after your other rules (APIs, static files...)
-app.get("/*", function(req, res) {
+app.get("/*", function (req, res) {
     res.sendFile(__dirname + "/index.html");
 });
 ```

@@ -25,10 +25,7 @@ export class I18nService {
     defaultLanguage: string;
     supportedLanguages: string[];
 
-    constructor(
-        private translateService: TranslateService,
-        private configuration: ConfigurationService
-    ) {
+    constructor(private translateService: TranslateService, private configuration: ConfigurationService) {
         // Embed languages to avoid extra HTTP requests
         translateService.setTranslation("en-US", enUS.default);
         translateService.setTranslation("de-DE", deDE.default);
@@ -49,14 +46,12 @@ export class I18nService {
         this.supportedLanguages = supportedLanguages;
         this.language = null;
 
-        this.translateService.onLangChange.subscribe(
-            (event: LangChangeEvent) => {
-                if (!localStorage) {
-                    return;
-                }
-                localStorage.setItem(languageKey, event.lang);
+        this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+            if (!localStorage) {
+                return;
             }
-        );
+            localStorage.setItem(languageKey, event.lang);
+        });
     }
 
     /**
@@ -69,18 +64,13 @@ export class I18nService {
         if (!localStorage) {
             return;
         }
-        language =
-            language ||
-            localStorage.getItem(languageKey) ||
-            this.translateService.getBrowserCultureLang();
+        language = language || localStorage.getItem(languageKey) || this.translateService.getBrowserCultureLang();
         let isSupportedLanguage = includes(this.supportedLanguages, language);
 
         // If no exact match is found, search without the region
         if (language && !isSupportedLanguage) {
             language = language.split("-")[0];
-            language = this.supportedLanguages.find(supportedLanguage =>
-                supportedLanguage.startsWith(language)
-            );
+            language = this.supportedLanguages.find((supportedLanguage) => supportedLanguage.startsWith(language));
             isSupportedLanguage = Boolean(language);
         }
 

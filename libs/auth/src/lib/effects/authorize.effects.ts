@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { of, EMPTY } from "rxjs";
 import * as fromAuth from "../actions/authorize.actions";
-import { MatDialog } from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 import { tap, exhaustMap, map, catchError } from "rxjs/operators";
 import { LogOutPromptComponent } from "../log-out-prompt/log-out-prompt.component";
 import { Logger } from "@dpio-application/core/src/lib/logger.service";
@@ -16,16 +16,16 @@ export class AuthorizeEffects {
     @Effect()
     login$ = this.actions$.pipe(
         ofType<fromAuth.Login>(fromAuth.AuthActionTypes.Login),
-        exhaustMap(loginAction => {
+        exhaustMap((loginAction) => {
             return this.authService.login(loginAction.payload).pipe(
                 map((authResult: any) => {
                     if (authResult && authResult.auth_token) {
                         return new fromAuth.LoginSuccess();
                     }
                 }),
-                catchError(error => of(new fromAuth.LoginFailure(error)))
+                catchError((error) => of(new fromAuth.LoginFailure(error))),
             );
-        })
+        }),
     );
 
     @Effect()
@@ -38,9 +38,9 @@ export class AuthorizeEffects {
                         return new fromAuth.LoginSuccess();
                     }
                 }),
-                catchError(error => of(new fromAuth.LoginFailure(error)))
+                catchError((error) => of(new fromAuth.LoginFailure(error))),
             );
-        })
+        }),
     );
 
     @Effect({ dispatch: false })
@@ -49,13 +49,13 @@ export class AuthorizeEffects {
         tap(() => {
             log.debug(`successfully logged in`);
             this.router.navigate([this.authService.authSuccessUrl]);
-        })
+        }),
     );
 
     @Effect({ dispatch: false })
     loginErrorRedirect$ = this.actions$.pipe(
         ofType<fromAuth.LoginFailure>(fromAuth.AuthActionTypes.LoginFailure),
-        map(action => action.payload),
+        map((action) => action.payload),
         tap((err: any) => {
             if (err.error_description) {
                 log.error(`Error: ${err.error_description}`);
@@ -63,7 +63,7 @@ export class AuthorizeEffects {
                 log.error(`Error: ${JSON.stringify(err)}`);
             }
             this.router.navigate([this.authService.authFailureUrl]);
-        })
+        }),
     );
 
     @Effect()
@@ -77,16 +77,16 @@ export class AuthorizeEffects {
                             return new fromAuth.LoginSuccess();
                         }
                     }),
-                    catchError(error => {
+                    catchError((error) => {
                         this.authService.logout();
                         this.router.navigate([this.authService.authFailureUrl]);
                         return of(new fromAuth.LoginFailure({ error }));
-                    })
+                    }),
                 );
             } else {
                 return EMPTY;
             }
-        })
+        }),
     );
 
     @Effect()
@@ -97,29 +97,27 @@ export class AuthorizeEffects {
                 .open(LogOutPromptComponent)
                 .afterClosed()
                 .pipe(
-                    map(confirmed => {
+                    map((confirmed) => {
                         if (confirmed) {
                             return new fromAuth.LogoutConfirmed();
                         } else {
                             return new fromAuth.LogoutCancelled();
                         }
-                    })
-                )
-        )
+                    }),
+                ),
+        ),
     );
 
     @Effect({ dispatch: false })
     logout$ = this.actions$.pipe(
-        ofType<fromAuth.LogoutConfirmed>(
-            fromAuth.AuthActionTypes.LogoutConfirmed
-        ),
-        tap(() => this.authService.logout())
+        ofType<fromAuth.LogoutConfirmed>(fromAuth.AuthActionTypes.LogoutConfirmed),
+        tap(() => this.authService.logout()),
     );
 
     constructor(
         private actions$: Actions,
         private authService: AuthenticationService,
         private router: Router,
-        private dialogService: MatDialog
+        private dialogService: MatDialog,
     ) {}
 }

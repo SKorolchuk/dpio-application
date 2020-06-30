@@ -6,10 +6,7 @@ import { I18nService } from "@dpio-application/core/src/lib/i18n.service";
 import { AuthenticationService } from "@dpio-application/auth/src/lib/shared/authentication.service";
 import { SettingsService } from "@dpio-application/core/src/lib/settings.service";
 import { Store, select } from "@ngrx/store";
-import {
-    selectLoginPagePending,
-    selectLoginPageError,
-} from "../../selectors/auth.selectors";
+import { selectLoginPagePending, selectLoginPageError } from "../../selectors/auth.selectors";
 import { ILogin } from "../../shared/credentials.interface";
 
 import * as fromActions from "../../actions/authorize.actions";
@@ -31,7 +28,7 @@ export class LoginPageComponent implements OnInit {
         private router: Router,
         private i18nService: I18nService,
         private authenticationService: AuthenticationService,
-        settingsService: SettingsService
+        settingsService: SettingsService,
     ) {
         this.version = settingsService.version;
     }
