@@ -1,4 +1,3 @@
-{{- if .Values.serviceAccount.create -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -7,4 +6,3 @@ metadata:
         {{- include "dpio-application.labels" . | nindent 8 }}
 data:
     misc.json: {{ .Values.miscConfig | quote }}
-{{- end }}
