@@ -52,12 +52,9 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
-Create the name of the service account to use
+Create service account name.
 */}}
 {{- define "dpio-application.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create -}}
-    {{ default (include "dpio-application.fullname" .) .Values.serviceAccount.name }}
-{{- else -}}
-    {{ default "default" .Values.serviceAccount.name }}
-{{- end -}}
+{{- $fullName := include "dpio-application.fullname" . -}}
+{{- printf "%s-%s" .Release.Namespace $fullName | trunc 63 | trimSuffix "-" -}}
 {{- end -}}

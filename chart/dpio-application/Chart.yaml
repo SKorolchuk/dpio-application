@@ -1,6 +1,9 @@
 apiVersion: v2
 name: dpio-application
-description: A Helm chart for Kubernetes
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+version: 0.1.2
+description: A Helm chart for Deeproxio Platform Web Application
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -15,18 +18,15 @@ keywords:
 - dpio
 - deeproxio
 - angular
-- aspnetcore
-home: https://github.com/SKorolchuk
+- SPA
+home: https://github.com/SKorolchuk/dpio-application
 sources:
-- https://github.com/SKorolchuk
+- https://github.com/SKorolchuk/dpio-application
 maintainers:
 - name: SKorolchuk
   email: sergey.korolchuk.dev@gmail.com
 engine: gotpl
 icon: https://avatars3.githubusercontent.com/u/43457003
-# This is the chart version. This version number should be incremented each time you make changes
-# to the chart and its templates, including the app version.
-version: 0.1.0
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
-appVersion: 1.16.0
+appVersion: 1.18.0

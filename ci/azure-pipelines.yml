@@ -1,0 +1,228 @@
+name: Deeproxio.Application-$(Date:yyyyMMdd)$(Rev:.r)
+
+trigger:
+  - "*"
+
+pool:
+  name: Development
+  demands: npm
+
+variables:
+- group: Local-Harbor-Registry
+- name: ciImageTag
+  value: 'ci-$(Build.BuildId)'
+- name: helmRepositoryName
+  value: 'dpio-application-chart'
+
+stages:
+  - stage: 'Build'
+    displayName: 'Build Application & Docker Images'
+    jobs:
+    - job: 'Build'
+      displayName: 'Build Deeproxio.Application'
+      pool: Development
+      variables: {}
+      steps:
+
+      - task: Npm@1
+        displayName: 'npm install'
+        inputs:
+          verbose: false
+
+      - task: Npm@1
+        displayName: 'npm lint'
+        inputs:
+          command: custom
+          verbose: true
+          customCommand: 'run lint'
+
+      - task: Npm@1
+        displayName: 'npm build'
+        inputs:
+          command: custom
+          verbose: true
+          customCommand: 'run build'
+
+      - task: PublishBuildArtifacts@1
+        displayName: Deeproxio.App
+        inputs:
+          PathtoPublish: dist
+          ArtifactName: Deeproxio.App
+
+      - script: >-
+          docker build -f ./Dockerfile
+          -t $(harbor_endpoint)/dpio-application:latest
+          -t $(harbor_endpoint)/dpio-application:$(ciImageTag) .
+        displayName: 'docker image build'
+
+      - script: >-
+          docker login
+          -u $(harbor_username)
+          -p $(harbor_password)
+          $(harbor_endpoint)
+        displayName: 'docker login (Local Harbor Registry)'
+
+      - script: >-
+          docker push $(harbor_endpoint)/dpio-application:latest &&
+          docker push $(harbor_endpoint)/dpio-application:$(ciImageTag)
+        displayName: 'docker image push'
+
+      - script: >-
+          helm lint ./chart/dpio-application
+          --debug
+          --logtostderr
+        displayName: 'Helm Chart static analysis'
+
+      - script: >-
+          helm package ./chart/dpio-application
+          --logtostderr
+          --dependency-update
+          --app-version $(ciImageTag)
+          --destination $(Build.ArtifactStagingDirectory)
+        displayName: 'Helm Chart package build'
+
+      - script: >-
+          helm registry login
+          -u $(harbor_username)
+          -p $(harbor_password)
+          $(harbor_endpoint)
+        displayName: 'helm login (Local Harbor Registry)'
+
+      - script: >-
+          helm chart save
+          ./chart/dpio-application
+          $(harbor_endpoint)/$(helmRepositoryName):$(ciImageTag)
+        displayName: 'Save Helm Chart to Local Harbor Registry'
+
+      - script: >-
+          helm chart push
+          $(harbor_endpoint)/$(helmRepositoryName):$(ciImageTag)
+        displayName: 'Push Helm Chart to Local Harbor Registry'
+
+      - publish: '$(Build.ArtifactStagingDirectory)'
+        displayName: 'Upload Helm Build Artifacts'
+        artifact: dpio-application.helm-chart
+
+  - stage: 'Local'
+    displayName: 'Deploy to dpio-local environment'
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
+    - deployment: Deploy
+      pool: Development
+      environment: dpio-local
+      variables:
+      - group: dpio-local-settings
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+
+            - script: >-
+                helm registry login
+                -u $(harbor_username)
+                -p $(harbor_password)
+                $(harbor_endpoint)
+              displayName: 'helm login (Local Harbor Registry)'
+
+            - script: >-
+                helm chart pull
+                $(harbor_endpoint)/$(helmRepositoryName):$(ciImageTag)
+              displayName: 'Pull Helm Chart from Local Harbor Registry'
+
+            - script: >-
+                helm chart export
+                $(harbor_endpoint)/$(helmRepositoryName):$(ciImageTag)
+              displayName: 'Unpack Helm Chart'
+
+            - script: 'helm dependency update && helm dependency build && helm package .'
+              workingDirectory: dpio-application
+              displayName: 'Download dependencies and create Helm deployment package'
+
+            - script: >-
+                kubectl create secret docker-registry $(imagePullSecretName)
+                --docker-server=$(harbor_endpoint)
+                --docker-username=$(harbor_username)
+                --docker-password=$(harbor_password)
+                --dry-run -o yaml | kubectl apply -f -
+              displayName: "Create/Update Docker Registry Pull Secret for Kubernetes Cluster"
+
+            - script: >-
+                helm upgrade web-application ./
+                --install --wait
+                --create-namespace --cleanup-on-fail
+                --namespace=$(namespace)
+                --set image.repository=$(harbor_endpoint)/dpio-application
+                --set image.tag=$(ciImageTag)
+                --set image.pullPolicy=IfNotPresent
+                --set imagePullSecrets[0].name=$(imagePullSecretName)
+                --set ingress.hosts[0].host=$(host)
+                --set ingress.hosts[0].paths[0].path=/
+              workingDirectory: dpio-application
+              displayName: "Install/Upgrade Helm Chart release in $(namespace) K8s namespace"
+
+  - stage: 'Staging'
+    displayName: 'Deploy to dpio-staging environment'
+    dependsOn: Local
+    condition: |
+      and
+      (
+        succeeded(),
+        or
+        (
+          eq(variables['Build.SourceBranchName'], 'develop'),
+          eq(variables['Build.SourceBranchName'], 'master')
+        )
+      )
+    jobs:
+    - deployment: Deploy
+      pool: Development
+      environment: dpio-staging
+      variables: {}
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+
+            - script: >-
+                helm registry login
+                -u $(harbor_username)
+                -p $(harbor_password)
+                $(harbor_endpoint)
+              displayName: 'helm login (Local Harbor Registry)'
+
+            - script: >-
+                helm chart pull
+                $(harbor_endpoint)/$(helmRepositoryName):$(ciImageTag)
+              displayName: 'Pull Helm Chart from Local Harbor Registry'
+
+            - script: >-
+                helm chart export
+                $(harbor_endpoint)/$(helmRepositoryName):$(ciImageTag)
+              displayName: 'Unpack Helm Chart'
+
+            - script: 'helm dependency update && helm dependency build && helm package .'
+              workingDirectory: dpio-application
+              displayName: 'Download dependencies and create Helm deployment package'
+
+            - script: >-
+                kubectl create secret docker-registry $(imagePullSecretName)
+                --docker-server=$(harbor_endpoint)
+                --docker-username=$(harbor_username)
+                --docker-password=$(harbor_password)
+                --dry-run -o yaml | kubectl apply -f -
+              displayName: "Create/Update Docker Registry Pull Secret for Kubernetes Cluster"
+
+            - script: >-
+                helm upgrade web-application ./
+                --install --wait
+                --create-namespace --cleanup-on-fail
+                --namespace=$(namespace)
+                --set image.repository=$(harbor_endpoint)/dpio-application
+                --set image.tag=$(ciImageTag)
+                --set image.pullPolicy=IfNotPresent
+                --set imagePullSecrets[0].name=$(imagePullSecretName)
+                --set ingress.hosts[0].host=$(host)
+                --set ingress.hosts[0].paths[0].path=/
+              workingDirectory: dpio-application
+              displayName: "Install/Upgrade Helm Chart release in $(namespace) K8s namespace"
