@@ -178,7 +178,8 @@ stages:
     - deployment: Deploy
       pool: Development
       environment: dpio-staging
-      variables: {}
+      variables:
+      - group: dpio-staging-settings
       strategy:
         runOnce:
           deploy:
