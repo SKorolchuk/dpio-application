@@ -1,0 +1,85 @@
+parameters:
+- name: harbor_username
+  type: string
+  default: false
+- name: harbor_password
+  type: string
+  default: false
+- name: harbor_endpoint
+  type: string
+  default: false
+- name: helmRepositoryName
+  type: string
+  default: false
+- name: ciImageTag
+  type: string
+  default: false
+- name: serviceImageName
+  type: string
+  default: false
+- name: imagePullSecretName
+  type: string
+  default: false
+- name: releaseName
+  type: string
+  default: false
+- name: namespace
+  type: string
+  default: false
+- name: host
+  type: string
+  default: false
+- name: applicationPath
+  type: string
+  default: false
+
+steps:
+
+- script: >-
+    helm registry login
+    -u ${{ parameters.harbor_username }}
+    -p ${{ parameters.harbor_password }}
+    ${{ parameters.harbor_endpoint }}
+  displayName: 'helm login (Local Harbor Registry)'
+
+- script: >-
+    helm chart pull
+    ${{ parameters.harbor_endpoint }}/${{ parameters.helmRepositoryName }}:${{ parameters.ciImageTag }}
+  displayName: 'Pull Helm Chart from Local Harbor Registry'
+
+- script: >-
+    helm chart export
+    ${{ parameters.harbor_endpoint }}/${{ parameters.helmRepositoryName }}:${{ parameters.ciImageTag }}
+  displayName: 'Unpack Helm Chart'
+
+- script: >-
+    helm dependency update &&
+    helm dependency build &&
+    helm package .
+    --logtostderr
+    --dependency-update
+    --app-version ${{ parameters.ciImageTag }}'
+  workingDirectory: ${{ parameters.serviceImageName }}
+  displayName: 'Download dependencies and create Helm deployment package'
+
+- script: >-
+    kubectl create secret docker-registry ${{ parameters.imagePullSecretName }}
+    --docker-server=${{ parameters.harbor_endpoint }}
+    --docker-username=${{ parameters.harbor_username }}
+    --docker-password=${{ parameters.harbor_password }}
+    --dry-run -o yaml | kubectl apply -f -
+  displayName: "Create/Update Docker Registry Pull Secret for Kubernetes Cluster"
+
+- script: >-
+    helm upgrade ${{ parameters.releaseName }} ./
+    --install --wait
+    --create-namespace --cleanup-on-fail
+    --namespace=${{ parameters.namespace }}
+    --set image.repository=${{ parameters.harbor_endpoint }}/${{ parameters.serviceImageName }}
+    --set image.tag=${{ parameters.ciImageTag }}
+    --set image.pullPolicy=IfNotPresent
+    --set imagePullSecrets[0].name=${{ parameters.imagePullSecretName }}
+    --set ingress.hosts[0].host=${{ parameters.host }}
+    --set ingress.hosts[0].paths[0].path=${{ parameters.applicationPath }}
+  workingDirectory: ${{ parameters.serviceImageName }}
+  displayName: "Install/Upgrade Helm Chart release in ${{ parameters.namespace }} K8s namespace"
