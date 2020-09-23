@@ -1,14 +1,14 @@
 {
-    "extends": "../../tsconfig.json",
+    "extends": "./tsconfig.json",
     "compilerOptions": {
-        "outDir": "../../dist/out-tsc/libs/auth",
+        "outDir": "./dist/out-tsc",
         "types": [
             "jest", // 1
             "node"
         ],
         "esModuleInterop": true, // 2
-        "emitDecoratorMetadata": true // 3
+        "emitDecoratorMetadata": true // 3,
     },
-    "files": ["src/test.ts", "src/polyfills.ts"],
+    "files": ["src/jest/test.ts", "src/jest/polyfills.ts"],
     "include": ["**/*.spec.ts", "**/*.mock.ts", "**/*.d.ts"]
 }

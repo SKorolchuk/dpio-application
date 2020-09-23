@@ -10,14 +10,13 @@
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
+        "allowJs": true,
         "target": "es2015",
         "typeRoots": ["node", "node_modules/@types"],
         "lib": ["es2018", "dom"],
         "paths": {
-            "@dpio-application/*": ["libs/*"],
-            "@dpio-application/shared": ["libs/shared/src/index.ts"],
-            "@dpio-application/core": ["libs/core/src/index.ts"],
-            "@dpio-application/auth": ["libs/auth/src/index.ts"]
+            "@env/*": ["apps/dpio-application/src/environments/*"],
+            "@dpio-application/*": ["libs/*"]
         }
     },
     "angularCompilerOptions": {

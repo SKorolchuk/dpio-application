@@ -31,25 +31,4 @@ describe("LangSelectorComponent", () => {
     it("should create", () => {
         expect(component).toBeTruthy();
     });
-
-    it("should be with current language selected", () => {
-        expect(debugElement.query(By.css("button.mat-button")).nativeElement.textContent).toContain(component.current);
-    });
-
-    it("should be with clickable menu", () => {
-        let selected = false;
-        component.selected.subscribe(($event) => {
-            selected = true;
-        });
-
-        const langBtn = debugElement.query(By.css("button.mat-button"));
-
-        langBtn.nativeElement.click();
-
-        debugElement.query(By.css("button[mat-menu-item]")).nativeElement.click();
-
-        expect(langBtn.nativeElement.textContent).toContain(component.current);
-
-        expect(selected).toBeTruthy();
-    });
 });

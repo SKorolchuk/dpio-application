@@ -1,7 +1,7 @@
 import { ActionReducerMap, createFeatureSelector, createSelector, MetaReducer } from "@ngrx/store";
 import * as fromAuth from "./authorize.state";
 import * as fromReducers from "./authorize.reducer";
-import { environment } from "apps/dpio-application/src/environments/environment";
+import { environment } from "@env/environment";
 
 export interface AuthModulePartState {
     authorize: fromAuth.State;

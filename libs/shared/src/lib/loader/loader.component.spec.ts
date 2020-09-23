@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { MaterialModule } from "../material.module";
 import { LoaderComponent } from "./loader.component";
+import { By } from "@angular/platform-browser";
 
 describe("LoaderComponent", () => {
     let component: LoaderComponent;
@@ -21,47 +22,26 @@ describe("LoaderComponent", () => {
         fixture.detectChanges();
     });
 
-    it("should not be visible by default", () => {
-        // Arrange
-        const element = fixture.nativeElement;
-        const div = element.querySelectorAll("div")[0];
-
-        // Assert
-        expect(div.getAttribute("hidden")).not.toBeNull();
+    it("should not be display message by default", () => {
+        expect(fixture.debugElement.query(By.css("div"))).toBeNull();
     });
 
     it("should be visible when app is loading", () => {
-        // Arrange
-        const element = fixture.nativeElement;
-        const div = element.querySelectorAll("div")[0];
-
-        // Act
         fixture.componentInstance.isLoading = true;
         fixture.detectChanges();
 
-        // Assert
-        expect(div.getAttribute("hidden")).toBeNull();
-    });
-
-    it("should not display a message by default", () => {
-        // Arrange
-        const element = fixture.nativeElement;
-        const span = element.querySelectorAll("span")[0];
-
-        // Assert
-        expect(span.innerText).toBe("");
+        expect(fixture.debugElement.query(By.css("div"))).not.toBeNull();
     });
 
     it("should display specified message", () => {
-        // Arrange
-        const element = fixture.nativeElement;
-        const span = element.querySelectorAll("span")[0];
+        const expectedMessage = "testing";
 
-        // Act
-        fixture.componentInstance.message = "testing";
+        fixture.componentInstance.message = expectedMessage;
+        fixture.componentInstance.isLoading = true;
         fixture.detectChanges();
 
-        // Assert
-        expect(span.innerText).toBe("testing");
+        const span = fixture.debugElement.query(By.css("span.message")).nativeElement;
+
+        expect(span.innerHTML).toBe(expectedMessage);
     });
 });

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { ConfigurationService } from "@dpio-application/shared/src/lib/services/configuration.service";
-import { Api } from "apps/dpio-application/src/environments/api.model";
+import { Api } from "@dpio-application/auth/src/lib/shared/api.model";
 import { UserRegistration, UserPasswordReset } from "./user.management.interface";
 import { map } from "rxjs/operators";
 

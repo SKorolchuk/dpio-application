@@ -44,6 +44,27 @@ stages:
         inputs:
           command: custom
           verbose: true
+          customCommand: 'run test:ci'
+        displayName: 'npm test'
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
+          testResultsFiles: 'junit.xml'
+          searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
+          failTaskOnFailedTests: true # Optional
+          testRunTitle: dpio-application-$(ciImageTag)# Optional
+
+      - task: PublishCodeCoverageResults@1
+        displayName: 'Publish code coverage'
+        inputs:
+          codeCoverageTool: Cobertura
+          summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/my-app/cobertura-coverage.xml'
+
+      - task: Npm@1
+        inputs:
+          command: custom
+          verbose: true
           customCommand: 'run build'
         displayName: 'npm build'
 

@@ -43,7 +43,8 @@ describe("LoginComponent", () => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {
             fixture.detectChanges();
-            expect(fixture.debugElement.query(By.css("h1")).nativeElement.innerText).toContain("APP_NAME");
+            const loginText = fixture.debugElement.query(By.css("button > span"));
+            expect(loginText).toBeDefined();
         });
     }));
 });

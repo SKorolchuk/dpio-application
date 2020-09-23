@@ -75,23 +75,6 @@
                         "browserTarget": "dpio-application:build"
                     }
                 },
-                "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
-                    "options": {
-                        "main": "apps/dpio-application/src/test.ts",
-                        "polyfills": "apps/dpio-application/src/polyfills.ts",
-                        "tsConfig": "apps\\dpio-application\\tsconfig.spec.json",
-                        "karmaConfig": "apps\\dpio-application\\karma.conf.js",
-                        "styles": [
-                            {
-                                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
-                            },
-                            "apps/dpio-application/src/styles.scss"
-                        ],
-                        "scripts": [],
-                        "assets": ["apps/dpio-application/src/favicon.ico", "apps/dpio-application/src/assets"]
-                    }
-                },
                 "lint": {
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
@@ -135,14 +118,6 @@
             "projectType": "library",
             "prefix": "dpio-application",
             "architect": {
-                "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
-                    "options": {
-                        "main": "libs/shared/src/test.ts",
-                        "tsConfig": "libs/shared/tsconfig.spec.json",
-                        "karmaConfig": "libs/shared/karma.conf.js"
-                    }
-                },
                 "lint": {
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
@@ -158,14 +133,6 @@
             "projectType": "library",
             "prefix": "dpio-application",
             "architect": {
-                "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
-                    "options": {
-                        "main": "libs/core/src/test.ts",
-                        "tsConfig": "libs/core/tsconfig.spec.json",
-                        "karmaConfig": "libs/core/karma.conf.js"
-                    }
-                },
                 "lint": {
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
@@ -181,14 +148,6 @@
             "projectType": "library",
             "prefix": "dpio-application",
             "architect": {
-                "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
-                    "options": {
-                        "main": "libs/auth/src/test.ts",
-                        "tsConfig": "libs/auth/tsconfig.spec.json",
-                        "karmaConfig": "libs/auth/karma.conf.js"
-                    }
-                },
                 "lint": {
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {

@@ -4,7 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { ILogin } from "./credentials.interface";
 import { ConfigurationService } from "@dpio-application/shared/src/lib/services/configuration.service";
-import { Api } from "apps/dpio-application/src/environments/api.model";
+import { Api } from "@dpio-application/auth/src/lib/shared/api.model";
 import * as jwtDecode from "jwt-decode";
 
 export interface Credentials {
@@ -73,8 +73,8 @@ export class AuthenticationService {
         // Replace by proper authentication call
         return this.http
             .post<any>(Api.Login(this.configuration.authEndpoint), {
-                userName: this.credentials.username,
-                password: this.credentials.password,
+                userName: this.credentials && this.credentials.username,
+                password: this.credentials && this.credentials.password,
             })
             .pipe(
                 map((response) => {
