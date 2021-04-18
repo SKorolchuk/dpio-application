@@ -167,8 +167,7 @@ stages:
         succeeded(),
         or
         (
-          eq(variables['Build.SourceBranchName'], 'develop'),
-          eq(variables['Build.SourceBranchName'], 'master')
+          eq(variables['Build.SourceBranchName'], 'main')
         )
       )
     jobs:
