@@ -165,10 +165,7 @@ stages:
       and
       (
         succeeded(),
-        or
-        (
-          eq(variables['Build.SourceBranchName'], 'main')
-        )
+        eq(variables['Build.SourceBranchName'], 'main')
       )
     jobs:
     - deployment: Deploy
