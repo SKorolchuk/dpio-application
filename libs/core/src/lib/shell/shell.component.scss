@@ -1,5 +1,5 @@
-@import "../../../../../apps/dpio-application/src/theme/theme-variables.scss";
-$stripe-color: mat-color($app-primary, 700, 700);
+@use "@angular/material" as mat;
+
 :host {
     display: flex;
     flex: 1;
@@ -13,7 +13,6 @@ $stripe-color: mat-color($app-primary, 700, 700);
 .shell-container {
     display: flex;
     flex-direction: column;
-
     margin: 0;
     width: 100%;
     min-width: 100%;
@@ -29,24 +28,24 @@ $stripe-color: mat-color($app-primary, 700, 700);
     }
 }
 
-.mat-sidenav {
+.app-sidenav {
     min-width: 270px;
     max-width: 28%;
-}
 
-.has-border {
-    border-right: 1px solid rgba(0, 0, 0, 0.12);
+    @media (min-width: 960px) {
+        border-right: 1px solid var(--mat-sys-outline-variant, rgba(0, 0, 0, 0.12));
+    }
 }
 
 .menu-button {
     margin-right: 1rem;
 }
 
-.mat-list {
+.mat-mdc-list {
     padding-top: 0;
 }
 
-.mat-list-item {
+.mat-mdc-list-item {
     text-decoration: none;
     &:hover {
         background: rgba(0, 0, 0, 0.05);
@@ -54,6 +53,6 @@ $stripe-color: mat-color($app-primary, 700, 700);
 }
 
 mat-sidenav mat-toolbar-row {
-    background-color: $stripe-color;
-    color: mat-color(map-get($app-theme, "foreground"), "text");
+    background-color: var(--mat-sys-primary, #4caf50);
+    color: var(--mat-sys-on-primary, #ffffff);
 }

@@ -1,10 +1,11 @@
 export interface Credentials {
-    email: string;
-    password: string;
+    readonly username: string;
+    readonly token: string;
+    readonly password?: string;
 }
 
 export interface ILogin {
-    email: string;
-    password: string;
-    remember: boolean;
+    readonly email: string;
+    readonly password: string;
+    readonly remember: boolean;
 }

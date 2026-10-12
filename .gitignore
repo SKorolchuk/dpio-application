@@ -4,6 +4,12 @@ reports/junit
 junit.xml
 junit*.xml
 
+/coverage
+/junit.xml
+/e2e-results/
+/playwright-report/
+/.playwright-targets/
+
 # compiled output
 /dist
 /tmp
@@ -11,6 +17,11 @@ junit*.xml
 
 # dependencies
 /node_modules
+node_modules/
+.angular/
+dist/
+.tmp/
+out-tsc/
 
 # IDEs and editors
 /.idea
@@ -37,8 +48,30 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.eslintcache
+.stylelintcache
 
 # System Files
 .DS_Store
 Thumbs.db
 **/TESTS-xunit.xml
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+proxy.conf.local.json
+.env.local
+test-results/

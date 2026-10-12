@@ -1,11 +1,13 @@
 <div class="container">
     <mat-card>
-        <h1>
-            <mat-card-title translate>APP_NAME</mat-card-title>
-        </h1>
+        <mat-card-header>
+            <mat-card-title i18n="@@applicationNameHeading">Deeproxio</mat-card-title>
+        </mat-card-header>
+
         <mat-card-content>
             <mat-icon>code</mat-icon>
-            <span translate>Version</span> {{ version }}
+            <span i18n="@@applicationVersionLabel">Version</span>
+            {{ version() }}
         </mat-card-content>
     </mat-card>
 </div>

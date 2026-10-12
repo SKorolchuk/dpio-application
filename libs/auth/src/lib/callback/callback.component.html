@@ -1,3 +1,24 @@
-<p>
-    Loading...
-</p>
+<div class="callback-container">
+    @if (!hasError()) {
+        <mat-card class="status-box mat-elevation-z4">
+            <mat-card-content class="loader-content">
+                <app-loader [isLoading]="true" />
+                <p class="sync-text" i18n="@@callbackSyncingMessage">
+                    Exchanging secure credential signatures... Please do not close or refresh this browser window.
+                </p>
+            </mat-card-content>
+        </mat-card>
+    } @else {
+        <mat-card class="status-box error-box mat-elevation-z8">
+            <mat-card-content class="error-content">
+                <span class="material-icons error-icon">gpp_bad</span>
+                <h3 i18n="@@callbackErrorTitle">Authentication Failed</h3>
+                <p class="error-text">{{ errorMessage() }}</p>
+
+                <button mat-raised-button color="primary" routerLink="/user/login" i18n="@@callbackReturnToLoginBtn">
+                    Return to Sign In
+                </button>
+            </mat-card-content>
+        </mat-card>
+    }
+</div>

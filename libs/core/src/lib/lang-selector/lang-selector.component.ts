@@ -1,24 +1,21 @@
-import { Component, OnInit, Output, EventEmitter, Input } from "@angular/core";
+import { Component, input, output } from "@angular/core";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
 
 @Component({
-    selector: "dpio-application-lang-selector",
+    selector: "app-lang-selector",
+    standalone: true,
+    imports: [MatMenuModule, MatButtonModule, MatIconModule],
     templateUrl: "./lang-selector.component.html",
     styleUrls: ["./lang-selector.component.scss"],
 })
-export class LangSelectorComponent implements OnInit {
-    @Input() public languages: string[] = null;
+export class LangSelectorComponent {
+    readonly languages = input<readonly string[]>([]);
+    readonly current = input<string | null>(null);
+    readonly selected = output<string>();
 
-    @Input() public current: string = null;
-
-    @Output() public selected: EventEmitter<string> = new EventEmitter<string>();
-
-    ngOnInit(): void {}
-
-    onLanguageSelected($event: string): void {
-        this.selected.emit($event);
-    }
-
-    isSelected(language: string): boolean {
-        return this.current === language;
+    onLanguageSelected(language: string): void {
+        this.selected.emit(language);
     }
 }

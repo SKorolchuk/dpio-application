@@ -1,0 +1,77 @@
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    min-height: 80vh;
+    background-color: var(--mat-sys-surface-container-lowest, #fafafa);
+}
+
+.callback-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    padding: 16px;
+}
+
+.status-box {
+    width: 100%;
+    padding: 24px;
+    text-align: center;
+    border-radius: 12px;
+}
+
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    min-height: 200px;
+
+    .sync-text {
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.6;
+        color: var(--mat-sys-on-surface-variant, #555555);
+        margin: 0;
+    }
+}
+
+.error-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 12px 0;
+
+    .error-icon {
+        font-size: 56px;
+        width: 56px;
+        height: 56px;
+        color: var(--mat-sys-error, #b00020);
+    }
+
+    h3 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--mat-sys-on-surface, #212121);
+    }
+
+    .error-text {
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--mat-sys-error, #b00020);
+        margin: 0 0 8px 0;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 8px;
+    }
+}

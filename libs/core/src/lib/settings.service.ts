@@ -1,13 +1,11 @@
-import { Injectable } from "@angular/core";
-import { environment } from "@env/environment";
+import { Injectable, inject, computed, Signal } from "@angular/core";
+import { ENV_CONFIG_TOKEN } from "@lib/shared";
 
 @Injectable({
     providedIn: "root",
 })
 export class SettingsService {
-    constructor() {}
+    private readonly appEnvironment = inject(ENV_CONFIG_TOKEN);
 
-    get version(): string {
-        return environment.version;
-    }
+    readonly version: Signal<string> = computed(() => this.appEnvironment.version);
 }

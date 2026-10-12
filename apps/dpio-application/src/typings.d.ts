@@ -1,12 +1,12 @@
-/*
- * Extra typings definitions
- */
+interface ImportMeta {
+    readonly env: ImportMetaEnv;
+}
 
-// Allow .json files imports
-declare module "*.json";
+interface ImportMetaEnv {
+    /**
+     * Automatically injected build flag indicating compilation mode.
+     */
+    readonly NG_BUILD_PRODUCTION: boolean;
 
-// SystemJS module definition
-declare var module: NodeModule;
-interface NodeModule {
-    id: string;
+    // Add additional compile-time process flags here if needed
 }

@@ -1,53 +1,51 @@
-import { Component, OnInit } from "@angular/core";
-import { Store, select } from "@ngrx/store";
+import { Component, OnInit, inject, computed, Signal } from "@angular/core";
 import { Router } from "@angular/router";
-import { I18nService } from "@dpio-application/core/src/lib/i18n.service";
-import { SettingsService } from "@dpio-application/core/src/lib/settings.service";
-import { AuthenticationService } from "../../shared/authentication.service";
-import * as fromActions from "../../actions/authorize.actions";
-import * as fromStore from "../../reducers";
-import { selectRegisterPageError, selectRegisterPagePending } from "../../selectors/auth.selectors";
+import { Store } from "@ngrx/store";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatButtonModule } from "@angular/material/button";
+
+import { I18nService, SettingsService, Logger } from "@lib/core";
+import { RegisterComponent } from "../../register/register.component";
+import { LangSelectorComponent } from "@lib/core";
+import * as AuthActions from "../../actions/authorize.actions";
+import * as AuthSelectors from "../../selectors/auth.selectors";
 import { UserRegistration } from "../../shared/user.management.interface";
 
 @Component({
-    selector: "dpio-application-register-page",
+    selector: "app-register-page",
+    standalone: true,
+    imports: [MatToolbarModule, MatButtonModule, RegisterComponent, LangSelectorComponent],
     templateUrl: "./register-page.component.html",
     styleUrls: ["./register-page.component.scss"],
 })
 export class RegisterPageComponent implements OnInit {
-    pending$ = this.store.pipe(select(selectRegisterPagePending));
-    error$ = this.store.pipe(select(selectRegisterPageError));
-    version: string;
+    private readonly store = inject(Store);
+    private readonly router = inject(Router);
+    private readonly i18nService = inject(I18nService);
+    private readonly settingsService = inject(SettingsService);
 
-    constructor(
-        private store: Store<fromStore.AuthModulePartState>,
-        private router: Router,
-        private i18nService: I18nService,
-        private authenticationService: AuthenticationService,
-        settingsService: SettingsService,
-    ) {
-        this.version = settingsService.version;
+    private readonly log = inject(Logger).forContext("RegisterPageComponent");
+
+    readonly pending = this.store.selectSignal(AuthSelectors.selectRegisterPagePending);
+    readonly error = this.store.selectSignal(AuthSelectors.selectRegisterPageError);
+
+    readonly version: Signal<string> = computed(() => this.settingsService.version());
+    readonly currentLanguage: Signal<string> = computed(() => this.i18nService.currentLanguage());
+    readonly languages: Signal<readonly string[]> = computed(() => this.i18nService.supportedLanguages());
+
+    ngOnInit(): void {
+        this.log.debug("Register presentation container workspace initialized.");
     }
 
-    ngOnInit() {}
-
-    public goToLogin(): void {
+    goToLogin(): void {
         this.router.navigate(["/"], { replaceUrl: true });
     }
 
-    public onSubmit($event: UserRegistration) {
-        this.store.dispatch(new fromActions.Register($event));
+    onSubmit(event: UserRegistration): void {
+        this.store.dispatch(AuthActions.register({ payload: event }));
     }
 
-    public setLanguage(language: string) {
-        this.i18nService.language = language;
-    }
-
-    public get currentLanguage(): string {
-        return this.i18nService.language;
-    }
-
-    public get languages(): string[] {
-        return this.i18nService.supportedLanguages;
+    setLanguage(language: string): void {
+        this.i18nService.setLanguage(language);
     }
 }

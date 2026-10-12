@@ -1,4 +1,7 @@
-package-lock.json
-dist
 .vscode/*
-coverage
+dist/
+coverage/
+e2e-results/
+node_modules/
+package-lock.json
+junit.xml

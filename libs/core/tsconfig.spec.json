@@ -1,14 +1,7 @@
 {
-    "extends": "../../tsconfig.json",
+    "extends": "../../tsconfig.spec.json",
     "compilerOptions": {
-        "outDir": "../../dist/out-tsc/libs/core",
-        "types": [
-            "jest", // 1
-            "node"
-        ],
-        "esModuleInterop": true, // 2
-        "emitDecoratorMetadata": true // 3
+        "outDir": "../../dist/out-tsc/libs/core/spec"
     },
-    "files": ["src/test.ts", "src/polyfills.ts"],
-    "include": ["**/*.spec.ts", "**/*.mock.ts", "**/*.d.ts"]
+    "include": ["src/**/*.spec.ts", "src/**/*.mock.ts", "src/**/*.d.ts"]
 }

@@ -3,9 +3,14 @@
     "compilerOptions": {
         "outDir": "../dist/out-tsc/tools",
         "rootDir": ".",
-        "module": "commonjs",
-        "target": "es5",
-        "types": ["jasmine", "node"]
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "target": "ES2022",
+        "types": [
+            "node"
+        ]
     },
-    "include": ["**/*.ts"]
+    "include": [
+        "**/*.ts"
+    ]
 }

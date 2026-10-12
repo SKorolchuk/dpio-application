@@ -1,36 +1,19 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { provideRouter } from "@angular/router";
 
 import { RegisterComponent } from "./register.component";
-import { MaterialModule } from "@dpio-application/shared/src/lib/material.module";
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { CoreModule } from "@dpio-application/core/src";
-import { AuthModule } from "@dpio-application/auth/src";
-import { StoreModule } from "@ngrx/store";
-import { EffectsModule } from "@ngrx/effects";
-import { RouterTestingModule } from "@angular/router/testing";
-import { TranslateModule } from "@ngx-translate/core";
 
 describe("RegisterComponent", () => {
     let component: RegisterComponent;
     let fixture: ComponentFixture<RegisterComponent>;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                MaterialModule,
-                NoopAnimationsModule,
-                HttpClientTestingModule,
-                CoreModule,
-                AuthModule,
-                StoreModule.forRoot({}),
-                EffectsModule.forRoot([]),
-                RouterTestingModule,
-                TranslateModule.forRoot(),
-            ],
-            declarations: [RegisterComponent],
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [RegisterComponent, ReactiveFormsModule],
+            providers: [provideRouter([])],
         }).compileComponents();
-    }));
+    });
 
     beforeEach(() => {
         fixture = TestBed.createComponent(RegisterComponent);
@@ -38,7 +21,57 @@ describe("RegisterComponent", () => {
         fixture.detectChanges();
     });
 
-    it("should create", () => {
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    it("should create the register form component instance successfully", () => {
         expect(component).toBeTruthy();
+    });
+
+    it("should block form submission and stay invalid if password and confirmPassword fields mismatch", () => {
+        component.registerForm.patchValue({
+            email: "test@localhost",
+            password: "securePassword123",
+            confirmPassword: "differentPassword123",
+            firstName: "test 1",
+            lastName: "test 2",
+            location: "localhost",
+        });
+
+        component.registerForm.updateValueAndValidity();
+        fixture.detectChanges();
+
+        expect(component.registerForm.hasError("passwordsMismatch")).toBe(true);
+        expect(component.registerForm.invalid).toBe(true);
+    });
+
+    it("should accurately validate input controls fields and fire output streams on valid submission block", () => {
+        const outputSpy = jest.fn();
+        fixture.componentRef.instance.submitted.subscribe(outputSpy);
+
+        component.registerForm.patchValue({
+            email: "test@localhost",
+            password: "securePassword123",
+            confirmPassword: "securePassword123",
+            firstName: "test 1",
+            lastName: "test 2",
+            location: "localhost",
+        });
+
+        component.registerForm.updateValueAndValidity();
+        fixture.detectChanges();
+
+        expect(component.registerForm.valid).toBe(true);
+
+        component.onSubmit();
+
+        expect(outputSpy).toHaveBeenCalledWith({
+            email: "test@localhost",
+            password: "securePassword123",
+            firstName: "test 1",
+            lastName: "test 2",
+            location: "localhost",
+        });
     });
 });

@@ -1,16 +1,390 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<xliff version="1.2" 
-    xmlns="urn:oasis:names:tc:xliff:document:1.2">
-    <file source-language="de" datatype="plaintext" original="ng2.template">
-        <body>
-            <trans-unit id="5bd00b5ba2c50af676c572974741a90bbe4a9d70" datatype="html">
-                <source>
-    Hello World
-                </source>
-                <target>
-            Hello World
-                </target>
-            </trans-unit>
-        </body>
-    </file>
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="applicationNameHeading" datatype="html">
+        <source>Deeproxio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            apps/dpio-application/src/app/about/about.component.html</context>
+          <context context-type="linenumber">4,5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/pages/login-page/login-page.component.html</context>
+          <context context-type="linenumber">6,9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/pages/register-page/register-page.component.html</context>
+          <context context-type="linenumber">6,9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/pages/reset-password-page/reset-password-page.component.html</context>
+          <context context-type="linenumber">6,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="applicationVersionLabel" datatype="html">
+        <source>Version</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            apps/dpio-application/src/app/about/about.component.html</context>
+          <context context-type="linenumber">9,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="homePageHeading" datatype="html">
+        <source>Home Dashboard Workspace</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/dpio-application/src/app/home/home.component.html</context>
+          <context context-type="linenumber">5,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="callbackSyncingMessage" datatype="html">
+        <source> Exchanging secure credential signatures... Please do not close or refresh this
+          browser window. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/callback/callback.component.html</context>
+          <context context-type="linenumber">7,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="callbackErrorTitle" datatype="html">
+        <source>Authentication Failed</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/callback/callback.component.html</context>
+          <context context-type="linenumber">15,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="callbackReturnToLoginBtn" datatype="html">
+        <source> Return to Sign In </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/callback/callback.component.html</context>
+          <context context-type="linenumber">19,20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="logoutPromptTitle" datatype="html">
+        <source>Log Out</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/log-out-prompt/log-out-prompt.component.html</context>
+          <context context-type="linenumber">1,3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="logoutPromptMessage" datatype="html">
+        <source>Are you sure you want to log out?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/log-out-prompt/log-out-prompt.component.html</context>
+          <context context-type="linenumber">3,5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="logoutPromptNo" datatype="html">
+        <source>No</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/log-out-prompt/log-out-prompt.component.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="logoutPromptYes" datatype="html">
+        <source>Yes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/log-out-prompt/log-out-prompt.component.html</context>
+          <context context-type="linenumber">7,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="signInHeading" datatype="html">
+        <source>Sign In</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/login/login.component.html</context>
+          <context context-type="linenumber">5,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="usernamePlaceholder" datatype="html">
+        <source>Username</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/login/login.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="usernameRequiredError" datatype="html">
+        <source>Username is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/login/login.component.html</context>
+          <context context-type="linenumber">20,21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="passwordPlaceholder" datatype="html">
+        <source>Password</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/login/login.component.html</context>
+          <context context-type="linenumber">25,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="passwordRequiredError" datatype="html">
+        <source>Password is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/login/login.component.html</context>
+          <context context-type="linenumber">29,30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="loginGenericFailure" datatype="html">
+        <source> Username or password incorrect. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/login/login.component.html</context>
+          <context context-type="linenumber">35,36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="rememberMeToggle" datatype="html">
+        <source> Remember me </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/login/login.component.html</context>
+          <context context-type="linenumber">40,41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="loginButtonText" datatype="html">
+        <source> Login </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/login/login.component.html</context>
+          <context context-type="linenumber">51,52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="signUpNavigationBtn" datatype="html">
+        <source> Sign Up </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/pages/login-page/login-page.component.html</context>
+          <context context-type="linenumber">14,15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="resetNavigationBtn" datatype="html">
+        <source>Reset</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/pages/login-page/login-page.component.html</context>
+          <context context-type="linenumber">17,19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="loginNavigationBtn" datatype="html">
+        <source>Login</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/pages/register-page/register-page.component.html</context>
+          <context context-type="linenumber">13,15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/pages/reset-password-page/reset-password-page.component.html</context>
+          <context context-type="linenumber">13,15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="signUpHeading" datatype="html">
+        <source>Sign Up</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/register/register.component.html</context>
+          <context context-type="linenumber">5,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="emailFieldLabel" datatype="html">
+        <source>Email</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/register/register.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/reset-password/reset-password.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="emailRequiredValidationError" datatype="html">
+        <source>Email is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/register/register.component.html</context>
+          <context context-type="linenumber">20,22</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/reset-password/reset-password.component.html</context>
+          <context context-type="linenumber">20,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="passwordFieldLabel" datatype="html">
+        <source>Password</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/register/register.component.html</context>
+          <context context-type="linenumber">25,26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/reset-password/reset-password.component.html</context>
+          <context context-type="linenumber">25,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="passwordRequiredValidationError" datatype="html">
+        <source>Password is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/register/register.component.html</context>
+          <context context-type="linenumber">29,31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/reset-password/reset-password.component.html</context>
+          <context context-type="linenumber">29,31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="confirmPasswordFieldLabel" datatype="html">
+        <source>Confirm Password</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/register/register.component.html</context>
+          <context context-type="linenumber">34,35</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/reset-password/reset-password.component.html</context>
+          <context context-type="linenumber">34,35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="confirmPasswordRequiredValidationError" datatype="html">
+        <source> Confirm Password is required </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/register/register.component.html</context>
+          <context context-type="linenumber">42,43</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/reset-password/reset-password.component.html</context>
+          <context context-type="linenumber">41,42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="passwordsMatchValidationError" datatype="html">
+        <source>Passwords must match</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/register/register.component.html</context>
+          <context context-type="linenumber">48,50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/reset-password/reset-password.component.html</context>
+          <context context-type="linenumber">46,48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="firstNameFieldLabel" datatype="html">
+        <source>First name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/register/register.component.html</context>
+          <context context-type="linenumber">53,54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="firstNameRequiredValidationError" datatype="html">
+        <source>First name is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/register/register.component.html</context>
+          <context context-type="linenumber">57,59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="lastNameFieldLabel" datatype="html">
+        <source>Last name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/register/register.component.html</context>
+          <context context-type="linenumber">62,63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="lastNameRequiredValidationError" datatype="html">
+        <source>Last name is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/register/register.component.html</context>
+          <context context-type="linenumber">66,68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="locationFieldLabel" datatype="html">
+        <source>Location</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/register/register.component.html</context>
+          <context context-type="linenumber">71,72</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="locationRequiredValidationError" datatype="html">
+        <source>Location is required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/register/register.component.html</context>
+          <context context-type="linenumber">75,77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registerFormGenericFailure" datatype="html">
+        <source> Register form has invalid data. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/register/register.component.html</context>
+          <context context-type="linenumber">81,82</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="registerSubmitButtonText" datatype="html">
+        <source> Register </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/auth/src/lib/register/register.component.html</context>
+          <context context-type="linenumber">93,94</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="resetPasswordHeading" datatype="html">
+        <source>Reset your password</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/reset-password/reset-password.component.html</context>
+          <context context-type="linenumber">5,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="resetFormGenericFailure" datatype="html">
+        <source> Reset form has invalid data. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/reset-password/reset-password.component.html</context>
+          <context context-type="linenumber">52,53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="resetSubmitButtonText" datatype="html">
+        <source> Reset </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            libs/auth/src/lib/reset-password/reset-password.component.html</context>
+          <context context-type="linenumber">64,65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="applicationName" datatype="html">
+        <source>Deeproxio</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/core/src/lib/shell/shell.component.html</context>
+          <context context-type="linenumber">12,13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="loggedInAsLabel" datatype="html">
+        <source>Logged in as</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/core/src/lib/shell/shell.component.html</context>
+          <context context-type="linenumber">22,23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="logoutButton" datatype="html">
+        <source>Logout</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/core/src/lib/shell/shell.component.html</context>
+          <context context-type="linenumber">28,29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="navHome" datatype="html">
+        <source>Home</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/core/src/lib/shell/shell.component.html</context>
+          <context context-type="linenumber">46,47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="navAbout" datatype="html">
+        <source>About</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/core/src/lib/shell/shell.component.html</context>
+          <context context-type="linenumber">50,51</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>

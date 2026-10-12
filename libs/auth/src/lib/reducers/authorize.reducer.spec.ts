@@ -2,13 +2,13 @@ import { LoginPageReducer } from "./authorize.reducer";
 import { initialLoginPageState } from "./authorize.state";
 
 describe("Authorize Reducer", () => {
-    describe("an unknown action", () => {
-        it("should return the previous state", () => {
-            const action = {} as any;
+    describe("an unknown action handling", () => {
+        it("should fallback and return the original baseline configuration previous state", () => {
+            const unknownAction = { type: "@ngrx/store/init" };
 
-            const result = LoginPageReducer(initialLoginPageState, action);
+            const processedState = LoginPageReducer(initialLoginPageState, unknownAction);
 
-            expect(result).toBe(initialLoginPageState);
+            expect(processedState).toBe(initialLoginPageState);
         });
     });
 });

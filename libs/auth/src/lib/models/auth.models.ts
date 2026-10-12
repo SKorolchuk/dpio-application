@@ -1,37 +1,37 @@
 export interface IAuthenticateSuccessResponse {
-    id: string;
-    auth_token: string;
-    expires_in: number;
+    readonly id: string;
+    readonly auth_token: string;
+    readonly expires_in: number;
 }
 
 export interface IUser {
-    id: string;
-    email: string;
+    readonly id: string;
+    readonly email: string;
+    readonly username?: string;
 }
 
 export interface IAuthenticateErrorResponse {
-    statusCode: number;
-    message: string;
-    login_failure: string;
-    Password: string[];
-    UserName: string[];
+    readonly statusCode: number;
+    readonly message: string;
+    readonly login_failure: string;
+    readonly password?: readonly string[];
+    readonly userName?: readonly string[];
 }
 
 export interface IRegisterErrorResponse {
-    statusCode: number;
-    message: string;
+    readonly statusCode: number;
+    readonly message: string;
 }
 
 export interface IResetPasswordErrorResponse {
-    statusCode: number;
-    message: string;
+    readonly statusCode: number;
+    readonly message: string;
 }
 
 export interface IRegisterSuccessResponse {
-    statusCode: number;
-    message: string;
+    readonly statusCode: number;
+    readonly message: string;
 }
 
 export type IRegisterResponse = IRegisterErrorResponse | IRegisterSuccessResponse;
-
 export type IAuthenticateResponse = IAuthenticateErrorResponse | IAuthenticateSuccessResponse;

@@ -1,80 +1,77 @@
-import { Logger, LogLevel, LogOutput } from "./logger.service";
+/* eslint-disable @typescript-eslint/no-empty-function */
+import { TestBed } from "@angular/core/testing";
+import { signal, WritableSignal } from "@angular/core";
+import { Logger, ContextualLogger } from "./logger.service";
+import { ConfigurationService } from "@lib/shared";
 
-const logMethods = ["log", "info", "warn", "error"];
+describe("Logger & ContextualLogger", () => {
+    let loggerService: Logger;
+    let mockIsProductionSignal: WritableSignal<boolean>;
+    let mockConfigService: Partial<ConfigurationService>;
 
-describe("Logger", () => {
-    // tslint:disable-next-line: ban-types
-    let savedConsole: Function[];
-    let savedLevel: LogLevel;
-    let savedOutputs: LogOutput[];
+    beforeEach(() => {
+        mockIsProductionSignal = signal(false);
 
-    beforeAll(() => {
-        savedConsole = [];
-        logMethods.forEach((m) => {
-            savedConsole[m] = console[m] as any;
-            // tslint:disable-next-line
-            console[m] = () => {};
+        mockConfigService = {
+            isProduction: mockIsProductionSignal,
+        };
+
+        TestBed.configureTestingModule({
+            providers: [Logger, { provide: ConfigurationService, useValue: mockConfigService }],
         });
-        savedLevel = Logger.level;
-        savedOutputs = Logger.outputs;
+
+        loggerService = TestBed.inject(Logger);
+
+        jest.spyOn(console, "log").mockImplementation(() => {});
+        jest.spyOn(console, "warn").mockImplementation(() => {});
+        jest.spyOn(console, "error").mockImplementation(() => {});
     });
 
-    afterAll(() => {
-        logMethods.forEach((m) => {
-            console[m] = savedConsole[m];
-        });
-        Logger.level = savedLevel;
-        Logger.outputs = savedOutputs;
+    afterEach(() => {
+        jest.restoreAllMocks();
     });
 
-    it("should create an instance", () => {
-        expect(new Logger()).toBeTruthy();
+    it("should successfully initialize the root Logger factory service via DI context", () => {
+        expect(loggerService).toBeTruthy();
     });
 
-    it("should add a new LogOutput and receives log entries", () => {
-        // Arrange
-        const outputSpy = jasmine.createSpy("outputSpy");
-        const log = new Logger("test");
+    it("should correctly spawn an isolated independent ContextualLogger instance using forContext factory", () => {
+        const contextualLog = loggerService.forContext("TestContext");
 
-        // Act
-        Logger.outputs.push(outputSpy);
+        expect(contextualLog).toBeInstanceOf(ContextualLogger);
+    });
 
-        log.debug("d");
-        log.info("i");
-        log.warn("w");
-        log.error("e", { error: true });
+    describe("Development Environment Logging Rules", () => {
+        it("should pipe all logs streams including debug metrics straight to standard console window APIs", () => {
+            const contextualLog = loggerService.forContext("DevContext");
 
-        // Assert
-        expect(outputSpy).toHaveBeenCalled();
-        expect(outputSpy.calls.count()).toBe(4);
-        expect(outputSpy).toHaveBeenCalledWith("test", LogLevel.Debug, "d");
-        expect(outputSpy).toHaveBeenCalledWith("test", LogLevel.Info, "i");
-        expect(outputSpy).toHaveBeenCalledWith("test", LogLevel.Warning, "w");
-        expect(outputSpy).toHaveBeenCalledWith("test", LogLevel.Error, "e", {
-            error: true,
+            contextualLog.debug("debug message parameters string");
+            contextualLog.warn("warning caution alert criteria");
+            contextualLog.error("critical error exceptions runtime failure");
+
+            expect(console.log).toHaveBeenCalledWith("[DEBUG] [DevContext]: debug message parameters string");
+            expect(console.warn).toHaveBeenCalledWith("[WARN] [DevContext]: warning caution alert criteria");
+            expect(console.error).toHaveBeenCalledWith(
+                "[ERROR] [DevContext]: critical error exceptions runtime failure",
+            );
         });
     });
 
-    it("should add a new LogOutput and receives only production log entries", () => {
-        // Arrange
-        const outputSpy = jasmine.createSpy("outputSpy");
-        const log = new Logger("test");
+    describe("Production Environment Logging Rules", () => {
+        beforeEach(() => {
+            mockIsProductionSignal.set(true);
+        });
 
-        // Act
-        Logger.outputs.push(outputSpy);
-        Logger.enableProductionMode();
+        it("should strictly suppress debug level telemetry streams while keeping warning and errors active", () => {
+            const contextualLog = loggerService.forContext("ProdContext");
 
-        log.debug("d");
-        log.info("i");
-        log.warn("w");
-        log.error("e", { error: true });
+            contextualLog.debug("hidden system log data metric");
+            contextualLog.warn("visible database degradation alert");
+            contextualLog.error("visible fatal app termination failure");
+            expect(console.log).not.toHaveBeenCalled();
 
-        // Assert
-        expect(outputSpy).toHaveBeenCalled();
-        expect(outputSpy.calls.count()).toBe(2);
-        expect(outputSpy).toHaveBeenCalledWith("test", LogLevel.Warning, "w");
-        expect(outputSpy).toHaveBeenCalledWith("test", LogLevel.Error, "e", {
-            error: true,
+            expect(console.warn).toHaveBeenCalledWith("[WARN] [ProdContext]: visible database degradation alert");
+            expect(console.error).toHaveBeenCalledWith("[ERROR] [ProdContext]: visible fatal app termination failure");
         });
     });
 });

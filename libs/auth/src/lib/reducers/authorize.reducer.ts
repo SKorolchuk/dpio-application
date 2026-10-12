@@ -1,11 +1,5 @@
-import {
-    AuthActions,
-    AuthActionTypes,
-    RegisterActions,
-    ResetPasswordActions,
-    ResetPasswordActionTypes,
-    RegisterActionTypes,
-} from "../actions/authorize.actions";
+import { createReducer, on } from "@ngrx/store";
+import * as AuthActions from "../actions/authorize.actions";
 import {
     initialLoginPageState,
     initialUserState,
@@ -16,175 +10,86 @@ import {
     ResetPasswordPageState,
     initialResetPasswordPageState,
 } from "./authorize.state";
-import { IUser } from "../models/auth.models";
 
-export function RegisterPageReducer(
-    state: RegisterPageState = initialRegisterPageState,
-    action: RegisterActions,
-): RegisterPageState {
-    switch (action.type) {
-        case RegisterActionTypes.Register: {
-            return {
-                ...state,
-                error: null,
-                pending: true,
-            };
-        }
-        case RegisterActionTypes.RegisterSuccess: {
-            return {
-                ...state,
-                error: null,
-                pending: false,
-            };
-        }
-        case RegisterActionTypes.RegisterFailure: {
-            return {
-                ...state,
-                error: action.payload,
-                pending: false,
-            };
-        }
-        default: {
-            return state;
-        }
-    }
-}
+export const RegisterPageReducer = createReducer<RegisterPageState>(
+    initialRegisterPageState,
+    on(AuthActions.register, (state) => ({
+        ...state,
+        error: null,
+        pending: true,
+    })),
+    on(AuthActions.registerSuccess, (state) => ({
+        ...state,
+        error: null,
+        pending: false,
+    })),
+    on(AuthActions.registerFailure, (state, { error }) => ({
+        ...state,
+        error,
+        pending: false,
+    })),
+);
 
-export function ResetPasswordPageReducer(
-    state: ResetPasswordPageState = initialResetPasswordPageState,
-    action: ResetPasswordActions,
-): ResetPasswordPageState {
-    switch (action.type) {
-        case ResetPasswordActionTypes.ResetPassword: {
-            return {
-                ...state,
-                error: null,
-                pending: true,
-            };
-        }
-        case ResetPasswordActionTypes.ResetPasswordSuccess: {
-            return {
-                ...state,
-                error: null,
-                pending: false,
-            };
-        }
-        case ResetPasswordActionTypes.ResetPasswordFailure: {
-            return {
-                ...state,
-                error: action.payload,
-                pending: false,
-            };
-        }
-        default: {
-            return state;
-        }
-    }
-}
+export const ResetPasswordPageReducer = createReducer<ResetPasswordPageState>(
+    initialResetPasswordPageState,
+    on(AuthActions.resetPassword, (state) => ({
+        ...state,
+        error: null,
+        pending: true,
+    })),
+    on(AuthActions.resetPasswordSuccess, (state) => ({
+        ...state,
+        error: null,
+        pending: false,
+    })),
+    on(AuthActions.resetPasswordFailure, (state, { error }) => ({
+        ...state,
+        error,
+        pending: false,
+    })),
+);
 
-export function LoginPageReducer(state: LoginPageState = initialLoginPageState, action: AuthActions): LoginPageState {
-    switch (action.type) {
-        case AuthActionTypes.LoginComplete: {
-            return {
-                ...state,
-                error: null,
-                pending: true,
-            };
-        }
-        case AuthActionTypes.CheckLogin: {
-            return {
-                ...state,
-                error: null,
-                pending: true,
-            };
-        }
-        case AuthActionTypes.Logout: {
-            return {
-                ...state,
-                error: null,
-                pending: true,
-            };
-        }
-        case AuthActionTypes.LogoutCancelled: {
-            return {
-                ...state,
-                error: null,
-                pending: true,
-            };
-        }
-        case AuthActionTypes.LogoutConfirmed: {
-            return {
-                ...state,
-                error: null,
-                pending: true,
-            };
-        }
-        case AuthActionTypes.Login: {
-            return {
-                ...state,
-                error: null,
-                pending: true,
-            };
-        }
-        case AuthActionTypes.LoginSuccess: {
-            return {
-                ...state,
-                error: null,
-                pending: false,
-            };
-        }
-        case AuthActionTypes.LoginFailure: {
-            return {
-                ...state,
-                error: action.payload,
-                pending: false,
-            };
-        }
+export const LoginPageReducer = createReducer<LoginPageState>(
+    initialLoginPageState,
+    on(
+        AuthActions.login,
+        AuthActions.loginComplete,
+        AuthActions.checkLogin,
+        AuthActions.logout,
+        AuthActions.logoutCancelled,
+        AuthActions.logoutConfirmed,
+        (state) => ({
+            ...state,
+            error: null,
+            pending: true,
+        }),
+    ),
+    on(AuthActions.loginSuccess, (state) => ({
+        ...state,
+        error: null,
+        pending: false,
+    })),
+    on(AuthActions.loginFailure, (state, { error }) => ({
+        ...state,
+        error,
+        pending: false,
+    })),
+);
 
-        default: {
-            return state;
-        }
-    }
-}
-
-export function UserStateReducer(state: UserState = initialUserState, action: AuthActions): UserState {
-    switch (action.type) {
-        case AuthActionTypes.LoginComplete: {
-            return {
-                ...state,
-                loggedIn: true,
-                user: null,
-            };
-        }
-        case AuthActionTypes.CheckLogin: {
-            return {
-                ...state,
-                loggedIn: true,
-                user: null,
-            };
-        }
-        case AuthActionTypes.Logout: {
-            return initialUserState;
-        }
-        case AuthActionTypes.LogoutCancelled: {
-            return {
-                ...state,
-            };
-        }
-        case AuthActionTypes.LogoutConfirmed: {
-            return {
-                ...state,
-            };
-        }
-        case AuthActionTypes.LoginSuccess: {
-            return {
-                ...state,
-                loggedIn: true,
-                user: {} as IUser,
-            };
-        }
-        default: {
-            return state;
-        }
-    }
-}
+export const UserStateReducer = createReducer<UserState>(
+    initialUserState,
+    on(AuthActions.loginComplete, AuthActions.checkLogin, (state) => ({
+        ...state,
+        loggedIn: true,
+        user: null,
+    })),
+    on(AuthActions.logout, () => initialUserState),
+    on(AuthActions.logoutCancelled, AuthActions.logoutConfirmed, (state) => ({
+        ...state,
+    })),
+    on(AuthActions.loginSuccess, (state, { user }) => ({
+        ...state,
+        loggedIn: true,
+        user,
+    })),
+);

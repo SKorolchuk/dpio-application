@@ -5,26 +5,24 @@ import {
     IResetPasswordErrorResponse,
 } from "../models/auth.models";
 
-export interface State {
-    status: UserState;
-    loginPage: LoginPageState;
-    registerPage: RegisterPageState;
-    resetPasswordPage: ResetPasswordPageState;
-}
-
 export interface LoginPageState {
-    error: IAuthenticateErrorResponse | string | null;
-    pending: boolean;
+    readonly error: IAuthenticateErrorResponse | string | null;
+    readonly pending: boolean;
 }
 
 export interface RegisterPageState {
-    error: IRegisterErrorResponse | string | null;
-    pending: boolean;
+    readonly error: IRegisterErrorResponse | string | null;
+    readonly pending: boolean;
 }
 
 export interface ResetPasswordPageState {
-    error: IResetPasswordErrorResponse | string | null;
-    pending: boolean;
+    readonly error: IResetPasswordErrorResponse | string | null;
+    readonly pending: boolean;
+}
+
+export interface UserState {
+    readonly loggedIn: boolean;
+    readonly user: IUser | null;
 }
 
 export const initialResetPasswordPageState: ResetPasswordPageState = {
@@ -42,14 +40,7 @@ export const initialLoginPageState: LoginPageState = {
     pending: false,
 };
 
-export interface UserState {
-    loggedIn: boolean;
-    user: IUser | null;
-}
-
 export const initialUserState: UserState = {
     loggedIn: false,
     user: null,
 };
-
-export type AuthPartState = State | LoginPageState | RegisterPageState | ResetPasswordPageState | any;

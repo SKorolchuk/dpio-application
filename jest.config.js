@@ -1,7 +1,15 @@
-const { pathsToModuleNameMapper } = require("ts-jest/utils");
-const { compilerOptions } = require("./tsconfig");
+import { pathsToModuleNameMapper } from "ts-jest";
+import { readFileSync } from "fs";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 
-module.exports = {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const tsconfig = JSON.parse(readFileSync(join(__dirname, "tsconfig.json"), "utf8"));
+const compilerOptions = tsconfig.compilerOptions || {};
+
+export default {
     preset: "jest-preset-angular",
     roots: [
         "<rootDir>/",
@@ -13,8 +21,20 @@ module.exports = {
     testMatch: ["**/+(*.)+(spec).+(ts)"],
     setupFilesAfterEnv: ["<rootDir>/jest/test.ts"],
     collectCoverage: true,
-    coverageReporters: ["html"],
-    coverageDirectory: "coverage/my-app",
+    coverageReporters: ["html", "text", "cobertura"],
+    coverageDirectory: "coverage/test-report",
+    transform: {
+        "^.+\\.(ts|js|html)$": [
+            "jest-preset-angular",
+            {
+                tsconfig: "<rootDir>/tsconfig.spec.json",
+                stringifyContentPathRegex: "\\.(html|svg)$",
+                processWithEsbuild: [],
+            },
+        ],
+    },
+    testPathIgnorePatterns: ["/node_modules/", "/dist/", "<rootDir>/e2e/", "<rootDir>/apps/e2e/"],
+    transformIgnorePatterns: ["node_modules/(?!.*\\.mjs$)"],
     moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
         prefix: "<rootDir>/",
     }),

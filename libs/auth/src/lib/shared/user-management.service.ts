@@ -1,37 +1,31 @@
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Injectable, inject, signal, Signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { ConfigurationService } from "@dpio-application/shared/src/lib/services/configuration.service";
-import { Api } from "@dpio-application/auth/src/lib/shared/api.model";
-import { UserRegistration, UserPasswordReset } from "./user.management.interface";
+import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
+
+import { ConfigurationService } from "@lib/shared";
+import { Api } from "./api.model";
+import { IRegisterSuccessResponse } from "../models/auth.models";
+import { UserPasswordReset, UserRegistration } from "./user.management.interface";
 
 @Injectable({
     providedIn: "root",
 })
 export class UserManagementService {
-    private _loginUrl = "/user/login";
+    private readonly http = inject(HttpClient);
+    private readonly configuration = inject(ConfigurationService);
 
-    constructor(private http: HttpClient, private configuration: ConfigurationService) {}
+    readonly loginUrl: Signal<string> = signal("/user/login").asReadonly();
 
-    get loginUrl(): string {
-        return this._loginUrl;
-    }
-    register(model: UserRegistration): Observable<any> {
-        return this.http.post<any>(Api.Register(this.configuration.authEndpoint), model).pipe(
-            map((response) => {
-                console.log(response);
-                return response;
-            }),
-        );
+    register(model: UserRegistration): Observable<IRegisterSuccessResponse> {
+        return this.http
+            .post<IRegisterSuccessResponse>(Api.Register(this.configuration.authEndpoint()), model)
+            .pipe(map((response: IRegisterSuccessResponse) => response));
     }
 
-    resetPassword(model: UserPasswordReset): Observable<any> {
-        return this.http.post<any>(Api.ResetPassword(this.configuration.authEndpoint), model).pipe(
-            map((response) => {
-                console.log(response);
-                return response;
-            }),
-        );
+    resetPassword(model: UserPasswordReset): Observable<IRegisterSuccessResponse> {
+        return this.http
+            .post<IRegisterSuccessResponse>(Api.ResetPassword(this.configuration.authEndpoint()), model)
+            .pipe(map((response: IRegisterSuccessResponse) => response));
     }
 }

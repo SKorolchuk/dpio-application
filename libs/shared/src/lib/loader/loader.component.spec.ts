@@ -1,7 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-
-import { MaterialModule } from "../material.module";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { LoaderComponent } from "./loader.component";
 import { By } from "@angular/platform-browser";
 
@@ -9,12 +6,11 @@ describe("LoaderComponent", () => {
     let component: LoaderComponent;
     let fixture: ComponentFixture<LoaderComponent>;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [BrowserAnimationsModule, MaterialModule],
-            declarations: [LoaderComponent],
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [LoaderComponent],
         }).compileComponents();
-    }));
+    });
 
     beforeEach(() => {
         fixture = TestBed.createComponent(LoaderComponent);
@@ -22,26 +18,32 @@ describe("LoaderComponent", () => {
         fixture.detectChanges();
     });
 
-    it("should not be display message by default", () => {
-        expect(fixture.debugElement.query(By.css("div"))).toBeNull();
+    it("should be created successfully", () => {
+        expect(component).toBeTruthy();
     });
 
-    it("should be visible when app is loading", () => {
-        fixture.componentInstance.isLoading = true;
-        fixture.detectChanges();
-
-        expect(fixture.debugElement.query(By.css("div"))).not.toBeNull();
+    it("should not display wrapper container by default", () => {
+        const loaderContainer = fixture.debugElement.query(By.css("div.loader"));
+        expect(loaderContainer).toBeNull();
     });
 
-    it("should display specified message", () => {
-        const expectedMessage = "testing";
-
-        fixture.componentInstance.message = expectedMessage;
-        fixture.componentInstance.isLoading = true;
+    it("should be visible when isLoading signal is set to true", () => {
+        fixture.componentRef.setInput("isLoading", true);
         fixture.detectChanges();
 
-        const span = fixture.debugElement.query(By.css("span.message")).nativeElement;
+        const loaderContainer = fixture.debugElement.query(By.css("div.loader"));
+        expect(loaderContainer).not.toBeNull();
+    });
 
-        expect(span.innerHTML).toBe(expectedMessage);
+    it("should display the specified text message inside span container", () => {
+        const expectedMessage = "Optimizing workspace layout...";
+
+        fixture.componentRef.setInput("isLoading", true);
+        fixture.componentRef.setInput("message", expectedMessage);
+        fixture.detectChanges();
+
+        const spanElement = fixture.debugElement.query(By.css("span.message")).nativeElement;
+
+        expect(spanElement.textContent?.trim()).toBe(expectedMessage);
     });
 });

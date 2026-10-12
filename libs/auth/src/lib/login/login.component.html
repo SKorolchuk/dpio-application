@@ -1,47 +1,54 @@
 <div class="login-container mat-elevation-z10">
     <mat-toolbar color="primary">
         <mat-toolbar-row class="header stripped">
-            <mat-icon class="material-icons">account_circle</mat-icon>
-            <!-- account_circle -->
-            <span translate>Sign In</span>
+            <mat-icon>account_circle</mat-icon>
+            <span i18n="@@signInHeading">Sign In</span>
         </mat-toolbar-row>
     </mat-toolbar>
+
     <mat-card class="login-box">
-        <dpio-application-loader class="inline-loader" [isLoading]="pending"> </dpio-application-loader>
+        <app-loader [isLoading]="pending()" />
+
         <mat-card-content>
-            <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" novalidate>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
                 <div>
                     <mat-form-field>
-                        <input type="text" matInput formControlName="username" [placeholder]="'Username' | translate" />
-                        <mat-error
-                            *ngIf="loginForm.controls['username'].invalid && !loginForm.controls['username'].untouched"
-                        >
-                            <span translate>Username is required</span>
-                        </mat-error>
+                        <mat-label i18n="@@usernamePlaceholder">Username</mat-label>
+                        <input type="text" matInput formControlName="username" />
+
+                        @if (loginForm.controls.username.invalid && !loginForm.controls.username.untouched) {
+                            <mat-error i18n="@@usernameRequiredError">Username is required</mat-error>
+                        }
                     </mat-form-field>
+
                     <mat-form-field>
-                        <input
-                            type="password"
-                            matInput
-                            formControlName="password"
-                            [placeholder]="'Password' | translate"
-                            required
-                        />
-                        <mat-error
-                            *ngIf="loginForm.controls['password'].invalid && !loginForm.controls['password'].untouched"
-                        >
-                            <span translate>Password is required</span>
-                        </mat-error>
+                        <mat-label i18n="@@passwordPlaceholder">Password</mat-label>
+                        <input type="password" matInput formControlName="password" required />
+
+                        @if (loginForm.controls.password.invalid && !loginForm.controls.password.untouched) {
+                            <mat-error i18n="@@passwordRequiredError">Password is required</mat-error>
+                        }
                     </mat-form-field>
-                    <mat-error class="login-error" [hidden]="pending || !errorMessage" translate>
-                        <b>{{ errorMessage && ("Username or password incorrect." | translate) }}</b>
-                    </mat-error>
-                    <mat-slide-toggle color="primary" formControlName="remember" translate
-                        >Remember me
+
+                    @if (!pending() && errorMessage()) {
+                        <mat-error class="login-error" i18n="@@loginGenericFailure">
+                            Username or password incorrect.
+                        </mat-error>
+                    }
+
+                    <mat-slide-toggle color="primary" formControlName="remember" i18n="@@rememberMeToggle">
+                        Remember me
                     </mat-slide-toggle>
                     <br />
-                    <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || pending">
-                        <span translate>Login</span>
+
+                    <button
+                        mat-raised-button
+                        color="primary"
+                        type="submit"
+                        [disabled]="loginForm.invalid || pending()"
+                        i18n="@@loginButtonText"
+                    >
+                        Login
                     </button>
                 </div>
             </form>

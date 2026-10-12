@@ -1,17 +1,22 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, input, computed } from "@angular/core";
+import { MatProgressSpinnerModule, ProgressSpinnerMode } from "@angular/material/progress-spinner";
 
 @Component({
-    selector: "dpio-application-loader",
+    selector: "app-loader",
+    standalone: true,
+    imports: [MatProgressSpinnerModule],
     templateUrl: "./loader.component.html",
     styleUrls: ["./loader.component.scss"],
 })
-export class LoaderComponent implements OnInit {
-    @Input() isLoading = false;
-    @Input() isDeterminate = false;
-    @Input() size = 1;
-    @Input() message: string = null;
+export class LoaderComponent {
+    readonly isLoading = input<boolean>(false);
+    readonly isDeterminate = input<boolean>(false);
+    readonly size = input<number>(1);
+    readonly message = input<string | null>(null);
 
-    constructor() {}
+    readonly spinnerMode = computed<ProgressSpinnerMode>(() =>
+        this.isDeterminate() ? "determinate" : "indeterminate",
+    );
 
-    ngOnInit() {}
+    readonly diameter = computed<number>(() => 32 * this.size());
 }

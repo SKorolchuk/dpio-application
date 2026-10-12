@@ -1,21 +1,28 @@
-import { Component, OnInit } from "@angular/core";
-import { MatDialogRef } from "@angular/material/dialog";
+import { Component, inject } from "@angular/core";
+import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
+import { MatButtonModule } from "@angular/material/button";
 
 @Component({
-    selector: "dpio-application-log-out-prompt",
+    selector: "app-log-out-prompt",
+    standalone: true,
+    imports: [MatDialogModule, MatButtonModule],
     templateUrl: "./log-out-prompt.component.html",
     styleUrls: ["./log-out-prompt.component.scss"],
 })
-export class LogOutPromptComponent implements OnInit {
-    constructor(private ref: MatDialogRef<LogOutPromptComponent>) {}
+export class LogOutPromptComponent {
+    private readonly dialogRef = inject(MatDialogRef<LogOutPromptComponent>);
 
-    ngOnInit(): void {}
-
-    cancel() {
-        this.ref.close(false);
+    /**
+     * Closes the interactive dialog modal returning a negative user confirmation result.
+     */
+    cancel(): void {
+        this.dialogRef.close(false);
     }
 
-    confirm() {
-        this.ref.close(true);
+    /**
+     * Closes the interactive dialog modal returning a positive user confirmation result.
+     */
+    confirm(): void {
+        this.dialogRef.close(true);
     }
 }

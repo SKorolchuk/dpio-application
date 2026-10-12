@@ -1,33 +1,12 @@
-/*
+/**
  * Global application theme.
- * Framework overrides and customization goes here.
+ * Framework overrides and custom palette components styles implementation.
  */
-
-@import "theme/theme-variables";
-* {
-    box-sizing: border-box;
-}
-
-html,
-body {
-    height: 100%;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    height: 100%;
-    font-family: Roboto, sans-serif;
-}
-
-$stripes-contrast: mat-color($app-primary, 700, 700);
-$stripes-high-contrast: mat-color($app-primary, 900, 900);
+@use "@angular/material" as mat;
+@use "theme-variables" as vars;
 
 mat-toolbar-row.stripped {
-    color: mat-color($app-grey-pallete, 100, 100);
+    color: var(--mat-sys-on-primary, #ffffff);
 
-    background: $stripes-contrast; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, $stripes-contrast, $stripes-high-contrast);
-    background: linear-gradient(to right, $stripes-contrast, $stripes-high-contrast);
+    background: linear-gradient(to right, var(--mat-sys-primary, #4caf50), var(--mat-sys-primary-container, #1b5e20));
 }

@@ -1,91 +1,95 @@
-import { Injectable } from "@angular/core";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
-import { Actions, Effect, ofType } from "@ngrx/effects";
-import * as fromAuth from "../actions/authorize.actions";
-import { tap, exhaustMap, map, catchError } from "rxjs/operators";
-import { Logger } from "@dpio-application/core/src/lib/logger.service";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { of } from "rxjs";
+import { tap, exhaustMap, map, catchError } from "rxjs/operators";
+
+import * as AuthActions from "../actions/authorize.actions";
 import { UserManagementService } from "../shared/user-management.service";
+import { IRegisterSuccessResponse } from "../models/auth.models";
+import { Logger } from "@lib/core";
+import { UserPasswordReset, UserRegistration } from "../shared/user.management.interface";
 
-const log = new Logger("AuthenticationGuard");
-
-@Injectable()
+@Injectable({
+    providedIn: "root",
+})
 export class UserManagementEffects {
-    @Effect()
-    register$ = this.actions$.pipe(
-        ofType<fromAuth.Register>(fromAuth.RegisterActionTypes.Register),
-        exhaustMap((registerAction) => {
-            return this.userService.register(registerAction.payload).pipe(
-                map((registerResult: any) => {
-                    if (registerResult) {
-                        return new fromAuth.RegisterSuccess(registerResult);
-                    }
+    private readonly actions$ = inject(Actions);
+    private readonly userService = inject(UserManagementService);
+    private readonly router = inject(Router);
+
+    private readonly log = inject(Logger).forContext("UserManagementEffects");
+
+    register$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(AuthActions.register),
+            exhaustMap(({ payload }) =>
+                this.userService.register(payload as UserRegistration).pipe(
+                    map((_registerResult: IRegisterSuccessResponse) => AuthActions.registerSuccess()),
+                    catchError((error: Error) =>
+                        of(AuthActions.registerFailure({ error: error.message || String(error) })),
+                    ),
+                ),
+            ),
+        ),
+    );
+
+    registerRedirect$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(AuthActions.registerSuccess),
+            exhaustMap(() => {
+                this.log.debug("successfully registered");
+                this.router.navigate([this.userService.loginUrl()]);
+                return of(AuthActions.registerComplete());
+            }),
+        ),
+    );
+
+    registerErrorRedirect$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(AuthActions.registerFailure),
+                tap(({ error }) => {
+                    this.log.error("Registration crash reported:", error);
                 }),
-                catchError((error) => of(new fromAuth.RegisterFailure(error))),
-            );
-        }),
+            ),
+        { dispatch: false },
     );
 
-    @Effect()
-    registerRedirect$ = this.actions$.pipe(
-        ofType<fromAuth.RegisterSuccess>(fromAuth.RegisterActionTypes.RegisterSuccess),
-        exhaustMap((registerSuccessAction) => {
-            log.debug(`successfully registered`);
-            this.router.navigate([this.userService.loginUrl]);
-            return of(new fromAuth.RegisterComplete(registerSuccessAction.payload));
-        }),
+    resetPassword$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(AuthActions.resetPassword),
+            exhaustMap(({ payload }) =>
+                this.userService.resetPassword(payload as UserPasswordReset).pipe(
+                    map((_resetPasswordResult: IRegisterSuccessResponse) => AuthActions.resetPasswordSuccess()),
+                    catchError((error: Error) =>
+                        of(AuthActions.resetPasswordFailure({ error: error.message || String(error) })),
+                    ),
+                ),
+            ),
+        ),
     );
 
-    @Effect({ dispatch: false })
-    registerErrorRedirect$ = this.actions$.pipe(
-        ofType<fromAuth.RegisterFailure>(fromAuth.RegisterActionTypes.RegisterFailure),
-        map((action) => action.payload),
-        tap((err: any) => {
-            if (err.error_description) {
-                log.error(`Error: ${err.error_description}`);
-            } else {
-                log.error(`Error: ${JSON.stringify(err)}`);
-            }
-        }),
+    resetPasswordRedirect$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(AuthActions.resetPasswordSuccess),
+            exhaustMap(() => {
+                this.log.debug("successfully reset password");
+                this.router.navigate([this.userService.loginUrl()]);
+                return of(AuthActions.resetPasswordComplete());
+            }),
+        ),
     );
 
-    @Effect()
-    resetPassword$ = this.actions$.pipe(
-        ofType<fromAuth.ResetPassword>(fromAuth.ResetPasswordActionTypes.ResetPassword),
-        exhaustMap((resetPasswordAction) => {
-            return this.userService.resetPassword(resetPasswordAction.payload).pipe(
-                map((resetPasswordResult: any) => {
-                    if (resetPasswordResult) {
-                        return new fromAuth.ResetPasswordSuccess(resetPasswordResult);
-                    }
+    resetPasswordErrorRedirect$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(AuthActions.resetPasswordFailure),
+                tap(({ error }) => {
+                    this.log.error("Reset password crash reported:", error);
                 }),
-                catchError((error) => of(new fromAuth.ResetPasswordFailure(error))),
-            );
-        }),
+            ),
+        { dispatch: false },
     );
-
-    @Effect()
-    resetPasswordRedirect$ = this.actions$.pipe(
-        ofType<fromAuth.ResetPasswordSuccess>(fromAuth.ResetPasswordActionTypes.ResetPasswordSuccess),
-        exhaustMap((resetPasswordSuccessAction) => {
-            log.debug(`successfully reset password`);
-            this.router.navigate([this.userService.loginUrl]);
-            return of(new fromAuth.ResetPasswordComplete(resetPasswordSuccessAction.payload));
-        }),
-    );
-
-    @Effect({ dispatch: false })
-    resetPasswordErrorRedirect$ = this.actions$.pipe(
-        ofType<fromAuth.ResetPasswordFailure>(fromAuth.ResetPasswordActionTypes.ResetPasswordFailure),
-        map((action) => action.payload),
-        tap((err: any) => {
-            if (err.error_description) {
-                log.error(`Error: ${err.error_description}`);
-            } else {
-                log.error(`Error: ${JSON.stringify(err)}`);
-            }
-        }),
-    );
-
-    constructor(private actions$: Actions, private userService: UserManagementService, private router: Router) {}
 }

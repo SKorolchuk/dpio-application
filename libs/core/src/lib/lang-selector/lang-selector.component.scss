@@ -1,34 +1,35 @@
+@use "@angular/material" as mat;
+
 .caret {
     display: inline-block;
     width: 0;
     height: 0;
-    margin-left: 2px;
+    margin-left: 6px;
     vertical-align: middle;
-    border-top: 4px dashed;
-    border-top: 4px solid\9;
+    border-top: 4px solid;
     border-right: 4px solid transparent;
     border-left: 4px solid transparent;
 }
 
 $lang-selector-item-min-width: 100px;
 $title-font-size: 14px;
+
 button {
-    &:not(.mat-button) {
+    &:not([mat-menu-item]) {
         min-width: $lang-selector-item-min-width;
     }
     display: flex;
     justify-content: center;
     align-items: center;
-    &>mat-icon {
-        margin-right: 0;
-    }
-    &>span.language-title {
-        min-width: $lang-selector-item-min-width - 50px;
-    }
     font-size: $title-font-size !important;
-}
 
-.hidden,
-[hidden] {
-    display: none !important;
+    mat-icon {
+        margin-right: 0;
+        margin-left: auto;
+    }
+
+    span.language-title {
+        min-width: calc(#{$lang-selector-item-min-width} - 50px);
+        text-align: left;
+    }
 }

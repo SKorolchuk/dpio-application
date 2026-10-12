@@ -1,6 +1,8 @@
+const IDENTITY_BASE = "api/identity";
+
 export const Api = {
-    Login: (authEndpoint) => `${authEndpoint}/api/identity/token`,
-    Ping: (authEndpoint) => `${authEndpoint}/api/identity`,
-    Register: (authEndpoint) => `${authEndpoint}/api/identity/register`,
-    ResetPassword: (authEndpoint) => `${authEndpoint}/api/identity/reset`,
-};
+    Login: (authEndpoint: string): string => `${authEndpoint}/${IDENTITY_BASE}/token`,
+    Ping: (authEndpoint: string): string => `${authEndpoint}/${IDENTITY_BASE}`,
+    Register: (authEndpoint: string): string => `${authEndpoint}/${IDENTITY_BASE}/register`,
+    ResetPassword: (authEndpoint: string): string => `${authEndpoint}/${IDENTITY_BASE}/reset`,
+} as const;

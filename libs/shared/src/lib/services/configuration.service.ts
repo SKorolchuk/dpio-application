@@ -1,51 +1,35 @@
-import { Injectable } from "@angular/core";
-import { environment } from "@env/environment";
+import { Injectable, InjectionToken, inject, signal, Signal } from "@angular/core";
 
-interface Environment {
-    production: boolean;
-    version: string;
-    authEndpoint: string;
-    appEndpoint: string;
-    defaultLanguage: string;
-    supportedLanguages: string[];
+export interface Environment {
+    readonly production: boolean;
+    readonly version: string;
+    readonly authEndpoint: string;
+    readonly appEndpoint: string;
+    readonly defaultLanguage: string;
+    readonly supportedLanguages: readonly string[];
 }
+
+export const ENV_CONFIG_TOKEN = new InjectionToken<Environment>("APP_ENVIRONMENT_CONFIGURATION");
+
 @Injectable({
     providedIn: "root",
 })
 export class ConfigurationService {
-    private env: Environment;
-    constructor() {
-        this.env = {
-            authEndpoint: environment.authEndpoint,
-            appEndpoint: environment.appEndpoint,
-            version: environment.version,
-            production: environment.production,
-            defaultLanguage: environment.defaultLanguage,
-            supportedLanguages: environment.supportedLanguages,
-        };
-    }
+    private readonly appEnvironment = inject(ENV_CONFIG_TOKEN);
 
-    get authEndpoint(): string {
-        return this.env.authEndpoint;
-    }
+    private readonly envConfig = signal<Environment>({
+        authEndpoint: this.appEnvironment.authEndpoint,
+        appEndpoint: this.appEnvironment.appEndpoint,
+        version: this.appEnvironment.version,
+        production: this.appEnvironment.production,
+        defaultLanguage: this.appEnvironment.defaultLanguage,
+        supportedLanguages: this.appEnvironment.supportedLanguages,
+    });
 
-    get appEndpoint(): string {
-        return this.env.appEndpoint;
-    }
-
-    get isProduction(): boolean {
-        return this.env.production;
-    }
-
-    get version(): string {
-        return this.env.version;
-    }
-
-    get defaultLanguage(): string {
-        return this.env.defaultLanguage;
-    }
-
-    get supportedLanguages(): string[] {
-        return this.env.supportedLanguages;
-    }
+    readonly authEndpoint: Signal<string> = signal(this.envConfig().authEndpoint).asReadonly();
+    readonly appEndpoint: Signal<string> = signal(this.envConfig().appEndpoint).asReadonly();
+    readonly isProduction: Signal<boolean> = signal(this.envConfig().production).asReadonly();
+    readonly version: Signal<string> = signal(this.envConfig().version).asReadonly();
+    readonly defaultLanguage: Signal<string> = signal(this.envConfig().defaultLanguage).asReadonly();
+    readonly supportedLanguages: Signal<readonly string[]> = signal(this.envConfig().supportedLanguages).asReadonly();
 }

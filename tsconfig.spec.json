@@ -1,14 +1,24 @@
 {
     "extends": "./tsconfig.json",
     "compilerOptions": {
-        "outDir": "./dist/out-tsc",
+        "outDir": "./dist/out-tsc/spec",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "isolatedModules": true,
         "types": [
-            "jest", // 1
+            "jest",
             "node"
         ],
-        "esModuleInterop": true, // 2
-        "emitDecoratorMetadata": true // 3,
+        "esModuleInterop": true
     },
-    "files": ["src/jest/test.ts", "src/jest/polyfills.ts"],
-    "include": ["**/*.spec.ts", "**/*.mock.ts", "**/*.d.ts"]
+    "files": [
+        "jest/test.ts"
+    ],
+    "include": [
+        "apps/**/*.spec.ts",
+        "apps/**/*.mock.ts",
+        "libs/**/*.spec.ts",
+        "libs/**/*.mock.ts",
+        "**/*.d.ts"
+    ]
 }

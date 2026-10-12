@@ -75,7 +75,7 @@ describe("Login", () => {
     });
 
     it("should allow a user to log in", () => {
-        page.emailInput.sendKeys("test@mail.com");
+        page.emailInput.sendKeys("test@localhost");
         page.passwordInput.sendKeys("abc123");
         page.loginButton.click();
 

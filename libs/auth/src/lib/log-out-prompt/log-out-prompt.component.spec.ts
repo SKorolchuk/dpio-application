@@ -1,43 +1,24 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatDialogRef } from "@angular/material/dialog";
+import { By } from "@angular/platform-browser";
 
 import { LogOutPromptComponent } from "./log-out-prompt.component";
-import { MaterialModule } from "@dpio-application/shared/src/lib/material.module";
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { CoreModule } from "@dpio-application/core/src";
-import { AuthModule } from "@dpio-application/auth/src";
-import { StoreModule } from "@ngrx/store";
-import { EffectsModule } from "@ngrx/effects";
-import { RouterTestingModule } from "@angular/router/testing";
-import { TranslateModule } from "@ngx-translate/core";
-import { MatDialogRef } from "@angular/material/dialog";
 
 describe("LogOutPromptComponent", () => {
     let component: LogOutPromptComponent;
     let fixture: ComponentFixture<LogOutPromptComponent>;
+    let mockDialogRef: jest.Mocked<Partial<MatDialogRef<LogOutPromptComponent>>>;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                MaterialModule,
-                NoopAnimationsModule,
-                HttpClientTestingModule,
-                CoreModule,
-                AuthModule,
-                StoreModule.forRoot({}),
-                EffectsModule.forRoot([]),
-                RouterTestingModule,
-                TranslateModule.forRoot(),
-            ],
-            declarations: [LogOutPromptComponent],
-            providers: [
-                {
-                    provide: MatDialogRef,
-                    useValue: {},
-                },
-            ],
+    beforeEach(async () => {
+        mockDialogRef = {
+            close: jest.fn(),
+        };
+
+        await TestBed.configureTestingModule({
+            imports: [LogOutPromptComponent],
+            providers: [{ provide: MatDialogRef, useValue: mockDialogRef }],
         }).compileComponents();
-    }));
+    });
 
     beforeEach(() => {
         fixture = TestBed.createComponent(LogOutPromptComponent);
@@ -45,7 +26,25 @@ describe("LogOutPromptComponent", () => {
         fixture.detectChanges();
     });
 
-    it("should create", () => {
+    it("should create the log out prompt component instance successfully", () => {
         expect(component).toBeTruthy();
+    });
+
+    it("should successfully invoke dialog closure returning false when cancel button is clicked", () => {
+        const cancelButton = fixture.debugElement.queryAll(By.css("button"))[0].nativeElement;
+
+        cancelButton.click();
+        fixture.detectChanges();
+
+        expect(mockDialogRef.close).toHaveBeenCalledWith(false);
+    });
+
+    it("should successfully invoke dialog closure returning true when confirm button is clicked", () => {
+        const confirmButton = fixture.debugElement.queryAll(By.css("button"))[1].nativeElement;
+
+        confirmButton.click();
+        fixture.detectChanges();
+
+        expect(mockDialogRef.close).toHaveBeenCalledWith(true);
     });
 });

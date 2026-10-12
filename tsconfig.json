@@ -1,27 +1,50 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
-        "baseUrl": ".",
-        "importHelpers": true,
+        "baseUrl": "./",
         "outDir": "./dist/out-tsc",
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
         "sourceMap": true,
         "declaration": false,
-        "module": "esnext",
-        "moduleResolution": "node",
-        "emitDecoratorMetadata": true,
+        "downlevelIteration": true,
+        "ignoreDeprecations": "6.0",
         "experimentalDecorators": true,
-        "allowJs": true,
-        "target": "es2015",
-        "typeRoots": ["node", "node_modules/@types"],
-        "lib": ["es2018", "dom"],
+        "moduleResolution": "bundler",
+        "importHelpers": true,
+        "target": "ES2022",
+        "module": "ESNext",
+        "lib": [
+            "DOM",
+            "ES2022"
+        ],
+        "types": [
+            "node",
+            "jest"
+        ],
         "paths": {
-            "@env/*": ["apps/dpio-application/src/environments/*"],
-            "@dpio-application/*": ["libs/*"]
+            "@lib/auth": [
+                "libs/auth/src/index.ts"
+            ],
+            "@lib/core": [
+                "libs/core/src/index.ts"
+            ],
+            "@lib/shared": [
+                "libs/shared/src/index.ts"
+            ],
+            "@lib/core/logger": [
+                "libs/core/src/lib/logger.service.ts"
+            ]
         }
     },
     "angularCompilerOptions": {
-        "fullTemplateTypeCheck": true,
+        "enableI18nLegacyMessageIdFormat": false,
         "strictInjectionParameters": true,
-        "preserveWhitespaces": false
+        "strictInputAccessModifiers": true,
+        "strictTemplates": true
     }
 }

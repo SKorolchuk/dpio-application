@@ -1,15 +1,18 @@
 {
-    "name": "Deeproxio",
+    "name": "Deeproxio Application",
     "short_name": "Deeproxio",
-    "start_url": "index.html",
+    "description": "Example Angular 22+ application",
+    "start_url": "/",
     "display": "standalone",
+    "orientation": "portrait-primary",
+    "background_color": "#488aff",
+    "theme_color": "#488aff",
     "icons": [
         {
             "src": "assets/deeproxio-logo.png",
             "sizes": "512x512",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any maskable"
         }
-    ],
-    "background_color": "#488aff",
-    "theme_color": "#488aff"
+    ]
 }

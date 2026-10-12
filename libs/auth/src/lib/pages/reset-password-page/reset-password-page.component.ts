@@ -1,53 +1,51 @@
-import { Component, OnInit } from "@angular/core";
-import { Store, select } from "@ngrx/store";
+import { Component, OnInit, inject, computed, Signal } from "@angular/core";
 import { Router } from "@angular/router";
-import { I18nService } from "@dpio-application/core/src/lib/i18n.service";
-import { SettingsService } from "@dpio-application/core/src/lib/settings.service";
-import { AuthenticationService } from "../../shared/authentication.service";
-import * as fromActions from "../../actions/authorize.actions";
-import * as fromStore from "../../reducers";
-import { selectResetPasswordPagePending, selectResetPasswordPageError } from "../../selectors/auth.selectors";
-import { UserRegistration } from "../../shared/user.management.interface";
+import { Store } from "@ngrx/store";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatButtonModule } from "@angular/material/button";
+
+import { I18nService, SettingsService, Logger } from "@lib/core";
+import { ResetPasswordComponent } from "../../reset-password/reset-password.component";
+import { LangSelectorComponent } from "@lib/core";
+import * as AuthActions from "../../actions/authorize.actions";
+import * as AuthSelectors from "../../selectors/auth.selectors";
+import { UserPasswordReset } from "../../shared/user.management.interface";
 
 @Component({
-    selector: "dpio-application-reset-password-page",
+    selector: "app-reset-password-page",
+    standalone: true,
+    imports: [MatToolbarModule, MatButtonModule, ResetPasswordComponent, LangSelectorComponent],
     templateUrl: "./reset-password-page.component.html",
     styleUrls: ["./reset-password-page.component.scss"],
 })
 export class ResetPasswordPageComponent implements OnInit {
-    pending$ = this.store.pipe(select(selectResetPasswordPagePending));
-    error$ = this.store.pipe(select(selectResetPasswordPageError));
-    version: string;
+    private readonly store = inject(Store);
+    private readonly router = inject(Router);
+    private readonly i18nService = inject(I18nService);
+    private readonly settingsService = inject(SettingsService);
 
-    constructor(
-        private store: Store<fromStore.AuthModulePartState>,
-        private router: Router,
-        private i18nService: I18nService,
-        private authenticationService: AuthenticationService,
-        settingsService: SettingsService,
-    ) {
-        this.version = settingsService.version;
+    private readonly log = inject(Logger).forContext("ResetPasswordPageComponent");
+
+    readonly pending = this.store.selectSignal(AuthSelectors.selectResetPasswordPagePending);
+    readonly error = this.store.selectSignal(AuthSelectors.selectResetPasswordPageError);
+
+    readonly version: Signal<string> = computed(() => this.settingsService.version());
+    readonly currentLanguage: Signal<string> = computed(() => this.i18nService.currentLanguage());
+    readonly languages: Signal<readonly string[]> = computed(() => this.i18nService.supportedLanguages());
+
+    ngOnInit(): void {
+        this.log.debug("Reset password presentation container workspace initialized.");
     }
 
-    ngOnInit() {}
-
-    public goToLogin(): void {
+    goToLogin(): void {
         this.router.navigate(["/"], { replaceUrl: true });
     }
 
-    public onSubmit($event: UserRegistration) {
-        this.store.dispatch(new fromActions.ResetPassword($event));
+    onSubmit(event: UserPasswordReset): void {
+        this.store.dispatch(AuthActions.resetPassword({ payload: event }));
     }
 
-    public setLanguage(language: string) {
-        this.i18nService.language = language;
-    }
-
-    public get currentLanguage(): string {
-        return this.i18nService.language;
-    }
-
-    public get languages(): string[] {
-        return this.i18nService.supportedLanguages;
+    setLanguage(language: string): void {
+        this.i18nService.setLanguage(language);
     }
 }

@@ -1,46 +1,50 @@
-import { Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
+import { Injectable, inject, signal, Signal, computed } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
+import { jwtDecode } from "jwt-decode";
+
 import { ILogin } from "./credentials.interface";
-import { ConfigurationService } from "@dpio-application/shared/src/lib/services/configuration.service";
-import { Api } from "@dpio-application/auth/src/lib/shared/api.model";
-import * as jwtDecode from "jwt-decode";
+import { ConfigurationService } from "@lib/shared";
+import { Api } from "./api.model";
+import { IAuthenticateSuccessResponse } from "../models/auth.models";
 
 export interface Credentials {
-    // Customize received credentials here
-    username: string;
-    token: string;
-    password: string;
+    readonly username: string;
+    readonly token: string;
+    readonly password?: string;
 }
 
-const credentialsKey = "credentials";
+const CREDENTIALS_KEY = "credentials";
 
 @Injectable({
     providedIn: "root",
 })
 export class AuthenticationService {
-    private _onAuthSuccessUrl = "/home";
-    private _onAuthFailureUrl = "/user/login";
-    private _logoutUrl = "/";
-    private _expiresAt: number;
-    private _credentials: Credentials;
-    private _id: string;
-    private _encodedToken: any;
+    private readonly http = inject(HttpClient);
+    private readonly configuration = inject(ConfigurationService);
 
-    constructor(private http: HttpClient, private configuration: ConfigurationService) {
-        this._credentials = JSON.parse(sessionStorage.getItem(credentialsKey) || localStorage.getItem(credentialsKey));
-    }
+    readonly authSuccessUrl = "/home";
+    readonly authFailureUrl = "/user/login";
+    readonly logoutUrl = "/";
 
-    /**
-     * Gets the user credentials.
-     */
-    get credentials(): Credentials {
-        return this._credentials;
-    }
+    private _expiresAt?: number;
+    private _id?: string;
+    private _encodedToken?: unknown;
 
-    register(email: any, password: any, firstName: any, lastName: any, location: any): Observable<any> {
-        return this.http.post<any>(Api.Register(this.configuration.authEndpoint), {
+    private readonly credentialsSignal = signal<Credentials | null>(this.loadPersistedCredentials());
+
+    readonly credentials = this.credentialsSignal.asReadonly();
+    readonly authenticated: Signal<boolean> = computed(() => this.credentialsSignal() !== null);
+
+    register(
+        email: string,
+        password: string,
+        firstName: string,
+        lastName: string,
+        location: string,
+    ): Observable<unknown> {
+        return this.http.post<unknown>(this.configuration.authEndpoint(), {
             email,
             password,
             firstName,
@@ -49,42 +53,30 @@ export class AuthenticationService {
         });
     }
 
-    get authSuccessUrl(): string {
-        return this._onAuthSuccessUrl;
-    }
-
-    get authFailureUrl(): string {
-        return this._onAuthFailureUrl;
-    }
-
-    get authenticated(): boolean {
-        return !!JSON.parse(localStorage.getItem(credentialsKey));
-    }
-
-    ping(): Observable<any> {
-        return this.http.get<any>(Api.Ping(this.configuration.authEndpoint), {
+    ping(): Observable<unknown> {
+        const activeToken = this.credentialsSignal()?.token;
+        return this.http.get<unknown>(this.configuration.authEndpoint(), {
             headers: {
-                Authorization: `Bearer ${this._credentials.token}`,
+                Authorization: `Bearer ${activeToken || ""}`,
             },
         });
     }
 
-    relogin(): Observable<Credentials> {
-        // Replace by proper authentication call
+    relogin(): Observable<IAuthenticateSuccessResponse> {
+        const currentSession = this.credentialsSignal();
         return this.http
-            .post<any>(Api.Login(this.configuration.authEndpoint), {
-                userName: this.credentials && this.credentials.username,
-                password: this.credentials && this.credentials.password,
+            .post<IAuthenticateSuccessResponse>(Api.Login(this.configuration.authEndpoint()), {
+                userName: currentSession?.username || "",
+                password: currentSession?.password || "",
             })
             .pipe(
-                map((response) => {
-                    console.log(response);
-                    const data = {
-                        ...this.credentials,
-                        username: this.credentials.username,
+                map((response: IAuthenticateSuccessResponse) => {
+                    const updatedData: Credentials = {
+                        username: currentSession?.username || "",
                         token: response.auth_token,
+                        password: currentSession?.password,
                     };
-                    this.setCredentials(data, true);
+                    this.setCredentials(updatedData, true);
                     this._expiresAt = response.expires_in;
                     this._id = response.id;
                     this._encodedToken = jwtDecode(response.auth_token);
@@ -93,22 +85,20 @@ export class AuthenticationService {
             );
     }
 
-    login(context: ILogin): Observable<Credentials> {
-        // Replace by proper authentication call
+    login(context: ILogin): Observable<IAuthenticateSuccessResponse> {
         return this.http
-            .post<any>(Api.Login(this.configuration.authEndpoint), {
+            .post<IAuthenticateSuccessResponse>(Api.Login(this.configuration.authEndpoint()), {
                 userName: context.email,
                 password: context.password,
             })
             .pipe(
-                map((response) => {
-                    console.log(response);
-                    const data = {
+                map((response: IAuthenticateSuccessResponse) => {
+                    const sessionData: Credentials = {
                         username: context.email,
                         token: response.auth_token,
                         password: context.password,
                     };
-                    this.setCredentials(data, context.remember);
+                    this.setCredentials(sessionData, context.remember);
                     this._expiresAt = response.expires_in;
                     this._id = response.id;
                     this._encodedToken = jwtDecode(response.auth_token);
@@ -118,36 +108,37 @@ export class AuthenticationService {
     }
 
     logout(): Observable<boolean> {
-        // Customize credentials invalidation here
-        this.setCredentials();
+        this.setCredentials(null);
         return of(true);
     }
 
-    /**
-     * Checks is the user is authenticated.
-     */
-    isAuthenticated(): boolean {
-        return !!this.credentials;
-    }
-
-    /**
-     * Sets the user credentials.
-     * The credentials may be persisted across sessions by setting the `remember` parameter to true.
-     * Otherwise, the credentials are only persisted for the current session.
-     */
-    private setCredentials(credentials?: Credentials, remember?: boolean) {
-        if (!localStorage || !sessionStorage) {
+    private setCredentials(credentials: Credentials | null, remember?: boolean): void {
+        if (typeof window === "undefined" || !window.localStorage || !window.sessionStorage) {
             return;
         }
 
-        this._credentials = credentials || null;
+        this.credentialsSignal.set(credentials);
 
         if (credentials) {
-            const storage = remember ? localStorage : sessionStorage;
-            storage.setItem(credentialsKey, JSON.stringify(credentials));
+            const storage = remember ? window.localStorage : window.sessionStorage;
+            storage.setItem(CREDENTIALS_KEY, JSON.stringify(credentials));
         } else {
-            sessionStorage.removeItem(credentialsKey);
-            localStorage.removeItem(credentialsKey);
+            window.sessionStorage.removeItem(CREDENTIALS_KEY);
+            window.localStorage.removeItem(CREDENTIALS_KEY);
+        }
+    }
+
+    private loadPersistedCredentials(): Credentials | null {
+        if (typeof window === "undefined" || !window.localStorage || !window.sessionStorage) {
+            return null;
+        }
+        const sessionToken = window.sessionStorage.getItem(CREDENTIALS_KEY);
+        const localToken = window.localStorage.getItem(CREDENTIALS_KEY);
+
+        try {
+            return JSON.parse(sessionToken || localToken || "null");
+        } catch {
+            return null;
         }
     }
 }

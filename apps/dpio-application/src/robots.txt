@@ -1,5 +1,8 @@
-# www.robotstxt.org/
-
-# Allow crawling of all content
+# Global indexing configuration for all search engine crawlers
 User-agent: *
-Disallow:
+
+# Allow full site indexing for standard Single Page Application layout
+Allow: /
+
+# Security: Never expose sensitive programmatic paths like /admin or /user/login here.
+# Instead, protect them using modern Angular Guards at the application routing level.

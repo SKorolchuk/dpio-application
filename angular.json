@@ -4,39 +4,48 @@
     "newProjectRoot": "",
     "projects": {
         "dpio-application": {
-            "root": "apps\\dpio-application",
+            "root": "apps/dpio-application",
             "sourceRoot": "apps/dpio-application/src",
             "projectType": "application",
             "prefix": "app",
+
+            "i18n": {
+                "sourceLocale": "en-US",
+                "locales": {
+                    "de": "apps/dpio-application/src/i18n/messages.de.xlf"
+                }
+            },
             "schematics": {
-                "@ngrx/schematics:component": {
-                    "styleext": "scss"
-                },
                 "@schematics/angular:component": {
-                    "styleext": "scss"
+                    "style": "scss",
+                    "standalone": true,
+                    "changeDetection": "OnPush"
                 }
             },
             "architect": {
                 "build": {
-                    "builder": "@angular-devkit/build-angular:browser",
+                    "builder": "@angular/build:application",
                     "options": {
-                        "outputPath": "dist\\apps\\dpio-application",
+                        "outputPath": {
+                            "base": "dist/apps/dpio-application"
+                        },
                         "index": "apps/dpio-application/src/index.html",
-                        "main": "apps/dpio-application/src/main.ts",
-                        "polyfills": "apps/dpio-application/src/polyfills.ts",
+                        "browser": "apps/dpio-application/src/main.ts",
                         "tsConfig": "apps/dpio-application/tsconfig.app.json",
+                        "inlineStyleLanguage": "scss",
                         "assets": [
                             "apps/dpio-application/src/favicon.ico",
                             "apps/dpio-application/src/assets",
                             "apps/dpio-application/src/manifest.json"
                         ],
                         "styles": [
-                            {
-                                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
-                            },
+                            "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
                             "apps/dpio-application/src/styles.scss"
                         ],
-                        "allowedCommonJsDependencies": ["lodash", "jwt-decode", "hammerjs"]
+                        "stylePreprocessorOptions": {
+                            "includePaths": ["apps/dpio-application/src/theme"]
+                        },
+                        "polyfills": ["@angular/localize/init"]
                     },
                     "configurations": {
                         "production": {
@@ -46,68 +55,47 @@
                                     "with": "apps/dpio-application/src/environments/environment.prod.ts"
                                 }
                             ],
+                            "localize": true,
                             "optimization": true,
                             "outputHashing": "all",
                             "sourceMap": false,
-                            "extractCss": true,
-                            "namedChunks": false,
-                            "aot": true,
                             "extractLicenses": true,
-                            "vendorChunk": false,
-                            "buildOptimizer": true
+                            "define": {
+                                "import.meta.env.NG_BUILD_PRODUCTION": "true"
+                            }
+                        },
+                        "development": {
+                            "optimization": false,
+                            "extractLicenses": false,
+                            "sourceMap": true,
+                            "define": {
+                                "import.meta.env.NG_BUILD_PRODUCTION": "false"
+                            }
                         }
-                    }
+                    },
+                    "defaultConfiguration": "production"
                 },
                 "serve": {
-                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "builder": "@angular/build:dev-server",
                     "options": {
-                        "browserTarget": "dpio-application:build"
+                        "proxyConfig": "proxy.conf.cjs"
                     },
                     "configurations": {
                         "production": {
-                            "browserTarget": "dpio-application:build:production"
+                            "buildTarget": "dpio-application:build:production"
+                        },
+                        "development": {
+                            "buildTarget": "dpio-application:build:development"
                         }
-                    }
+                    },
+                    "defaultConfiguration": "development"
                 },
                 "extract-i18n": {
-                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "builder": "@angular/build:extract-i18n",
                     "options": {
-                        "browserTarget": "dpio-application:build"
-                    }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": [
-                            "apps\\dpio-application\\tsconfig.app.json",
-                            "apps\\dpio-application\\tsconfig.spec.json"
-                        ],
-                        "exclude": ["**/node_modules/**"]
-                    }
-                }
-            }
-        },
-        "dpio-application-e2e": {
-            "root": "apps\\dpio-application-e2e",
-            "projectType": "application",
-            "architect": {
-                "e2e": {
-                    "builder": "@angular-devkit/build-angular:protractor",
-                    "options": {
-                        "protractorConfig": "apps\\dpio-application-e2e\\protractor.conf.js",
-                        "devServerTarget": "dpio-application:serve"
-                    },
-                    "configurations": {
-                        "production": {
-                            "devServerTarget": "dpio-application:serve:production"
-                        }
-                    }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": "apps\\dpio-application-e2e\\tsconfig.e2e.json",
-                        "exclude": ["**/node_modules/**"]
+                        "buildTarget": "dpio-application:build",
+                        "outputPath": "apps/dpio-application/src/i18n",
+                        "outFile": "messages.xlf"
                     }
                 }
             }
@@ -116,50 +104,22 @@
             "root": "libs/shared",
             "sourceRoot": "libs/shared/src",
             "projectType": "library",
-            "prefix": "dpio-application",
-            "architect": {
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": ["libs/shared/tsconfig.lib.json", "libs/shared/tsconfig.spec.json"],
-                        "exclude": ["**/node_modules/**"]
-                    }
-                }
-            }
+            "prefix": "dpio-application"
         },
         "core": {
             "root": "libs/core",
             "sourceRoot": "libs/core/src",
             "projectType": "library",
-            "prefix": "dpio-application",
-            "architect": {
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": ["libs/core/tsconfig.lib.json", "libs/core/tsconfig.spec.json"],
-                        "exclude": ["**/node_modules/**"]
-                    }
-                }
-            }
+            "prefix": "dpio-application"
         },
         "auth": {
             "root": "libs/auth",
             "sourceRoot": "libs/auth/src",
             "projectType": "library",
-            "prefix": "dpio-application",
-            "architect": {
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": ["libs/auth/tsconfig.lib.json", "libs/auth/tsconfig.spec.json"],
-                        "exclude": ["**/node_modules/**"]
-                    }
-                }
-            }
+            "prefix": "dpio-application"
         }
     },
-    "defaultProject": "dpio-application",
     "cli": {
-        "defaultCollection": "@ngrx/schematics"
+        "analytics": false
     }
 }

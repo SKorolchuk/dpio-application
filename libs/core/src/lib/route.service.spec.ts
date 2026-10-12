@@ -1,44 +1,27 @@
-import { TestBed, inject } from "@angular/core/testing";
-
-import { AuthenticationService } from "../../../auth/src/lib/shared/authentication.service";
-import { MockAuthenticationService } from "../../../auth/src/lib/shared/authentication.service.mock";
-import { AuthenticationGuard } from "../../../auth/src/lib/shared/authentication.guard";
-import { ShellComponent } from "./shell/shell.component";
+import { TestBed } from "@angular/core/testing";
 import { Route } from "./route.service";
+import { ShellComponent } from "./shell/shell.component";
+import { authenticationGuard } from "@lib/auth";
 
-describe("Route", () => {
-    let route: Route;
-
+describe("Route Utility Layout Orchestrator", () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [
-                AuthenticationGuard,
-                {
-                    provide: AuthenticationService,
-                    useClass: MockAuthenticationService,
-                },
-                Route,
-            ],
+            providers: [],
         });
     });
 
-    beforeEach(inject([Route], (_route: Route) => {
-        route = _route;
-    }));
-
     describe("withShell", () => {
-        it("should create routes as children of shell", () => {
-            // Prepare
-            const testRoutes = [{ path: "test" }];
+        it("should successfully nest target sub-routes as clean children nodes of the ShellComponent layout", () => {
+            const mockFeatureRoutes = [{ path: "dashboard-view" }];
 
-            // Act
-            const routes = Route.withShell(testRoutes);
+            const processedRoutes = Route.withShell(mockFeatureRoutes);
 
-            // Assert
-            expect(routes.length).toBe(1);
-            expect(routes[0].path).toBe("");
-            expect(routes[0].children).toBe(testRoutes);
-            expect(routes[0].component).toBe(ShellComponent);
+            expect(processedRoutes).toHaveLength(1);
+            expect(processedRoutes[0].path).toBe("");
+            expect(processedRoutes[0].component).toBe(ShellComponent);
+            expect(processedRoutes[0].children).toBe(mockFeatureRoutes);
+
+            expect(processedRoutes[0].canActivate).toContain(authenticationGuard);
         });
     });
 });

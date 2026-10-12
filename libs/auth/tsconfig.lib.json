@@ -2,25 +2,16 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "outDir": "../../dist/out-tsc/libs/auth",
-        "target": "es2015",
-        "module": "es2015",
-        "moduleResolution": "node",
+        // Aligns declaration output to generate native types files metadata
         "declaration": true,
-        "sourceMap": true,
-        "inlineSources": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "importHelpers": true,
-        "types": ["node"],
-        "lib": ["dom", "es2015"]
+        "declarationMap": true,
+        "types": []
     },
     "angularCompilerOptions": {
-        "annotateForClosureCompiler": true,
-        "skipTemplateCodegen": true,
-        "strictMetadataEmit": true,
-        "fullTemplateTypeCheck": true,
+        // Enable modern compilation architecture for internal standalone libraries
         "strictInjectionParameters": true,
-        "enableResourceInlining": true
+        "strictTemplates": true
     },
-    "exclude": ["src/test.ts", "**/*.spec.ts"]
+    "include": ["src/**/*.ts"],
+    "exclude": ["src/**/*.spec.ts", "src/**/*.mock.ts"]
 }

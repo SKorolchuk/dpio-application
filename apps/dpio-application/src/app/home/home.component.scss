@@ -4,11 +4,15 @@
 }
 
 .logo {
+    display: block;
     width: 150px;
-    margin: 0 auto;
+    margin: 0 auto 16px auto;
 }
 
 q {
     font-style: italic;
-    quotes: "« "" »";
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--mat-sys-on-surface-variant, #555555);
+    quotes: "« " " »";
 }

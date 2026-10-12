@@ -1,25 +1,31 @@
-import { Injectable } from "@angular/core";
-import { map, catchError } from "rxjs/operators";
-import { Observable, of } from "rxjs";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Injectable, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { Observable, of } from "rxjs";
+import { map, catchError } from "rxjs/operators";
 
 const routes = {
-    quote: (c: RandomQuoteContext) => `/jokes/random?category=${c.category}`,
+    quote: (c: RandomQuoteContext): string => `/jokes/random?category=${c.category}`,
 };
 
 export interface RandomQuoteContext {
-    // The quote's category: 'nerdy', 'explicit'...
-    category: string;
+    readonly category: string;
 }
 
-@Injectable()
+interface QuoteResponseDTO {
+    readonly value: string;
+}
+
+@Injectable({
+    providedIn: "root",
+})
 export class QuoteService {
-    constructor(private http: HttpClient) {}
+    private readonly http = inject(HttpClient);
 
     getRandomQuote(context: RandomQuoteContext): Observable<string> {
-        return this.http.get<{ value: string }>(routes.quote(context)).pipe(
-            map((body) => body.value),
-            catchError(() => of("Error, could not load joke :-(")),
+        return this.http.get<QuoteResponseDTO>(routes.quote(context)).pipe(
+            map((body: QuoteResponseDTO) => body.value),
+            catchError((_error: Error) => of("Error, could not load joke :-(")),
         );
     }
 }

@@ -1,21 +1,32 @@
-/*
- * Application global variables.
- */
+@use "@angular/material" as mat;
 
-// Angular Material custom theme
-// See https://material.angular.io/guide/theming for more details.
-//
-// You can also read https://medium.com/@tomastrajan/the-complete-guide-to-angular-material-themes-4d165a9d24d1
-// for more insight about Angular Material theming.
-@import "~@angular/material/theming";
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue.
-$app-primary: mat-palette($mat-green);
-$app-accent: mat-palette($mat-indigo, A200, A100, A400);
-// The warn palette is optional (defaults to red).
-$app-warn: mat-palette($mat-red);
-// Create the theme object (a Sass map containing all of the palettes).
-$app-theme: mat-dark-theme($app-primary, $app-accent, $app-warn);
-$mat-grey: (50: #fafafa, 100: #f5f5f5, 200: #eeeeee, 300: #e0e0e0, 400: #bdbdbd, 500: #9e9e9e, 600: #757575, 700: #616161, 800: #424242, 900: #212121, A100: #ffffff, A200: #eeeeee, A400: #bdbdbd, A700: #616161, contrast: (50: $dark-primary-text, 100: $dark-primary-text, 200: $dark-primary-text, 300: $dark-primary-text, 400: $dark-primary-text, 500: $dark-primary-text, 600: $light-primary-text, 700: $light-primary-text, 800: $light-primary-text, 900: $light-primary-text, A100: $dark-primary-text, A200: $dark-primary-text, A400: $dark-primary-text, A700: $light-primary-text, ));
-$app-grey-pallete: mat-palette($mat-grey);
+$app-theme: mat.define-theme(
+    (
+        color: (
+            theme-type: dark,
+        ),
+    )
+);
+
+$app-primary: var(--mat-sys-primary, #4caf50);
+$app-accent: var(--mat-sys-tertiary, #3f51b5);
+$app-warn: var(--mat-sys-error, #f44336);
+
+:root {
+    --mat-sys-primary: #4caf50;
+    --mat-sys-primary-container: #1b5e20;
+    --mat-sys-on-primary: #ffffff;
+
+    --mat-sys-tertiary: #3f51b5;
+    --mat-sys-tertiary-container: #1a237e;
+
+    --mat-sys-error: #f44336;
+
+    // Standard grey theme variables mapping fallbacks
+    --mat-sys-surface-container-highest: #fafafa;
+    --mat-sys-surface-container-high: #f5f5f5;
+    --mat-sys-surface-container: #eeeeee;
+    --mat-sys-surface-container-low: #e0e0e0;
+    --mat-sys-surface-container-lowest: #bdbdbd;
+    --mat-sys-on-surface: #212121;
+}

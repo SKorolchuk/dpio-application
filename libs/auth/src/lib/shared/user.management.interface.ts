@@ -1,13 +1,13 @@
 export interface UserRegistration {
-    email: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-    location: string;
+    readonly email: string;
+    readonly password: string;
+    readonly firstName: string;
+    readonly lastName: string;
+    readonly location: string;
 }
 
 export interface UserPasswordReset {
-    email: string;
-    password: string;
-    confirmPassword: string;
+    readonly email: string;
+    readonly password: string;
+    readonly confirmPassword: string;
 }

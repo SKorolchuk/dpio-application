@@ -1,131 +1,64 @@
-import { TestBed, inject } from "@angular/core/testing";
-import { TranslateService, LangChangeEvent } from "@ngx-translate/core";
-
-import { extract, I18nService } from "./i18n.service";
-// tslint:disable-next-line:import-blacklist
-import { Subject } from "rxjs";
-
-const defaultLanguage = "en-US";
-const supportedLanguages = ["de-DE", "en-US"];
-
-export class MockTranslateService {
-    currentLang: string = null;
-    onLangChange = new Subject();
-
-    use(language: string) {
-        this.currentLang = language;
-        this.onLangChange.next({
-            lang: this.currentLang,
-            translations: {},
-        });
-    }
-
-    getBrowserCultureLang() {
-        return "en-US";
-    }
-
-    setTranslation(lang: string, translations: object, shouldMerge?: boolean) {}
-}
+import { TestBed } from "@angular/core/testing";
+import { provideRouter, Router } from "@angular/router";
+import { I18nService } from "./i18n.service";
+import { ConfigurationService } from "@lib/shared";
+import { signal } from "@angular/core";
 
 describe("I18nService", () => {
-    let i18nService: I18nService;
-    let translateService: TranslateService;
-    let onLangChangeSpy: jasmine.Spy;
+    let service: I18nService;
+    let router: Router;
+    let mockConfigService: Partial<ConfigurationService>;
+
+    const defaultLanguageSignal = signal<string>("en-US");
+    const supportedLanguagesSignal = signal<readonly string[]>(["en-US", "de-DE"]);
+    const isProductionSignal = signal<boolean>(false);
 
     beforeEach(() => {
+        mockConfigService = {
+            defaultLanguage: defaultLanguageSignal,
+            supportedLanguages: supportedLanguagesSignal,
+            isProduction: isProductionSignal,
+        };
+
         TestBed.configureTestingModule({
-            providers: [I18nService, { provide: TranslateService, useClass: MockTranslateService }],
+            providers: [I18nService, provideRouter([]), { provide: ConfigurationService, useValue: mockConfigService }],
         });
+
+        service = TestBed.inject(I18nService);
+        router = TestBed.inject(Router);
     });
-
-    beforeEach(inject(
-        [I18nService, TranslateService],
-        (_i18nService: I18nService, _translateService: TranslateService) => {
-            i18nService = _i18nService;
-            translateService = _translateService;
-
-            // Create spies
-            onLangChangeSpy = jasmine.createSpy("onLangChangeSpy");
-            translateService.onLangChange.subscribe((event: LangChangeEvent) => {
-                onLangChangeSpy(event.lang);
-            });
-            spyOn(translateService, "use").and.callThrough();
-        },
-    ));
 
     afterEach(() => {
-        // Cleanup
-        localStorage.removeItem("language");
+        window.localStorage.clear();
+        jest.restoreAllMocks();
     });
 
-    describe("extract", () => {
-        it("should not modify string", () => {
-            expect(extract("Hello world !")).toEqual("Hello world !");
-        });
+    it("should be created successfully", () => {
+        expect(service).toBeTruthy();
     });
 
     describe("init", () => {
-        it("should init with default language", () => {
-            // Act
-            i18nService.init(defaultLanguage, supportedLanguages);
-
-            // Assert
-            expect(translateService.use).toHaveBeenCalledWith(defaultLanguage);
-            expect(onLangChangeSpy).toHaveBeenCalledWith(defaultLanguage);
-        });
-
-        it("should init with save language", () => {
-            // Arrange
-            const savedLanguage = "eo";
-            localStorage.setItem("language", savedLanguage);
-
-            // Act
-            i18nService.init(defaultLanguage, supportedLanguages);
-
-            // Assert
-            expect(translateService.use).toHaveBeenCalled();
-            expect(onLangChangeSpy).toHaveBeenCalled();
+        it("should initialize with the system default language configuration", () => {
+            service.init();
+            expect(service.currentLanguage()).toBe("en-US");
         });
     });
 
-    describe("set language", () => {
-        it("should change current language", () => {
-            // Arrange
-            const newLanguage = "eo";
-            i18nService.init(defaultLanguage, supportedLanguages);
-
-            // Act
-            i18nService.language = newLanguage;
-
-            // Assert
-            expect(translateService.use).toHaveBeenCalled();
-            expect(onLangChangeSpy).toHaveBeenCalled();
+    describe("setLanguage", () => {
+        it("should shift current active state when supported language token is passed", () => {
+            service.init();
+            service.setLanguage("de-DE");
+            expect(service.currentLanguage()).toBe("de-DE");
         });
 
-        it("should change current language to default if unsupported", () => {
-            // Arrange
-            const newLanguage = "es";
-            i18nService.init(defaultLanguage, supportedLanguages);
+        it("should route to localized path in production environments", () => {
+            isProductionSignal.set(true);
+            jest.spyOn(router, "navigateByUrl").mockImplementation(() => Promise.resolve(true));
 
-            // Act
-            i18nService.language = newLanguage;
+            service.init();
+            service.setLanguage("de-DE");
 
-            // Assert
-            expect(translateService.use).toHaveBeenCalled();
-            expect(onLangChangeSpy).toHaveBeenCalled();
-        });
-    });
-
-    describe("get language", () => {
-        it("should return current language", () => {
-            // Arrange
-            i18nService.init(defaultLanguage, supportedLanguages);
-
-            // Act
-            const currentLanguage = i18nService.language;
-
-            // Assert
-            expect(currentLanguage).toEqual(defaultLanguage);
+            expect(router.navigateByUrl).toHaveBeenCalledWith("/de-DE/");
         });
     });
 });

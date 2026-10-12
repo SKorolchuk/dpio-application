@@ -1,24 +1,27 @@
-import { TestBed, inject } from "@angular/core/testing";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { TestBed } from "@angular/core/testing";
 import { Router } from "@angular/router";
+import { provideStore, provideState } from "@ngrx/store";
 
+import { authenticationGuard } from "./authentication.guard";
 import { AuthenticationService } from "./authentication.service";
 import { MockAuthenticationService } from "./authentication.service.mock";
-import { AuthenticationGuard } from "./authentication.guard";
-import { StoreModule } from "@ngrx/store";
+import { authorizeReducer } from "../reducers";
 
-describe("AuthenticationGuard", () => {
-    let authenticationGuard: AuthenticationGuard;
-    let authenticationService: MockAuthenticationService;
-    let mockRouter: any;
+describe("authenticationGuard", () => {
+    let mockRouter: jest.Mocked<Partial<Router>>;
+    let mockAuthService: MockAuthenticationService;
 
     beforeEach(() => {
         mockRouter = {
-            navigate: jasmine.createSpy("navigate"),
+            navigate: jest.fn().mockImplementation(() => Promise.resolve(true)),
         };
+
         TestBed.configureTestingModule({
-            imports: [StoreModule.forRoot({})],
             providers: [
-                AuthenticationGuard,
+                provideStore(),
+                provideState({ name: "authorize", reducer: authorizeReducer }),
+
                 {
                     provide: AuthenticationService,
                     useClass: MockAuthenticationService,
@@ -26,21 +29,29 @@ describe("AuthenticationGuard", () => {
                 { provide: Router, useValue: mockRouter },
             ],
         });
+
+        mockAuthService = TestBed.inject(AuthenticationService) as unknown as MockAuthenticationService;
     });
 
-    beforeEach(inject(
-        [AuthenticationGuard, AuthenticationService],
-        (_authenticationGuard: AuthenticationGuard, _authenticationService: MockAuthenticationService) => {
-            authenticationGuard = _authenticationGuard;
-            authenticationService = _authenticationService;
-        },
-    ));
-
-    it("should have a canActivate method", () => {
-        expect(typeof authenticationGuard.canActivate).toBe("function");
+    afterEach(() => {
+        jest.restoreAllMocks();
     });
 
-    it("should return true if user is authenticated", () => {
-        expect(authenticationGuard.canActivate()).toBeDefined();
+    it("should permit routing access navigation if the user session state is currently authenticated", () => {
+        mockAuthService.credentialsSignal.set({ username: "admin", token: "valid-jwt" });
+
+        const canActivateResult = TestBed.runInInjectionContext(() => authenticationGuard({} as any, {} as any));
+
+        expect(canActivateResult).toBe(true);
+        expect(mockRouter.navigate).not.toHaveBeenCalled();
+    });
+
+    it("should completely deny routing access and trigger secure redirect if user session is empty or null", () => {
+        mockAuthService.credentialsSignal.set(null);
+
+        const canActivateResult = TestBed.runInInjectionContext(() => authenticationGuard({} as any, {} as any));
+
+        expect(canActivateResult).toBe(false);
+        expect(mockRouter.navigate).toHaveBeenCalledWith(["/user/login"]);
     });
 });

@@ -1,37 +1,19 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { provideRouter } from "@angular/router";
 
 import { ResetPasswordComponent } from "./reset-password.component";
-import { MaterialModule } from "@dpio-application/shared/src/lib/material.module";
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { CoreModule } from "@dpio-application/core/src";
-import { AuthModule } from "@dpio-application/auth/src";
-import { StoreModule } from "@ngrx/store";
-import { EffectsModule } from "@ngrx/effects";
-import { RouterTestingModule } from "@angular/router/testing";
-import { TranslateModule } from "@ngx-translate/core";
-import { MatDialogRef } from "@angular/material/dialog";
 
 describe("ResetPasswordComponent", () => {
     let component: ResetPasswordComponent;
     let fixture: ComponentFixture<ResetPasswordComponent>;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                MaterialModule,
-                NoopAnimationsModule,
-                HttpClientTestingModule,
-                CoreModule,
-                AuthModule,
-                StoreModule.forRoot({}),
-                EffectsModule.forRoot([]),
-                RouterTestingModule,
-                TranslateModule.forRoot(),
-            ],
-            declarations: [ResetPasswordComponent],
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [ResetPasswordComponent, ReactiveFormsModule],
+            providers: [provideRouter([])],
         }).compileComponents();
-    }));
+    });
 
     beforeEach(() => {
         fixture = TestBed.createComponent(ResetPasswordComponent);
@@ -39,7 +21,49 @@ describe("ResetPasswordComponent", () => {
         fixture.detectChanges();
     });
 
-    it("should create", () => {
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    it("should create the reset password form component instance successfully", () => {
         expect(component).toBeTruthy();
+    });
+
+    it("should block form submission and stay invalid if password and confirmPassword fields mismatch", () => {
+        component.resetForm.patchValue({
+            email: "user@localhost",
+            password: "securePassword123",
+            confirmPassword: "differentPassword123",
+        });
+
+        component.resetForm.updateValueAndValidity();
+        fixture.detectChanges();
+
+        expect(component.resetForm.hasError("passwordsMismatch")).toBe(true);
+        expect(component.resetForm.invalid).toBe(true);
+    });
+
+    it("should accurately validate input controls fields and fire output streams on valid submission block", () => {
+        const outputSpy = jest.fn();
+        fixture.componentRef.instance.submitted.subscribe(outputSpy);
+
+        component.resetForm.patchValue({
+            email: "user@localhost",
+            password: "securePassword123",
+            confirmPassword: "securePassword123",
+        });
+
+        component.resetForm.updateValueAndValidity();
+        fixture.detectChanges();
+
+        expect(component.resetForm.valid).toBe(true);
+
+        component.onSubmit();
+
+        expect(outputSpy).toHaveBeenCalledWith({
+            email: "user@localhost",
+            password: "securePassword123",
+            confirmPassword: "securePassword123",
+        });
     });
 });

@@ -1,28 +1,24 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { provideRouter } from "@angular/router";
+import { provideStore, Store } from "@ngrx/store";
 
 import { CallbackComponent } from "./callback.component";
-import { AuthModule } from "@dpio-application/auth/src";
-import { StoreModule } from "@ngrx/store";
-import { EffectsModule } from "@ngrx/effects";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { RouterTestingModule } from "@angular/router/testing";
+import * as AuthActions from "../actions/authorize.actions";
 
 describe("CallbackComponent", () => {
     let component: CallbackComponent;
     let fixture: ComponentFixture<CallbackComponent>;
+    let store: Store;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                RouterTestingModule,
-                HttpClientTestingModule,
-                EffectsModule.forRoot([]),
-                StoreModule.forRoot({}),
-                AuthModule,
-            ],
-            declarations: [CallbackComponent],
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [CallbackComponent],
+            providers: [provideStore(), provideRouter([])],
         }).compileComponents();
-    }));
+
+        store = TestBed.inject(Store);
+        jest.spyOn(store, "dispatch");
+    });
 
     beforeEach(() => {
         fixture = TestBed.createComponent(CallbackComponent);
@@ -30,7 +26,15 @@ describe("CallbackComponent", () => {
         fixture.detectChanges();
     });
 
-    it("should create", () => {
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    it("should create the callback component instance successfully", () => {
         expect(component).toBeTruthy();
+    });
+
+    it("should automatically dispatch the loginComplete action creator on component initialization", () => {
+        expect(store.dispatch).toHaveBeenCalledWith(AuthActions.loginComplete());
     });
 });

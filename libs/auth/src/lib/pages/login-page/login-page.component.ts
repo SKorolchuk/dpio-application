@@ -1,61 +1,55 @@
-import { Component, OnInit } from "@angular/core";
-import { Logger } from "@dpio-application/core/src/lib/logger.service";
+import { Component, OnInit, inject, computed, Signal } from "@angular/core";
 import { Router } from "@angular/router";
-import * as fromStore from "../../reducers";
-import { I18nService } from "@dpio-application/core/src/lib/i18n.service";
-import { AuthenticationService } from "@dpio-application/auth/src/lib/shared/authentication.service";
-import { SettingsService } from "@dpio-application/core/src/lib/settings.service";
-import { Store, select } from "@ngrx/store";
-import { selectLoginPagePending, selectLoginPageError } from "../../selectors/auth.selectors";
+import { Store } from "@ngrx/store";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatButtonModule } from "@angular/material/button";
+
+import { I18nService, SettingsService } from "@lib/core";
+import { Logger } from "@lib/core/logger";
+import { LoginComponent } from "../../login/login.component";
+import { LangSelectorComponent } from "@lib/core";
 import { ILogin } from "../../shared/credentials.interface";
-
-import * as fromActions from "../../actions/authorize.actions";
-
-const log = new Logger("Login");
+import * as AuthActions from "../../actions/authorize.actions";
+import * as AuthSelectors from "../../selectors/auth.selectors";
 
 @Component({
-    selector: "dpio-application-login-page",
+    selector: "app-login-page",
+    standalone: true,
+    imports: [MatToolbarModule, MatButtonModule, LoginComponent, LangSelectorComponent],
     templateUrl: "./login-page.component.html",
     styleUrls: ["./login-page.component.scss"],
 })
 export class LoginPageComponent implements OnInit {
-    pending$ = this.store.pipe(select(selectLoginPagePending));
-    error$ = this.store.pipe(select(selectLoginPageError));
-    version: string;
+    private readonly store = inject(Store);
+    private readonly router = inject(Router);
+    private readonly i18nService = inject(I18nService);
+    private readonly settingsService = inject(SettingsService);
+    private readonly log = inject(Logger).forContext("LoginPageComponent");
 
-    constructor(
-        private store: Store<fromStore.AuthModulePartState>,
-        private router: Router,
-        private i18nService: I18nService,
-        private authenticationService: AuthenticationService,
-        settingsService: SettingsService,
-    ) {
-        this.version = settingsService.version;
+    readonly pending = this.store.selectSignal(AuthSelectors.selectLoginPagePending);
+    readonly error = this.store.selectSignal(AuthSelectors.selectLoginPageError);
+
+    readonly version: Signal<string> = computed(() => this.settingsService.version());
+    readonly currentLanguage: Signal<string> = computed(() => this.i18nService.currentLanguage());
+    readonly languages: Signal<readonly string[]> = computed(() => this.i18nService.supportedLanguages());
+
+    ngOnInit(): void {
+        this.log.debug("Login presentation container workspace initialized.");
     }
 
-    ngOnInit() {}
-
-    public onSubmit($event: ILogin) {
-        this.store.dispatch(new fromActions.Login($event));
+    onSubmit(credentials: ILogin): void {
+        this.store.dispatch(AuthActions.login({ payload: credentials }));
     }
 
-    public setLanguage(language: string) {
-        this.i18nService.language = language;
+    setLanguage(language: string): void {
+        this.i18nService.setLanguage(language);
     }
 
-    public goToSignUp(): void {
+    goToSignUp(): void {
         this.router.navigate(["/user/register"], { replaceUrl: true });
     }
 
-    public goToReset(): void {
+    goToReset(): void {
         this.router.navigate(["/user/reset"], { replaceUrl: true });
-    }
-
-    public get currentLanguage(): string {
-        return this.i18nService.language;
-    }
-
-    public get languages(): string[] {
-        return this.i18nService.supportedLanguages;
     }
 }

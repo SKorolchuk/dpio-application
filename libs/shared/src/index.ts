@@ -1,1 +1,3 @@
-export * from "./lib/shared.module";
+export * from "./lib/loader/loader.component";
+
+export * from "./lib/services/configuration.service";

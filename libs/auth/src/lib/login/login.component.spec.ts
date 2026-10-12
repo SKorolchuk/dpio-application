@@ -1,33 +1,20 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { TranslateModule } from "@ngx-translate/core";
-import { RouterTestingModule } from "@angular/router/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { provideRouter } from "@angular/router";
+import { By } from "@angular/platform-browser";
 
 import { LoginComponent } from "./login.component";
-import { MaterialModule } from "@dpio-application/shared/src/lib/material.module";
-import { SharedModule } from "@dpio-application/shared/src";
-import { CoreModule } from "@dpio-application/core/src";
-import { By } from "@angular/platform-browser";
 
 describe("LoginComponent", () => {
     let component: LoginComponent;
     let fixture: ComponentFixture<LoginComponent>;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                BrowserAnimationsModule,
-                MaterialModule,
-                SharedModule,
-                RouterTestingModule,
-                TranslateModule.forRoot(),
-                ReactiveFormsModule,
-                CoreModule,
-            ],
-            declarations: [LoginComponent],
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [LoginComponent, ReactiveFormsModule],
+            providers: [provideRouter([])],
         }).compileComponents();
-    }));
+    });
 
     beforeEach(() => {
         fixture = TestBed.createComponent(LoginComponent);
@@ -35,16 +22,31 @@ describe("LoginComponent", () => {
         fixture.detectChanges();
     });
 
-    it("should create", () => {
+    it("should create the login form component instance successfully", () => {
         expect(component).toBeTruthy();
     });
 
-    it("should render title in a h1 tag", async(() => {
+    it("should successfully render the action submit button container inside template markup", () => {
+        const submitButtonSpan = fixture.debugElement.query(By.css("button[type='submit']"));
+
+        expect(submitButtonSpan).toBeDefined();
+        expect(submitButtonSpan).not.toBeNull();
+    });
+
+    it("should accurately validate input controls and fire output streams on valid submission", () => {
+        const outputSpy = jest.fn();
+        fixture.componentRef.instance.submitted.subscribe(outputSpy);
+
+        component.loginForm.controls.username.setValue("developer@localhost");
+        component.loginForm.controls.password.setValue("secure-password-123456");
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
-            fixture.detectChanges();
-            const loginText = fixture.debugElement.query(By.css("button > span"));
-            expect(loginText).toBeDefined();
+
+        component.onSubmit();
+
+        expect(outputSpy).toHaveBeenCalledWith({
+            email: "developer@localhost",
+            password: "secure-password-123456",
+            remember: true,
         });
-    }));
+    });
 });

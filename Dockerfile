@@ -6,6 +6,6 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 COPY ./dist/apps/dpio-application/ /usr/share/nginx/html/
 
-EXPOSE 80
+EXPOSE 8080
 
 CMD ["nginx", "-g", "daemon off;"]

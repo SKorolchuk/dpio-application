@@ -1,119 +1,47 @@
-import { Action } from "@ngrx/store";
+import { createAction, props } from "@ngrx/store";
 import { ILogin } from "../shared/credentials.interface";
+import {
+    IUser,
+    IAuthenticateErrorResponse,
+    IRegisterErrorResponse,
+    IResetPasswordErrorResponse,
+} from "../models/auth.models";
 
-export enum AuthActionTypes {
-    Login = "[Login Page] Login",
-    LoginComplete = "[Login Page] Login Complete",
-    LoginSuccess = "[Auth API] Login Success",
-    LoginFailure = "[Auth API] Login Failure",
-    CheckLogin = "[Auth] Check Login",
-    Logout = "[Auth] Confirm Logout",
-    LogoutCancelled = "[Auth] Logout Cancelled",
-    LogoutConfirmed = "[Auth] Logout Confirmed",
-}
+// Login Workflow Actions
+export const login = createAction("[Login Page] Login", props<{ readonly payload: ILogin }>());
+export const loginComplete = createAction("[Login Page] Login Complete");
+export const loginSuccess = createAction("[Auth API] Login Success", props<{ readonly user: IUser }>());
+export const loginFailure = createAction(
+    "[Auth API] Login Failure",
+    props<{ readonly error: IAuthenticateErrorResponse | string }>(),
+);
 
-export enum RegisterActionTypes {
-    Register = "[Register Page] Register",
-    RegisterComplete = "[Register Page] Register Complete",
-    RegisterSuccess = "[Auth API] Register Success",
-    RegisterFailure = "[Auth API] Register Failure",
-}
+// Session Lifecycle Actions
+export const checkLogin = createAction("[Auth] Check Login");
+export const logout = createAction("[Auth] Confirm Logout");
+export const logoutCancelled = createAction("[Auth] Logout Cancelled");
+export const logoutConfirmed = createAction("[Auth] Logout Confirmed");
 
-export enum ResetPasswordActionTypes {
-    ResetPassword = "[ResetPassword Page] ResetPassword",
-    ResetPasswordComplete = "[ResetPassword Page] ResetPassword Complete",
-    ResetPasswordSuccess = "[Auth API] ResetPassword Success",
-    ResetPasswordFailure = "[Auth API] ResetPassword Failure",
-}
+// Registration Workflow Actions
+export const register = createAction(
+    "[Register Page] Register",
+    props<{ readonly payload: unknown }>(), // Replace unknown with your registration model if present
+);
+export const registerComplete = createAction("[Register Page] Register Complete");
+export const registerSuccess = createAction("[Auth API] Register Success");
+export const registerFailure = createAction(
+    "[Auth API] Register Failure",
+    props<{ readonly error: IRegisterErrorResponse | string }>(),
+);
 
-export class ResetPassword implements Action {
-    readonly type = ResetPasswordActionTypes.ResetPassword;
-
-    constructor(public payload: any) {}
-}
-export class ResetPasswordComplete implements Action {
-    readonly type = ResetPasswordActionTypes.ResetPasswordComplete;
-
-    constructor(public payload: any) {}
-}
-export class ResetPasswordSuccess implements Action {
-    readonly type = ResetPasswordActionTypes.ResetPasswordSuccess;
-
-    constructor(public payload: any) {}
-}
-export class ResetPasswordFailure implements Action {
-    readonly type = ResetPasswordActionTypes.ResetPasswordFailure;
-
-    constructor(public payload: any) {}
-}
-
-export class Register implements Action {
-    readonly type = RegisterActionTypes.Register;
-
-    constructor(public payload: any) {}
-}
-export class RegisterComplete implements Action {
-    readonly type = RegisterActionTypes.RegisterComplete;
-
-    constructor(public payload: any) {}
-}
-export class RegisterSuccess implements Action {
-    readonly type = RegisterActionTypes.RegisterSuccess;
-
-    constructor(public payload: any) {}
-}
-export class RegisterFailure implements Action {
-    readonly type = RegisterActionTypes.RegisterFailure;
-
-    constructor(public payload: any) {}
-}
-
-export class Login implements Action {
-    readonly type = AuthActionTypes.Login;
-
-    constructor(public payload: ILogin) {}
-}
-
-export class LoginComplete implements Action {
-    readonly type = AuthActionTypes.LoginComplete;
-}
-
-export class LoginSuccess implements Action {
-    readonly type = AuthActionTypes.LoginSuccess;
-}
-
-export class LoginFailure implements Action {
-    readonly type = AuthActionTypes.LoginFailure;
-
-    constructor(public payload: any) {}
-}
-
-export class CheckLogin implements Action {
-    readonly type = AuthActionTypes.CheckLogin;
-}
-
-export class Logout implements Action {
-    readonly type = AuthActionTypes.Logout;
-}
-
-export class LogoutConfirmed implements Action {
-    readonly type = AuthActionTypes.LogoutConfirmed;
-}
-
-export class LogoutCancelled implements Action {
-    readonly type = AuthActionTypes.LogoutCancelled;
-}
-
-export type AuthActions =
-    | Login
-    | LoginComplete
-    | LoginSuccess
-    | LoginFailure
-    | CheckLogin
-    | Logout
-    | LogoutCancelled
-    | LogoutConfirmed;
-
-export type RegisterActions = Register | RegisterComplete | RegisterSuccess | RegisterFailure;
-
-export type ResetPasswordActions = ResetPassword | ResetPasswordComplete | ResetPasswordSuccess | ResetPasswordFailure;
+// Reset Password Workflow Actions
+export const resetPassword = createAction(
+    "[ResetPassword Page] ResetPassword",
+    props<{ readonly payload: unknown }>(), // Replace unknown with your password payload model if present
+);
+export const resetPasswordComplete = createAction("[ResetPassword Page] ResetPassword Complete");
+export const resetPasswordSuccess = createAction("[Auth API] ResetPassword Success");
+export const resetPasswordFailure = createAction(
+    "[Auth API] ResetPassword Failure",
+    props<{ readonly error: IResetPasswordErrorResponse | string }>(),
+);
